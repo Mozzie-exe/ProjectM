@@ -10,6 +10,8 @@ public class Stamina : MonoBehaviour
     public Slider StaminaBar;
     private float maxStamina;
 
+    public bool CanSprint => stamina > 0f;
+
     void Start()
     {
         maxStamina = stamina;
@@ -18,8 +20,6 @@ public class Stamina : MonoBehaviour
         {
             StaminaBar.maxValue = maxStamina;
             StaminaBar.value = stamina;
-
-            
             StaminaBar.gameObject.SetActive(false);
         }
     }
@@ -29,8 +29,12 @@ public class Stamina : MonoBehaviour
        
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            EnerjiAzalt();
+            if (stamina > 0f)
+            {
+                EnerjiAzalt();
+            }
         }
+        
         else if (stamina < maxStamina)
         {
             EnerjiCogalt();
@@ -41,7 +45,6 @@ public class Stamina : MonoBehaviour
         {
             StaminaBar.value = stamina;
 
-            
             if (Input.GetKey(KeyCode.LeftShift) || stamina < maxStamina)
             {
                 if (!StaminaBar.gameObject.activeSelf)
