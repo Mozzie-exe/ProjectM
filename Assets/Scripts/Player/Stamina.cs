@@ -18,11 +18,15 @@ public class Stamina : MonoBehaviour
         {
             StaminaBar.maxValue = maxStamina;
             StaminaBar.value = stamina;
+
+            
+            StaminaBar.gameObject.SetActive(false);
         }
     }
 
     void Update()
     {
+       
         if (Input.GetKey(KeyCode.LeftShift))
         {
             EnerjiAzalt();
@@ -32,10 +36,22 @@ public class Stamina : MonoBehaviour
             EnerjiCogalt();
         }
 
-        // Slider değerini her karede güncel tut
+        
         if (StaminaBar != null)
         {
             StaminaBar.value = stamina;
+
+            
+            if (Input.GetKey(KeyCode.LeftShift) || stamina < maxStamina)
+            {
+                if (!StaminaBar.gameObject.activeSelf)
+                    StaminaBar.gameObject.SetActive(true);
+            }
+            else
+            {
+                if (StaminaBar.gameObject.activeSelf)
+                    StaminaBar.gameObject.SetActive(false);
+            }
         }
     }
 
