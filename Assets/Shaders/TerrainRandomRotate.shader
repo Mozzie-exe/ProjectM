@@ -94,12 +94,16 @@ Shader "Custom/TerrainRandomRotate"
 
             // ---------- Height-based layer blending ----------
             float4 BlendLayers(float4 w, float4 c0, float4 c1, float4 c2, float4 c3,
-                               float4 heights, float depth)
+                   float4 heights, float depth)
             {
-                float4 a = heights + w;
+                // Weight multiplies height: unpainted layers (w = 0) can never show through.
+                // Height only decides who wins where two layers are both painted.
+                float4 a = w * (1.0 + heights);
+
                 float m  = max(max(a.x, a.y), max(a.z, a.w)) - depth;
                 float4 b = max(a - m, 0.0);
                 b /= max(dot(b, 1.0), 1e-5);
+
                 return c0 * b.x + c1 * b.y + c2 * b.z + c3 * b.w;
             }
 
