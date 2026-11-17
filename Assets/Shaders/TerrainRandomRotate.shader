@@ -31,6 +31,12 @@ Shader "Custom/TerrainRandomRotate"
             #pragma fragment Frag
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
+            // Ek ışıklar (fener, lambalar vs.)
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+            #pragma multi_compile_fragment _ _LIGHT_COOKIES
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -156,6 +162,23 @@ Shader "Custom/TerrainRandomRotate"
                 float ndl = saturate(dot(n, mainLight.direction));
                 float3 direct  = mainLight.color * mainLight.shadowAttenuation * ndl;
                 float3 ambient = SampleSH(n);
+
+                // ---------- Ek ışıklar (fener vb.) ----------
+                #if defined(_ADDITIONAL_LIGHTS) || defined(_ADDITIONAL_LIGHTS_VERTEX)
+                {
+                    InputData inputData = (InputData)0;
+                    inputData.positionWS = IN.positionWS;
+                    inputData.normalWS = n;
+                    inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(IN.positionCS);
+
+                    uint lightCount = GetAdditionalLightsCount();
+                    LIGHT_LOOP_BEGIN(lightCount)
+                        Light light = GetAdditionalLight(lightIndex, IN.positionWS, half4(1, 1, 1, 1));
+                        float addNdl = saturate(dot(n, light.direction));
+                        direct += light.color * light.distanceAttenuation * light.shadowAttenuation * addNdl;
+                    LIGHT_LOOP_END
+                }
+                #endif
 
                 return half4(albedo * (direct + ambient), 1);
             }

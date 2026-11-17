@@ -59,6 +59,8 @@ GameObject:
   - component: {fileID: 9133467307485047767}
   - component: {fileID: 792751431991964771}
   - component: {fileID: 5866591070486387735}
+  - component: {fileID: 7413920558161073001}
+  - component: {fileID: 5170382916402873311}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -140,6 +142,30 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2682371773252470438}
   m_Enabled: 1
+--- !u!114 &5170382916402873311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682371773252470438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fad1abd2de465bb27b399ca1947dcc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
+--- !u!114 &7413920558161073001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682371773252470438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd5d894ad16344d796c807474ca1b011, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::Flashlight
 --- !u!114 &5866591070486387735
 MonoBehaviour:
   m_ObjectHideFlags: 0
