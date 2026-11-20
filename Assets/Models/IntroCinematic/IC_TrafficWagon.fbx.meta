@@ -1,7 +1,4 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 guid: 92d3d6880f601ca44b84971be60c74ac
 ModelImporter:
   serializedVersion: 24501
@@ -149,19 +146,6 @@ ModelImporter:
     second: {fileID: 2100000, guid: da2f6c79c93fbdc42b649a504755c638, type: 2}
   materials:
     materialImportMode: 1
-=======
->>>>>>> Stashed changes
-guid: 0346d3b428d703a4390cc3a6c5530843
-ModelImporter:
-  serializedVersion: 24501
-  internalIDToNameTable: []
-  externalObjects: {}
-  materials:
-    materialImportMode: 2
-<<<<<<< Updated upstream
-=======
->>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
->>>>>>> Stashed changes
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -239,15 +223,7 @@ ModelImporter:
     normalSmoothingSource: 0
     calculateBlendshapeNormalsDeltaFromImportedNormals: 0
   referencedClips: []
-<<<<<<< Updated upstream
-  importAnimation: 1
-=======
-<<<<<<< HEAD
   importAnimation: 0
-=======
-  importAnimation: 1
->>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
->>>>>>> Stashed changes
   humanDescription:
     serializedVersion: 3
     human: []

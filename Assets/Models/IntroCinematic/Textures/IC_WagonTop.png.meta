@@ -1,13 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< Updated upstream
-guid: 482b5353d1293fb4eb4e3eaf9cd1d839
-=======
-<<<<<<< HEAD
 guid: a075614aac7680d4db7e053cf1e9e05b
-=======
-guid: 482b5353d1293fb4eb4e3eaf9cd1d839
->>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
->>>>>>> Stashed changes
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -77,15 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-<<<<<<< Updated upstream
-    maxTextureSize: 2048
-=======
-<<<<<<< HEAD
     maxTextureSize: 512
-=======
-    maxTextureSize: 2048
->>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
->>>>>>> Stashed changes
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -109,9 +93,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
   - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
@@ -138,9 +119,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-=======
->>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
->>>>>>> Stashed changes
   spriteSheet:
     serializedVersion: 2
     sprites: []
