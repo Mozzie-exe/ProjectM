@@ -743,6 +743,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12208444, y: 0.097182944, z: 0.2942403}
   m_Center: {x: -0.000026385726, y: -0.00000013245477, z: 0.14712122}
+--- !u!1 &9046900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -9047961167396994634, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9046904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9046900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.2433083, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &9046905
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9046900}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.77701116, y: 0.44237757, z: 0.21019228}
+  m_Center: {x: -0.000013709068, y: 0.22118878, z: -0.013050196}
 --- !u!1 &9584488
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,6 +967,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &13415134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7316958816119689776, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &13415138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13415134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305679, y: -0.24330802, z: -0.0000000072511437}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &13415139
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13415134}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3728745, y: 0.4423777, z: 0.21712533}
+  m_Center: {x: -0.00036823115, y: 0.22118884, z: -0.0077723796}
 --- !u!1001 &13966500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5104,6 +5200,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &132307630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7543437923707905175, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &132307634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132307630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.97373e-14, y: -0.23336768, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &132307635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132307630}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.34306347, y: 0.4243045, z: 0.094913274}
+  m_Center: {x: -0.001653105, y: 0.16354409, z: 0.0029223948}
 --- !u!1 &132362545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -8222,6 +8366,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3537709356157935800, guid: 9c6881adf8191a84d90325448014d818, type: 3}
+--- !u!1 &204039832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6785812366566664941, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &204039836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204039832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.171103e-14, y: -0.18166845, z: 0.000000016556847}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &204039837
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204039832}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3250137, y: 0.33030584, z: 0.34980822}
+  m_Center: {x: -0.35114768, y: 0.0000000022246587, z: 0.21267657}
 --- !u!1 &205197024 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2137483569985586195, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -12004,6 +12196,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -4740172151845810446, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1795605577}
+    - targetCorrespondingSourceObject: {fileID: 8813518604500102980, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1680105175}
+    - targetCorrespondingSourceObject: {fileID: 8813518604500102980, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1680105174}
     - targetCorrespondingSourceObject: {fileID: 2211600949005675923, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 245919413}
@@ -12019,12 +12217,48 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8568615987329650289, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1153507294}
+    - targetCorrespondingSourceObject: {fileID: 177951558601461797, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 466227095}
+    - targetCorrespondingSourceObject: {fileID: 177951558601461797, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 466227094}
+    - targetCorrespondingSourceObject: {fileID: -4330215592409912635, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1668617009}
+    - targetCorrespondingSourceObject: {fileID: -4330215592409912635, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1668617008}
+    - targetCorrespondingSourceObject: {fileID: 373507103728639571, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 341393508}
+    - targetCorrespondingSourceObject: {fileID: 373507103728639571, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 341393507}
+    - targetCorrespondingSourceObject: {fileID: -1416418664898463946, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1859253867}
+    - targetCorrespondingSourceObject: {fileID: -1416418664898463946, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1859253866}
     - targetCorrespondingSourceObject: {fileID: 9092617901834820428, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 606191596}
     - targetCorrespondingSourceObject: {fileID: 3762904670087173688, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1971421829}
+    - targetCorrespondingSourceObject: {fileID: -8075521478198734036, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 310694137}
+    - targetCorrespondingSourceObject: {fileID: -8075521478198734036, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 310694136}
+    - targetCorrespondingSourceObject: {fileID: -2818891339879436406, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1336623555}
+    - targetCorrespondingSourceObject: {fileID: -2818891339879436406, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1336623554}
     - targetCorrespondingSourceObject: {fileID: -2725604893153673263, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1548781884}
@@ -12157,15 +12391,51 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -915033574480769555, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 828781021}
+    - targetCorrespondingSourceObject: {fileID: 1375013531223721920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 921942658}
+    - targetCorrespondingSourceObject: {fileID: 1375013531223721920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 921942657}
+    - targetCorrespondingSourceObject: {fileID: 3635062555480435949, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1068490227}
+    - targetCorrespondingSourceObject: {fileID: 3635062555480435949, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1068490226}
+    - targetCorrespondingSourceObject: {fileID: 5301844658006043023, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1994481872}
+    - targetCorrespondingSourceObject: {fileID: 5301844658006043023, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1994481871}
+    - targetCorrespondingSourceObject: {fileID: -4387141923834212014, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 542514992}
+    - targetCorrespondingSourceObject: {fileID: -4387141923834212014, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 542514991}
     - targetCorrespondingSourceObject: {fileID: 7639963427863414344, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1183277593}
     - targetCorrespondingSourceObject: {fileID: 4178221772825743883, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1828895133}
+    - targetCorrespondingSourceObject: {fileID: 3827012261675884451, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1184028031}
+    - targetCorrespondingSourceObject: {fileID: 3827012261675884451, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1184028030}
     - targetCorrespondingSourceObject: {fileID: 2571616509424736129, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 236384107}
+    - targetCorrespondingSourceObject: {fileID: -3161730318195980232, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222188868}
+    - targetCorrespondingSourceObject: {fileID: -3161730318195980232, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222188867}
     - targetCorrespondingSourceObject: {fileID: 7653513422195895672, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 818385511}
@@ -12178,6 +12448,42 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8877966866012735175, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 563552568}
+    - targetCorrespondingSourceObject: {fileID: -2730095205155949920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 443482134}
+    - targetCorrespondingSourceObject: {fileID: -2730095205155949920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 443482133}
+    - targetCorrespondingSourceObject: {fileID: -1962066157351796218, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1392334655}
+    - targetCorrespondingSourceObject: {fileID: -1962066157351796218, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1392334654}
+    - targetCorrespondingSourceObject: {fileID: -7480276638741232389, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1345021206}
+    - targetCorrespondingSourceObject: {fileID: -7480276638741232389, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1345021205}
+    - targetCorrespondingSourceObject: {fileID: -7709527095455179320, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 922310702}
+    - targetCorrespondingSourceObject: {fileID: -7709527095455179320, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 922310701}
+    - targetCorrespondingSourceObject: {fileID: -1527853822913874753, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1075908456}
+    - targetCorrespondingSourceObject: {fileID: -1527853822913874753, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1075908455}
+    - targetCorrespondingSourceObject: {fileID: 2692925671636284117, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 296905943}
+    - targetCorrespondingSourceObject: {fileID: 2692925671636284117, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 296905942}
     - targetCorrespondingSourceObject: {fileID: -3673734792578121903, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 503899104}
@@ -12676,6 +12982,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 438326306783063582, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1801496764}
+    - targetCorrespondingSourceObject: {fileID: -5953674125447940597, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1304614048}
+    - targetCorrespondingSourceObject: {fileID: -5953674125447940597, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1304614047}
     - targetCorrespondingSourceObject: {fileID: 1405891876199887350, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1157386629}
@@ -12703,9 +13015,39 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2101147235584570968, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1494644289}
+    - targetCorrespondingSourceObject: {fileID: 2308892672945275193, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 926942114}
+    - targetCorrespondingSourceObject: {fileID: 2308892672945275193, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 926942113}
+    - targetCorrespondingSourceObject: {fileID: -5848746858268147248, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 623563213}
+    - targetCorrespondingSourceObject: {fileID: -5848746858268147248, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 623563212}
     - targetCorrespondingSourceObject: {fileID: -5728469877976609521, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1802161057}
+    - targetCorrespondingSourceObject: {fileID: 6876778461117915061, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1408650939}
+    - targetCorrespondingSourceObject: {fileID: 6876778461117915061, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1408650938}
+    - targetCorrespondingSourceObject: {fileID: -5842574374043856601, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1678696163}
+    - targetCorrespondingSourceObject: {fileID: -5842574374043856601, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1678696162}
+    - targetCorrespondingSourceObject: {fileID: -6785812366566664941, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 204039837}
+    - targetCorrespondingSourceObject: {fileID: -6785812366566664941, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 204039836}
     - targetCorrespondingSourceObject: {fileID: -4182107982854763587, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 302013166}
@@ -12850,12 +13192,48 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2226329768420478232, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 458524806}
+    - targetCorrespondingSourceObject: {fileID: 4930241121119696022, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1354941301}
+    - targetCorrespondingSourceObject: {fileID: 4930241121119696022, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1354941300}
+    - targetCorrespondingSourceObject: {fileID: 6497324043183625366, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 565768981}
+    - targetCorrespondingSourceObject: {fileID: 6497324043183625366, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 565768980}
     - targetCorrespondingSourceObject: {fileID: 4448072658609893961, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 334852046}
+    - targetCorrespondingSourceObject: {fileID: -4316301347985733120, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1711112751}
+    - targetCorrespondingSourceObject: {fileID: -4316301347985733120, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1711112750}
+    - targetCorrespondingSourceObject: {fileID: 5809259307641064865, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 891709637}
+    - targetCorrespondingSourceObject: {fileID: 5809259307641064865, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 891709636}
     - targetCorrespondingSourceObject: {fileID: 709557121643195379, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 354825582}
+    - targetCorrespondingSourceObject: {fileID: 8421270399673270283, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 821412073}
+    - targetCorrespondingSourceObject: {fileID: 8421270399673270283, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 821412072}
+    - targetCorrespondingSourceObject: {fileID: 8065725535009852397, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 877853585}
+    - targetCorrespondingSourceObject: {fileID: 8065725535009852397, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 877853584}
     - targetCorrespondingSourceObject: {fileID: 5283089059347263237, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2024960359}
@@ -12868,18 +13246,72 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -3093257408823410931, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1603768916}
+    - targetCorrespondingSourceObject: {fileID: 3252976997830059038, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1460423723}
+    - targetCorrespondingSourceObject: {fileID: 3252976997830059038, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1460423722}
     - targetCorrespondingSourceObject: {fileID: -5917749021364027366, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1175872790}
     - targetCorrespondingSourceObject: {fileID: -1643560732966348134, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2071372303}
+    - targetCorrespondingSourceObject: {fileID: -6153738513002085910, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2048540522}
+    - targetCorrespondingSourceObject: {fileID: -6153738513002085910, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2048540521}
+    - targetCorrespondingSourceObject: {fileID: -2289894999400679760, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 489352422}
+    - targetCorrespondingSourceObject: {fileID: -2289894999400679760, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 489352421}
+    - targetCorrespondingSourceObject: {fileID: -4553735556453788010, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1357352360}
+    - targetCorrespondingSourceObject: {fileID: -4553735556453788010, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1357352359}
+    - targetCorrespondingSourceObject: {fileID: -9047961167396994634, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9046905}
+    - targetCorrespondingSourceObject: {fileID: -9047961167396994634, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9046904}
     - targetCorrespondingSourceObject: {fileID: 8456895683215447676, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 583123578}
     - targetCorrespondingSourceObject: {fileID: -1659058462000446382, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 281215905}
+    - targetCorrespondingSourceObject: {fileID: -893547657798957582, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 810562135}
+    - targetCorrespondingSourceObject: {fileID: -893547657798957582, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 810562134}
+    - targetCorrespondingSourceObject: {fileID: 7316958816119689776, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 13415139}
+    - targetCorrespondingSourceObject: {fileID: 7316958816119689776, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 13415138}
+    - targetCorrespondingSourceObject: {fileID: -8506401279647851406, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2124521609}
+    - targetCorrespondingSourceObject: {fileID: -8506401279647851406, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2124521608}
+    - targetCorrespondingSourceObject: {fileID: -1900815321310381491, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1351263615}
+    - targetCorrespondingSourceObject: {fileID: -1900815321310381491, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1351263614}
     - targetCorrespondingSourceObject: {fileID: -4160621812295982200, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1009939368}
@@ -12916,6 +13348,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6512624318921393362, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1792296288}
+    - targetCorrespondingSourceObject: {fileID: 8768467771159148233, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1389758042}
+    - targetCorrespondingSourceObject: {fileID: 8768467771159148233, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1389758041}
+    - targetCorrespondingSourceObject: {fileID: 5938380386121526422, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 898298705}
+    - targetCorrespondingSourceObject: {fileID: 5938380386121526422, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 898298704}
+    - targetCorrespondingSourceObject: {fileID: -6468792629855696328, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 959836647}
+    - targetCorrespondingSourceObject: {fileID: -6468792629855696328, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 959836646}
+    - targetCorrespondingSourceObject: {fileID: -4960010246089438806, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 360553742}
+    - targetCorrespondingSourceObject: {fileID: -4960010246089438806, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 360553741}
     - targetCorrespondingSourceObject: {fileID: 8059654647707876489, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 786075175}
@@ -12964,6 +13420,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3921217138504876945, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 239046237}
+    - targetCorrespondingSourceObject: {fileID: 7543437923707905175, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 132307635}
+    - targetCorrespondingSourceObject: {fileID: 7543437923707905175, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 132307634}
     - targetCorrespondingSourceObject: {fileID: -7939063186754402367, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1831488800}
@@ -13003,6 +13465,42 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8333691633861962815, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 155989698}
+    - targetCorrespondingSourceObject: {fileID: -7066603548751579045, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1009105425}
+    - targetCorrespondingSourceObject: {fileID: -7066603548751579045, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1009105424}
+    - targetCorrespondingSourceObject: {fileID: -7611885192631908355, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 726348871}
+    - targetCorrespondingSourceObject: {fileID: -7611885192631908355, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 726348870}
+    - targetCorrespondingSourceObject: {fileID: -8814946078014374126, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2104037618}
+    - targetCorrespondingSourceObject: {fileID: -8814946078014374126, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2104037617}
+    - targetCorrespondingSourceObject: {fileID: 3916914590862218938, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 434498213}
+    - targetCorrespondingSourceObject: {fileID: 3916914590862218938, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 434498212}
+    - targetCorrespondingSourceObject: {fileID: -5625188530574150814, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1764739786}
+    - targetCorrespondingSourceObject: {fileID: -5625188530574150814, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1764739785}
+    - targetCorrespondingSourceObject: {fileID: -7827166257837507648, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 659433298}
+    - targetCorrespondingSourceObject: {fileID: -7827166257837507648, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 659433297}
     - targetCorrespondingSourceObject: {fileID: 8808797462086418125, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 502921961}
@@ -13060,6 +13558,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6818161097715611348, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1505465854}
+    - targetCorrespondingSourceObject: {fileID: -7861252783460653327, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222936353}
+    - targetCorrespondingSourceObject: {fileID: -7861252783460653327, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222936352}
+    - targetCorrespondingSourceObject: {fileID: 6299579254877998408, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 763939369}
+    - targetCorrespondingSourceObject: {fileID: 6299579254877998408, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 763939368}
+    - targetCorrespondingSourceObject: {fileID: 1091633207987153047, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 700014753}
+    - targetCorrespondingSourceObject: {fileID: 1091633207987153047, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 700014752}
+    - targetCorrespondingSourceObject: {fileID: -720073600394812332, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 548392931}
+    - targetCorrespondingSourceObject: {fileID: -720073600394812332, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 548392930}
     - targetCorrespondingSourceObject: {fileID: -1137190117784701082, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8666278}
@@ -17260,6 +17782,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1961022093}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &296905938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2692925671636284117, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &296905942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296905938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.578984e-14, y: -0.30092588, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &296905943
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296905938}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.50991076, y: 0.8863905, z: 0.42721224}
+  m_Center: {x: -0.55178213, y: -0.031085482, z: 0.3456271}
 --- !u!1 &299373427 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3988387254696298589, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -17806,6 +18376,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &310694132 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8075521478198734036, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &310694136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310694132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &310694137
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310694132}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036036, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: -0.004163876, y: 0.1686105, z: -0.024163479}
 --- !u!1 &314015267 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -18765,6 +19383,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 464326692}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &341393503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 373507103728639571, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &341393507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341393503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.3684759e-14, y: -0.2353829, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &341393508
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341393503}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796773, z: 0.14888433}
+  m_Center: {x: -0.0075715184, y: 0.079113014, z: -0.009120689}
 --- !u!1 &341569291 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -19174,6 +19840,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &360553737 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4960010246089438806, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &360553741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360553737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305653, y: -0.2433084, z: -0.000000007251155}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &360553742
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360553737}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.77701116, y: 0.44237772, z: 0.21019235}
+  m_Center: {x: -0.000009888168, y: 0.22119266, z: -0.013050669}
 --- !u!1001 &363353191
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21539,6 +22253,54 @@ Transform:
   - {fileID: 1999666643914054306}
   m_Father: {fileID: 1452489318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &434498208 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3916914590862218938, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &434498212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434498208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.00000002414538, y: -0.30092588, z: -0.000000008968289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &434498213
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434498208}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.50991076, y: 0.88639045, z: 0.4272122}
+  m_Center: {x: 0.5531095, y: -0.02986257, z: 0.3456139}
 --- !u!1 &437266209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7695643273876906495, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -22007,6 +22769,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3874432442672741690, guid: 9c6881adf8191a84d90325448014d818, type: 3}
+--- !u!1 &443482129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2730095205155949920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &443482133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443482129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.578984e-14, y: -0.30092588, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &443482134
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443482129}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.42721224}
+  m_Center: {x: 0.5530393, y: -0.027953343, z: 0.7756599}
 --- !u!1 &443895270 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -22814,6 +23624,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &466227090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 177951558601461797, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &466227094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466227090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.3684759e-14, y: -0.2353829, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &466227095
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466227090}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796773, z: 0.14888433}
+  m_Center: {x: -0.0075715184, y: 0.079113014, z: -0.00911592}
 --- !u!1 &470783701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2181743766629440291, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -23700,6 +24558,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1887390231}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &489352417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2289894999400679760, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &489352421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489352417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.24330801, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &489352422
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489352417}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3728745, y: 0.44237757, z: 0.21712525}
+  m_Center: {x: -0.0003644228, y: 0.22118878, z: -0.0077719074}
 --- !u!1001 &489409249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25852,6 +26758,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &542514987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4387141923834212014, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &542514991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542514987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23538305, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &542514992
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542514987}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796764, z: 0.14888427}
+  m_Center: {x: -0.007563889, y: 0.07910536, z: -0.009117285}
 --- !u!1 &544315310 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8833796318755486701, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -25982,6 +26936,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &548392926 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -720073600394812332, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &548392930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548392926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000029004621, y: -0.24330835, z: -0.000000029004612}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &548392931
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548392926}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7770114, y: 0.44237792, z: 0.21019252}
+  m_Center: {x: -0.000017498956, y: 0.2211889, z: -0.013050704}
 --- !u!1 &550003356 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8941662802099648949, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -26812,6 +27814,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7018685586493418197, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+--- !u!1 &565768976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6497324043183625366, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &565768980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565768976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &565768981
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565768976}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036024, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: 0.0007548183, y: 0.16861956, z: -0.024163479}
 --- !u!1001 &565958447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29059,6 +30109,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 521232838}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &623563208 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5848746858268147248, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &623563212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623563208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &623563213
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623563208}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036024, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: 0.0007548183, y: 0.16861956, z: -0.024163479}
 --- !u!1 &624528688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -30723,6 +31821,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 305046459}
   m_SourcePrefab: {fileID: 100100000, guid: 6d6dfd402912e574492d739021fd42f3, type: 3}
+--- !u!1 &659433293 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7827166257837507648, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &659433297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659433293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.00000002414538, y: -0.30092588, z: -0.000000008968289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &659433298
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659433293}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.50991076, y: 0.8863905, z: 0.4272122}
+  m_Center: {x: -0.5517707, y: -0.031085467, z: 0.34562707}
 --- !u!1 &660586942 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -32231,6 +33377,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1571152902}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &700014748 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1091633207987153047, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &700014752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700014748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000029004621, y: -0.24330835, z: -0.000000029004612}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &700014753
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700014748}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7770114, y: 0.44237792, z: 0.21019246}
+  m_Center: {x: -0.000017498744, y: 0.2211889, z: -0.011257111}
 --- !u!1 &701639792 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -33507,6 +34701,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.38702223, y: 0.5158707, z: 0.34179688}
   m_Center: {x: -0.0010054793, y: -0.032851633, z: 0.1641459}
+--- !u!1 &726348866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7611885192631908355, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &726348870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726348866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.00000002414538, y: -0.30092588, z: -0.000000008968289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &726348871
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726348866}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.4272122}
+  m_Center: {x: 0.0000070853157, y: -0.031286173, z: 0.7750343}
 --- !u!1 &727294348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1558709471088140896, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -34657,6 +35899,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6746013191798430191, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+--- !u!1 &763939364 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6299579254877998408, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &763939368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763939364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000029004594, y: -0.2433081, z: -0.00000002900458}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &763939369
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 763939364}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.37287468, y: 0.44237787, z: 0.21712545}
+  m_Center: {x: -0.00036821215, y: 0.2211889, z: -0.0077724145}
 --- !u!1001 &769762799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36596,6 +37886,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6851752233551798572, guid: 9c6881adf8191a84d90325448014d818, type: 3}
+--- !u!1 &810562130 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -893547657798957582, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &810562134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810562130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305679, y: -0.24330802, z: -0.0000000072511437}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &810562135
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810562130}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3728745, y: 0.4423777, z: 0.21712533}
+  m_Center: {x: 0.0005425278, y: 0.22118884, z: -0.0077719027}
 --- !u!1001 &810655046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37100,6 +38438,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1332943531}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &821412068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8421270399673270283, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &821412072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821412068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &821412073
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821412068}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036036, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: -0.004163876, y: 0.16861813, z: -0.024163479}
 --- !u!1 &822296563 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -39128,6 +40514,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &877853580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8065725535009852397, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &877853584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877853580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &877853585
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877853580}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036024, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: 0.000758633, y: 0.16861956, z: -0.024163479}
 --- !u!1 &879931632 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5774597676633298126, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -39518,6 +40952,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1254254419}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &891709632 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5809259307641064865, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &891709636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891709632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &891709637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891709632}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036024, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: 0.0007624477, y: 0.16861956, z: -0.024163479}
 --- !u!1 &892092526 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -39772,6 +41254,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1501373415}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &898298700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5938380386121526422, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &898298704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898298700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305679, y: -0.24330802, z: -0.0000000072511437}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &898298705
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898298700}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3728745, y: 0.4423777, z: 0.21712533}
+  m_Center: {x: -0.00036060176, y: 0.22119266, z: -0.0077719027}
 --- !u!1 &899210687 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -40618,6 +42148,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7816157650164661064, guid: b4479364e4705f24ba92ac1485330fad, type: 3}
+--- !u!1 &921942653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1375013531223721920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &921942657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921942653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23538305, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &921942658
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921942653}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796764, z: 0.14888427}
+  m_Center: {x: -0.007563889, y: 0.07910536, z: -0.009116391}
 --- !u!1 &922235287 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -40650,6 +42228,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &922310697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7709527095455179320, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &922310701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922310697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.578984e-14, y: -0.30092588, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &922310702
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922310697}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.50991076, y: 0.88639045, z: 0.42721224}
+  m_Center: {x: 0.5530981, y: -0.029854989, z: 0.34561387}
 --- !u!1 &923697722 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7336037793729309936, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -40735,6 +42361,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &926942109 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2308892672945275193, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &926942113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926942109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &926942114
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926942109}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036036, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: -0.004163876, y: 0.16862576, z: -0.024163479}
 --- !u!1 &927635124 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -441670014797200349, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -41986,6 +43660,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 775503213}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &959836642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6468792629855696328, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &959836646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959836642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305653, y: -0.2433084, z: -0.000000007251155}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &959836647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959836642}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.77701116, y: 0.44237772, z: 0.2101923}
+  m_Center: {x: -0.000009888114, y: 0.22119266, z: -0.011257076}
 --- !u!1 &961090653 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -44227,6 +45949,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6746013191798430191, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+--- !u!1 &1009105420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7066603548751579045, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1009105424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009105420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.00000002414538, y: -0.30092588, z: -0.000000008968289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1009105425
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009105420}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.4272122}
+  m_Center: {x: 0.55304694, y: -0.027960887, z: 0.7756599}
 --- !u!1 &1009939366 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4160621812295982200, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -46722,6 +48492,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6746013191798430191, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+--- !u!1 &1068490222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3635062555480435949, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1068490226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068490222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23538305, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1068490227
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068490222}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796764, z: 0.1488842}
+  m_Center: {x: -0.007563889, y: 0.07910536, z: -0.009116361}
 --- !u!1 &1068574385 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6230951350004200582, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -46910,6 +48728,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &1075908451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1527853822913874753, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1075908455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075908451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.578984e-14, y: -0.30092588, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1075908456
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075908451}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.42721224}
+  m_Center: {x: 2.7570526e-15, y: -0.025455957, z: 0.34561387}
 --- !u!1 &1076325374 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4451447992632550431, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -51312,6 +53178,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8845576, y: 0.62114835, z: 0.6243246}
   m_Center: {x: -0.0020809062, y: -0.0009206269, z: 0.31212595}
+--- !u!1 &1184028026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3827012261675884451, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1184028030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184028026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.2853204, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1184028031
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184028026}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9248345, y: 0.51876307, z: 0.21889836}
+  m_Center: {x: 0.0000038146973, y: 4.2351647e-22, z: 0.0000004172325}
 --- !u!1001 &1186086294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52466,6 +54380,102 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217597302}
   m_Mesh: {fileID: -679784328027294524, guid: 18bd4fafe8546084582e09c82cfcab89, type: 3}
+--- !u!1 &1222188863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3161730318195980232, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222188867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222188863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.2853204, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1222188868
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222188863}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9248345, y: 0.51876307, z: 0.21889836}
+  m_Center: {x: 0, y: 4.2351647e-22, z: 0.0000004172325}
+--- !u!1 &1222936348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7861252783460653327, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222936352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222936348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000029004594, y: -0.2433081, z: -0.00000002900458}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1222936353
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222936348}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.37287468, y: 0.44237787, z: 0.21712545}
+  m_Center: {x: 0.00053491764, y: 0.2211889, z: -0.007772414}
 --- !u!64 &1223079213
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -56329,6 +58339,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1304614043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5953674125447940597, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1304614047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304614043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.2853204, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1304614048
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304614043}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9248345, y: 0.51876307, z: 0.21889836}
+  m_Center: {x: 0, y: -0.0000076293945, z: 0.0000004172325}
 --- !u!1 &1305079350 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6100366115271535178, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -57359,6 +59417,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &1336623550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2818891339879436406, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1336623554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336623550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1336623555
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336623550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036024, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: 0.0007548183, y: 0.16861193, z: -0.024163479}
 --- !u!1 &1337710980
 GameObject:
   m_ObjectHideFlags: 0
@@ -57859,6 +59965,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2127908447}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1345021201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7480276638741232389, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1345021205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345021201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.578984e-14, y: -0.30092588, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1345021206
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345021201}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.42721224}
+  m_Center: {x: -0.5524078, y: -0.027961018, z: 0.7747867}
 --- !u!1 &1345094283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -58131,6 +60285,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1828257916}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1351263610 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1900815321310381491, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1351263614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351263610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305653, y: -0.2433084, z: -0.000000007251155}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1351263615
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351263610}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.77701116, y: 0.44237772, z: 0.21019235}
+  m_Center: {x: -0.000009888168, y: 0.22118884, z: -0.013050669}
 --- !u!1 &1352854329
 GameObject:
   m_ObjectHideFlags: 0
@@ -58371,6 +60573,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &1354941296 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4930241121119696022, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1354941300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354941296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1354941301
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354941296}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036036, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: -0.004163876, y: 0.1686105, z: -0.024163479}
 --- !u!1001 &1356257994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58443,6 +60693,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 966046771}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1357352355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4553735556453788010, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1357352359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357352355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.2433083, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1357352360
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357352355}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.77701116, y: 0.44237757, z: 0.21019222}
+  m_Center: {x: -0.000013709068, y: 0.22118878, z: -0.011256603}
 --- !u!1 &1358586252 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4080999114701387702, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -61723,6 +64021,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1753444797}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1389758037 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8768467771159148233, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1389758041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389758037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305679, y: -0.24330802, z: -0.0000000072511437}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1389758042
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389758037}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3728745, y: 0.4423777, z: 0.21712533}
+  m_Center: {x: 0.0005348984, y: 0.22119266, z: -0.0077719027}
 --- !u!1001 &1389940567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61795,6 +64141,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 184121681}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1392334650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1962066157351796218, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1392334654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392334650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.578984e-14, y: -0.30092588, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1392334655
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392334650}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.42721224}
+  m_Center: {x: -0.0000043809414, y: -0.03128624, z: 0.7750343}
 --- !u!1 &1392965596 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8450750742020290506, guid: 6453a80fc63b58f409678dfdc74ae75c, type: 3}
@@ -62455,6 +64849,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &1408650934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6876778461117915061, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1408650938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408650934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.171103e-14, y: -0.18166845, z: 0.000000016556847}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1408650939
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408650934}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3250137, y: 0.33030584, z: 0.34980822}
+  m_Center: {x: 0.35022488, y: -0.000000027577624, z: 0.21267657}
 --- !u!1 &1408736026 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -63807,6 +66249,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &1460423718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3252976997830059038, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1460423722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460423718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0.07092892, y: -0.28371564, z: 0.0709289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1460423723
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460423718}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.92483425, y: 0.5187631, z: 0.21889846}
+  m_Center: {x: -0.0000038146973, y: -6.217249e-15, z: 0.000001847744}
 --- !u!1001 &1462042731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72775,6 +75265,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1656520066}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1668617004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4330215592409912635, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1668617008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668617004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.3684759e-14, y: -0.2353829, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1668617009
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668617004}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796773, z: 0.14888427}
+  m_Center: {x: -0.0075715184, y: 0.079113014, z: -0.009115414}
 --- !u!1 &1668755670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7509040191217853903, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -73013,6 +75551,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5060444177187149915, guid: 578bc15176765594b867855c67cc20d7, type: 3}
+--- !u!1 &1678696158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5842574374043856601, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1678696162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678696158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.171103e-14, y: -0.18166845, z: 0.000000016556847}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1678696163
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678696158}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.32501373, y: 0.33030584, z: 0.34980822}
+  m_Center: {x: 0.00009216368, y: -0.000000012676483, z: 0.21267657}
 --- !u!1 &1678772919
 GameObject:
   m_ObjectHideFlags: 0
@@ -73156,6 +75742,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 664346058}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &1680105170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8813518604500102980, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1680105174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680105170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 1.97373e-14, y: -0.23336768, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1680105175
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680105170}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.34306347, y: 0.4243045, z: 0.094913274}
+  m_Center: {x: -0.001653105, y: 0.16354409, z: 0.0029228716}
 --- !u!1001 &1680592081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74100,6 +76734,54 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.553237, y: 0.5532379, z: 0.1123499}
   m_Center: {x: -0.00000048961033, y: 0.000000860956, z: 0.056215923}
+--- !u!1 &1711112746 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4316301347985733120, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1711112750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711112746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23239495, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1711112751
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711112746}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51036036, y: 0.4225355, z: 0.21890086}
+  m_Center: {x: -0.004167691, y: 0.16861813, z: -0.024163479}
 --- !u!1 &1711343391 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -76129,6 +78811,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -241548722215289755, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+--- !u!1 &1764739781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5625188530574150814, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1764739785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764739781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.00000002414538, y: -0.30092588, z: -0.000000008968289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1764739786
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764739781}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.4272122}
+  m_Center: {x: 0.000007638936, y: -0.025463555, z: 0.34561387}
 --- !u!1 &1766393151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3498669406154575119, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -80021,6 +82751,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -951608786083511892, guid: 650311d293ad8564ab63269682e84706, type: 3}
+--- !u!1 &1859253862 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1416418664898463946, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1859253866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859253862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 2.3684759e-14, y: -0.2353829, z: 0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1859253867
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859253862}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796773, z: 0.14888433}
+  m_Center: {x: -0.0075715184, y: 0.079113014, z: -0.009117291}
 --- !u!1 &1861602423 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8564380274587044920, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -85829,6 +88607,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 149541833691738144, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+--- !u!1 &1994481867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5301844658006043023, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1994481871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994481867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.23538305, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &1994481872
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994481867}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.033849, y: 0.42796764, z: 0.14888427}
+  m_Center: {x: -0.007563889, y: 0.07910536, z: -0.009121159}
 --- !u!1 &1997352699 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6464458484399464674, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
@@ -87610,6 +90436,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &2048540517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6153738513002085910, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2048540521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048540517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: 0, y: -0.24330801, z: -0.000000033113693}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &2048540522
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048540517}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.3728745, y: 0.44237757, z: 0.21712525}
+  m_Center: {x: 0.0005348921, y: 0.22118878, z: -0.0077719074}
 --- !u!1001 &2049127891
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90177,6 +93051,54 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2028714246}
   m_SourcePrefab: {fileID: 100100000, guid: ac8d86af490971f4d8cd6caeb30e91cc, type: 3}
+--- !u!1 &2104037613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8814946078014374126, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2104037617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104037613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.00000002414538, y: -0.30092588, z: -0.000000008968289}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &2104037618
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104037613}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5099108, y: 0.88639045, z: 0.4272122}
+  m_Center: {x: -0.55239636, y: -0.02795715, z: 0.7747867}
 --- !u!1 &2106564860
 GameObject:
   m_ObjectHideFlags: 0
@@ -90910,6 +93832,54 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &2124521604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8506401279647851406, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
+  m_PrefabInstance: {fileID: 212100070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2124521608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124521604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ceba2f86fa6454ebc212cca2aaf1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Drawer
+  openOffset: {x: -0.000000009305653, y: -0.2433084, z: -0.000000007251155}
+  smoothTime: 0.22
+  startOpen: 0
+  locked: 0
+  openText: "\xC7ekmeceyi A\xE7"
+  closeText: "\xC7ekmeceyi Kapat"
+  lockedText: Kilitli
+  openSound: {fileID: 0}
+  closeSound: {fileID: 0}
+  lockedSound: {fileID: 0}
+--- !u!65 &2124521609
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124521604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.77701116, y: 0.44237772, z: 0.2101923}
+  m_Center: {x: -0.000009888114, y: 0.22118884, z: -0.011257076}
 --- !u!64 &2125886952
 MeshCollider:
   m_ObjectHideFlags: 0

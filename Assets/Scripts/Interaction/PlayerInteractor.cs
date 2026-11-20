@@ -27,7 +27,11 @@ public class PlayerInteractor : MonoBehaviour
 
         // Oyuncunun kendi kapsülünün içinden başladığı için ona çarpmaz
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactDistance, interactMask, QueryTriggerInteraction.Ignore))
+        {
             current = hit.collider.GetComponentInParent<IInteractable>();
+            // Mobilyanın kendi büyük collider'ı içindeki çekmece/kapak gibi şeyleri de bul
+            if (current == null) current = FindInteractableInside(hit);
+        }
 
         string prompt = current != null ? current.GetPrompt() : null;
         bool show = !string.IsNullOrEmpty(prompt) && Cursor.lockState == CursorLockMode.Locked;
@@ -59,6 +63,22 @@ public class PlayerInteractor : MonoBehaviour
 
         if (current != null && Input.GetKeyDown(interactKey))
             current.Interact(transform);
+    }
+
+    // Işın önce mobilyanın gövde collider'ına çarptıysa, onun çocuklarından etkileşimli olanı (çekmece vb.) ara
+    IInteractable FindInteractableInside(RaycastHit first)
+    {
+        Transform root = first.collider.transform;
+        var hits = Physics.RaycastAll(transform.position, transform.forward, interactDistance, interactMask, QueryTriggerInteraction.Ignore);
+        IInteractable found = null;
+        float best = float.MaxValue;
+        foreach (var h in hits)
+        {
+            if (h.collider == first.collider || !h.collider.transform.IsChildOf(root)) continue;
+            var i = h.collider.GetComponentInParent<IInteractable>();
+            if (i != null && h.distance < best) { best = h.distance; found = i; }
+        }
+        return found;
     }
 
     IHoldInteractable currentHold;
