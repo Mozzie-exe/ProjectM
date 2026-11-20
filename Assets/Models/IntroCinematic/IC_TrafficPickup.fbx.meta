@@ -1,4 +1,156 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+guid: 0aa38b342fd983448ba22069020e86e8
+ModelImporter:
+  serializedVersion: 24501
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_CarPaint
+    second: {fileID: 2100000, guid: 51b9d7829129b104a87577feb1015368, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Chrome
+    second: {fileID: 2100000, guid: 932e1d15d9aa2a04c992e9fbf253388c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_DarkPlastic
+    second: {fileID: 2100000, guid: f86d9e805931c6b4cb4a96f75ac93fff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Flare
+    second: {fileID: 2100000, guid: f0a998c46a9c5464cb4db96bc6a48c65, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_FlashBody
+    second: {fileID: 2100000, guid: 08bda2286f003ca4993772f03e9079e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_FlashLens
+    second: {fileID: 2100000, guid: e30da284ee971c24b80a3d0c52d029f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Folder
+    second: {fileID: 2100000, guid: 867deeda3d4257e4eadf5c3420e63790, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_GaugeFace
+    second: {fileID: 2100000, guid: f699e79fef543dc499b82cad32749ac4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_GaugeGlow
+    second: {fileID: 2100000, guid: 6726571b31e5c2b4596c3fd67cfa5f63, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Glass
+    second: {fileID: 2100000, guid: 364e7c5e684a7124b879f2e0b602daed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Grille
+    second: {fileID: 2100000, guid: 3e2fc1a8831276349b5f61d70f651e8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_HeadlightGlow
+    second: {fileID: 2100000, guid: 95a2d454b8129d244ad4ae8aec052ace, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_LampLens
+    second: {fileID: 2100000, guid: 31d19bec7658d8246b80d875d0f9cb6e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Leather
+    second: {fileID: 2100000, guid: ef95ae9e3366c40429cfa6033427a22a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Metal
+    second: {fileID: 2100000, guid: ef484818f0ba71e4c9a7e96269c843f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Paper
+    second: {fileID: 2100000, guid: c84649b8e04940447b08103422ab1d8e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Rim
+    second: {fileID: 2100000, guid: a6027880291e1fd46a03baf1b8b11e37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Rubber
+    second: {fileID: 2100000, guid: e85138a57eca88143b1157acce7412e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_SeatFabric
+    second: {fileID: 2100000, guid: 06de4c1b835a0d544a2cabc0574c5fcd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Skin
+    second: {fileID: 2100000, guid: c60184ea0bd5a7b408365591c6948e19, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Sleeve
+    second: {fileID: 2100000, guid: e84f8f0d76efc674b855fe6141f42800, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_SoftTop
+    second: {fileID: 2100000, guid: 8502f97b49b7d9c44b9b4c5c11c432d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_TailLens
+    second: {fileID: 2100000, guid: 04d0204d44b561943940516818760fc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_TaillightGlow
+    second: {fileID: 2100000, guid: a347efe1bef5bb243ac5d45405ea8a11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_TruckPaint
+    second: {fileID: 2100000, guid: 7cc1e7a97e76b574da0f9cbf800b51de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_TruckWhite
+    second: {fileID: 2100000, guid: 3ececc4db2d3c7a468ac925a271f9ed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_WagonTop
+    second: {fileID: 2100000, guid: 71fea27457571e745b9a1333ab0da20d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_WagonWood
+    second: {fileID: 2100000, guid: da2f6c79c93fbdc42b649a504755c638, type: 2}
+  materials:
+    materialImportMode: 1
+=======
+>>>>>>> Stashed changes
 guid: ad90785e463fd1d43bb77c646e3defcd
 ModelImporter:
   serializedVersion: 24501
@@ -6,6 +158,10 @@ ModelImporter:
   externalObjects: {}
   materials:
     materialImportMode: 2
+<<<<<<< Updated upstream
+=======
+>>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
+>>>>>>> Stashed changes
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -83,7 +239,15 @@ ModelImporter:
     normalSmoothingSource: 0
     calculateBlendshapeNormalsDeltaFromImportedNormals: 0
   referencedClips: []
+<<<<<<< Updated upstream
   importAnimation: 1
+=======
+<<<<<<< HEAD
+  importAnimation: 0
+=======
+  importAnimation: 1
+>>>>>>> 895a1f9783aa40bedb55808cc03fdb0471dfd318
+>>>>>>> Stashed changes
   humanDescription:
     serializedVersion: 3
     human: []

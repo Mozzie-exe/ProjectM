@@ -42,6 +42,7 @@ public class IntroCinematic : MonoBehaviour
     public float ambienceOpenEnd = 27.9f;
 
     bool[] wasEnabled;
+    AudioListener playerListener, cinematicListener;
     bool handedOff;
     float handoffClock;
     float playerEyeHeight;
@@ -71,6 +72,12 @@ public class IntroCinematic : MonoBehaviour
 
         playerCamera.enabled = false;
         cinematicCamera.enabled = true;
+        // 3D sesler (geçen arabalar) sinematik kafadan duyulsun: dinleyici de kameraya geçer
+        playerListener = playerCamera.GetComponent<AudioListener>();
+        cinematicListener = cinematicCamera.GetComponent<AudioListener>();
+        if (!cinematicListener) cinematicListener = cinematicCamera.gameObject.AddComponent<AudioListener>();
+        if (playerListener) playerListener.enabled = false;
+        cinematicListener.enabled = true;
         SetFade(1f);
     }
 
@@ -121,6 +128,8 @@ public class IntroCinematic : MonoBehaviour
 
         cinematicCamera.enabled = false;
         playerCamera.enabled = true;
+        if (cinematicListener) cinematicListener.enabled = false;
+        if (playerListener) playerListener.enabled = true;
 
         for (int i = 0; i < disableDuringCinematic.Length; i++)
             disableDuringCinematic[i].enabled = wasEnabled[i];

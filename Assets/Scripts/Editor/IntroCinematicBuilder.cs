@@ -779,6 +779,7 @@ public static class IntroCinematicBuilder
             src.outputAudioMixerGroup = cineGroup;
             director.SetGenericBinding(t, src);
         }
+        BuildTraffic(root, timeline, director, cineGroup);
         director.extrapolationMode = DirectorWrapMode.Hold;
         director.playOnAwake = true;
 
@@ -831,6 +832,7 @@ public static class IntroCinematicBuilder
         ic.ambienceOpenStart = T_DoorStart;
         ic.ambienceOpenEnd = T_DoorEnd;
         Undo.RegisterCreatedObjectUndo(amb, "Build Intro Cinematic");
+        IndoorZoneBuilder.BuildField();   // tarla bölgesi yeni Crickets objesini kıssın (eskisi silindi)
 
         // Oyundaki fener de aynı tık sesini kullansın (boşsa)
         if (ic.flashlight && !ic.flashlight.clickSound)
@@ -844,6 +846,160 @@ public static class IntroCinematicBuilder
         EditorSceneManager.MarkSceneDirty(root.scene);
         Selection.activeGameObject = root;
         Debug.Log("Intro cinematic kuruldu. Süre: " + T_Handoff + " sn. Timeline: " + CineDir + "/IntroCinematic.playable");
+    }
+
+    // ------------------------------------------------------------------ geçen arabalar
+    // Pikap karşı şeritte (z -16) +x yönüne, wagon bizim şeritte (z -6) -x yönüne gider.
+    // Ses kaydının (Car_Passing.mp3) en yüksek anı 3.4 sn: klip geçişten o kadar önce başlar.
+    const float PickupSpeed = 16f, WagonSpeed = 15f, PickupZ = -16f, WagonZ = -6f, PassPeak = 3.4f;
+
+    static Vector3 standFront;   // oyuncunun arabanın önünde durduğu nokta (dünya)
+    static P PickupAt(float t) =>
+        new P(new Vector3(CarPos(T_PickupPass).x + PickupSpeed * (t - T_PickupPass), RoadY, PickupZ), Quaternion.Euler(0, 90, 0));
+    static P WagonAt(float t) =>
+        new P(new Vector3(standFront.x - WagonSpeed * (t - T_WagonPass), RoadY, WagonZ), Quaternion.Euler(0, -90, 0));
+
+    static void BuildTraffic(GameObject root, TimelineAsset tl, PlayableDirector director, UnityEngine.Audio.AudioMixerGroup group)
+    {
+        P cw = CarWorld(40f);
+        standFront = cw.p + cw.r * (WalkFront(1f).p * K);
+
+        var traffic = new GameObject("Traffic");
+        traffic.transform.SetParent(root.transform, false);
+        var anim = traffic.AddComponent<Animator>();
+        anim.applyRootMotion = false;
+        var pickup = TrafficCar(traffic.transform, "Pickup", "IC_TrafficPickup", new Vector3(0.685f, 0.89f, 2.56f), new Vector3(0, 1.02f, -2.60f));
+        var wagon = TrafficCar(traffic.transform, "Wagon", "IC_TrafficWagon", new Vector3(0.69f, 0.69f, 2.95f), new Vector3(0, 0.60f, -2.93f));
+
+        var clip = new AnimationClip { frameRate = FPS };
+        int n = Mathf.CeilToInt(T_Handoff * FPS) + 1;
+        AddPoseCurves(clip, "Pickup", n, PickupAt);
+        AddPoseCurves(clip, "Wagon", n, WagonAt);
+        foreach (var w in new[] { "FL", "FR", "RL", "RR" })
+        {
+            AddRotCurves(clip, "Pickup/Model/Pickup_Wheel_" + w, n, t => Quaternion.AngleAxis(-PickupSpeed * t / (0.40f * K) * Mathf.Rad2Deg, Vector3.right));
+            AddRotCurves(clip, "Wagon/Model/Wagon_Wheel_" + w, n, t => Quaternion.AngleAxis(-WagonSpeed * t / (0.36f * K) * Mathf.Rad2Deg, Vector3.right));
+        }
+        Active(clip, "Pickup", (0f, true), (T_PickupPass + 5f, false));
+        Active(clip, "Wagon", (0f, false), (T_WagonPass - 7f, true), (T_WagonPass + 6f, false));
+        clip.EnsureQuaternionContinuity();
+        string path = CineDir + "/IntroCinematic_Traffic.anim";
+        AssetDatabase.DeleteAsset(path);
+        AssetDatabase.CreateAsset(clip, path);
+
+        var track = tl.CreateTrack<AnimationTrack>(null, "Trafik");
+        track.trackOffset = TrackOffset.ApplyTransformOffsets;
+        track.position = Vector3.zero;
+        track.rotation = Quaternion.identity;
+        var tc = track.CreateClip(clip);
+        tc.displayName = "Gecen Arabalar";
+        tc.start = 0;
+        tc.duration = T_Handoff;
+        ((AnimationPlayableAsset)tc.asset).removeStartOffset = false;
+        director.SetGenericBinding(track, anim);
+
+        // Ses arabanın üstünde: sola/sağa kayar; yükselip alçalma kayıttan gelir (mesafe zayıflaması geniş)
+        var pass = Sfx("Car_Passing");
+        TrafficAudio(tl, director, group, pickup, "Trafik Pikap Sesi", pass, T_PickupPass, 0.55f, 2600f); // araç içinden boğuk
+        TrafficAudio(tl, director, group, wagon, "Trafik Wagon Sesi", pass, T_WagonPass, 0.95f, 0f);
+
+        ApplyPose(pickup.transform, PickupAt(0f), false);
+        ApplyPose(wagon.transform, WagonAt(T_WagonPass - 7f), false);
+        wagon.SetActive(false);
+        EditorUtility.SetDirty(tl);
+        AssetDatabase.SaveAssets();
+    }
+
+    static GameObject TrafficCar(Transform parent, string name, string fbx, Vector3 headlight, Vector3 taillight)
+    {
+        var car = new GameObject(name).transform;
+        car.SetParent(parent, false);
+        car.localScale = Vector3.one * K;
+        var model = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(ModelDir + "/" + fbx + ".fbx"));
+        model.name = "Model";
+        model.transform.SetParent(car, false);
+        model.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        foreach (var r in model.GetComponentsInChildren<MeshRenderer>())
+            if (r.name.Contains("Glow")) r.shadowCastingMode = ShadowCastingMode.Off;
+        foreach (float s in new[] { -1f, 1f })
+            MakeLight("Headlight", car, car, new Vector3(s * headlight.x, headlight.y, headlight.z), Quaternion.Euler(4, 0, 0),
+                LightType.Spot, new Color(1f, 0.92f, 0.75f), 60f, 70f, 60f, LightShadows.None);
+        MakeLight("TailLight", car, car, taillight, Quaternion.identity,
+            LightType.Point, new Color(1f, 0.1f, 0.05f), 1.2f, 4f, 0, LightShadows.None);
+        // Karşıdan bakınca uzaktan da okunan far parlaması (kameraya dönük quad, HeadlightGlare)
+        var glareMat = GlareMaterial();
+        foreach (float s in new[] { -1f, 1f })
+        {
+            var q = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            q.name = "Glare";
+            UnityEngine.Object.DestroyImmediate(q.GetComponent<Collider>());
+            q.transform.SetParent(car, false);
+            q.transform.localPosition = new Vector3(s * headlight.x, headlight.y, headlight.z + 0.25f);
+            var r = q.GetComponent<MeshRenderer>();
+            r.sharedMaterial = glareMat;
+            r.shadowCastingMode = ShadowCastingMode.Off;
+            r.receiveShadows = false;
+            q.AddComponent<HeadlightGlare>();
+        }
+        return car.gameObject;
+    }
+
+    static Material GlareMaterial()
+    {
+        string tp = ModelDir + "/Textures/IC_Glare.png";
+        if (!System.IO.File.Exists(tp))
+        {
+            const int N = 128;
+            var tex = new Texture2D(N, N, TextureFormat.RGBA32, false);
+            for (int y = 0; y < N; y++)
+                for (int x = 0; x < N; x++)
+                {
+                    float dx = (x + 0.5f) / N * 2f - 1f, dy = (y + 0.5f) / N * 2f - 1f, d = Mathf.Sqrt(dx * dx + dy * dy);
+                    float a = Mathf.Clamp01(Mathf.Pow(Mathf.Clamp01(1f - d), 2f) * 0.9f + Mathf.Exp(-d * d * 25f));   // yumuşak hale + parlak çekirdek
+                    tex.SetPixel(x, y, new Color(1f, 1f, 1f, a));
+                }
+            System.IO.File.WriteAllBytes(tp, tex.EncodeToPNG());
+            UnityEngine.Object.DestroyImmediate(tex);
+            AssetDatabase.ImportAsset(tp);
+            var ti = (TextureImporter)AssetImporter.GetAtPath(tp);
+            ti.alphaIsTransparency = true;
+            ti.wrapMode = TextureWrapMode.Clamp;
+            ti.SaveAndReimport();
+        }
+        string mp = ModelDir + "/Materials/IC_Glare.mat";
+        var m = AssetDatabase.LoadAssetAtPath<Material>(mp);
+        if (!m)
+        {
+            m = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
+            AssetDatabase.CreateAsset(m, mp);
+        }
+        m.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(tp));
+        m.SetColor("_BaseColor", Color.white);
+        m.SetFloat("_Surface", 1f);   // saydam
+        m.SetFloat("_Blend", 2f);     // additive
+        m.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
+        m.SetFloat("_DstBlend", (float)BlendMode.One);
+        m.SetFloat("_ZWrite", 0f);
+        m.SetOverrideTag("RenderType", "Transparent");
+        m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+        m.renderQueue = (int)RenderQueue.Transparent;
+        EditorUtility.SetDirty(m);
+        return m;
+    }
+
+    static void TrafficAudio(TimelineAsset tl, PlayableDirector director, UnityEngine.Audio.AudioMixerGroup group,
+        GameObject car, string track, AudioClip clip, float passTime, float vol, float lowPass)
+    {
+        if (!clip) { Debug.LogWarning("Car_Passing.mp3 yok"); return; }
+        var tr = tl.CreateTrack<AudioTrack>(null, track);
+        AudioClipOn(tr, clip, passTime - PassPeak, 0, clip.length, vol);
+        var src = car.AddComponent<AudioSource>();
+        src.playOnAwake = false;
+        src.outputAudioMixerGroup = group;
+        GameAudio.Apply3D(src, 20f, 300f);
+        src.spatialBlend = 0.75f;
+        if (lowPass > 0f) car.AddComponent<AudioLowPassFilter>().cutoffFrequency = lowPass;
+        director.SetGenericBinding(tr, src);
     }
 
     static void ApplyPose(Transform t, P p, bool world)
@@ -1188,12 +1344,17 @@ public static class IntroCinematicBuilder
             ["IC_SoftTop"] = Mat("IC_SoftTop", "IC_SoftTop", Color.white, 1f, 0f, 0.05f),
             ["IC_Chrome"] = Mat("IC_Chrome", "IC_Chrome", Color.white, 1f, 1f, 0.7f),
             ["IC_Rim"] = Mat("IC_Rim", "IC_Rim", Color.white, 2f, 0.6f, 0.35f),
+            // Geçen arabalar
+            ["IC_WagonTop"] = Mat("IC_WagonTop", "IC_WagonTop", Color.white, 0.5f, 0.2f, 0.35f),
+            ["IC_WagonWood"] = Mat("IC_WagonWood", "IC_WagonWood", Color.white, 0.5f, 0f, 0.3f),
+            ["IC_TruckPaint"] = Mat("IC_TruckPaint", "IC_TruckPaint", Color.white, 0.5f, 0.1f, 0.2f),
+            ["IC_TruckWhite"] = Mat("IC_TruckWhite", "IC_TruckWhite", Color.white, 0.5f, 0.1f, 0.25f),
             // Flashlight.cs'teki fener renkleri
             ["IC_FlashBody"] = Mat("IC_FlashBody", null, new Color(0.08f, 0.08f, 0.09f), 1f, 0.7f, 0.6f),
             ["IC_FlashLens"] = Mat("IC_FlashLens", null, new Color(0.9f, 0.9f, 0.8f), 1f, 0f, 0.5f),
         };
 
-        foreach (var fbx in new[] { "IC_Car4x4", "IC_Props", "IC_Arms" })
+        foreach (var fbx in new[] { "IC_Car4x4", "IC_Props", "IC_Arms", "IC_TrafficWagon", "IC_TrafficPickup" })
         {
             var imp = (ModelImporter)AssetImporter.GetAtPath(ModelDir + "/" + fbx + ".fbx");
             imp.importAnimation = false;

@@ -124,6 +124,26 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: IC_TaillightGlow
     second: {fileID: 2100000, guid: a347efe1bef5bb243ac5d45405ea8a11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_TruckPaint
+    second: {fileID: 2100000, guid: 7cc1e7a97e76b574da0f9cbf800b51de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_TruckWhite
+    second: {fileID: 2100000, guid: 3ececc4db2d3c7a468ac925a271f9ed5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_WagonTop
+    second: {fileID: 2100000, guid: 71fea27457571e745b9a1333ab0da20d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_WagonWood
+    second: {fileID: 2100000, guid: da2f6c79c93fbdc42b649a504755c638, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
