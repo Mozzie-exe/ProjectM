@@ -32,6 +32,7 @@ public class Flashlight : MonoBehaviour
     public AudioClip clickSound;
 
     bool isOn;
+    public bool IsOn => isOn;
     Renderer lensRenderer;
     Material lensMaterial;
     AudioSource audioSource;

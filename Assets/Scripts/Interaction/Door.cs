@@ -26,6 +26,7 @@ public class Door : MonoBehaviour, IInteractable
     float currentAngle;
     float targetAngle;
     float angleVelocity;
+    float activeSmoothTime;
     AudioSource audioSource;
 
     public bool IsOpen => Mathf.Abs(targetAngle) > 0.01f;
@@ -56,7 +57,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (Mathf.Abs(currentAngle - targetAngle) < 0.01f && Mathf.Abs(angleVelocity) < 0.01f) return;
 
-        currentAngle = Mathf.SmoothDamp(currentAngle, targetAngle, ref angleVelocity, smoothTime);
+        currentAngle = Mathf.SmoothDamp(currentAngle, targetAngle, ref angleVelocity, activeSmoothTime > 0f ? activeSmoothTime : smoothTime);
         ApplyRotation();
     }
 
@@ -75,10 +76,20 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (locked)
         {
-            Play(lockedSound);
-            return;
+            // Kapıya eklenmiş kilit kuralları (anahtar vb.) açabiliyorsa kilit kalkar ve kapı açılır
+            bool unlocked = false;
+            foreach (var l in GetComponents<IDoorLock>())
+                if (l.TryUnlock(interactor)) { unlocked = true; break; }
+
+            if (!unlocked)
+            {
+                Play(lockedSound);
+                return;
+            }
+            locked = false;
         }
 
+        activeSmoothTime = smoothTime;
         if (IsOpen)
         {
             targetAngle = 0f;
@@ -95,6 +106,15 @@ public class Door : MonoBehaviour, IInteractable
     }
 
     public void SetLocked(bool value) => locked = value;
+
+    // Dışarıdan kapatma (ör. kulübede kapının arkadan yavaşça kapanması). time: kapanma yumuşaklığı
+    public void Close(float time = -1f)
+    {
+        if (!IsOpen) return;
+        activeSmoothTime = time > 0f ? time : smoothTime;
+        targetAngle = 0f;
+        Play(closeSound);
+    }
 
     void Play(AudioClip clip)
     {

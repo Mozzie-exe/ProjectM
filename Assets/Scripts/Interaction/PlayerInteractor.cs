@@ -32,6 +32,25 @@ public class PlayerInteractor : MonoBehaviour
         string prompt = current != null ? current.GetPrompt() : null;
         bool show = !string.IsNullOrEmpty(prompt) && Cursor.lockState == CursorLockMode.Locked;
 
+        // "E basılı tut" etkileşimleri (kazı)
+        var hold = current as IHoldInteractable;
+        bool holding = hold != null && hold.CanHold(transform) && Input.GetKey(interactKey);
+        if (hold != currentHold || !holding) ResetHold();
+        if (holding)
+        {
+            currentHold = hold;
+            holdTimer += Time.deltaTime;
+            float t = Mathf.Clamp01(holdTimer / Mathf.Max(0.01f, hold.HoldDuration));
+            hold.OnHoldProgress(t);
+            if (show) prompt += "  " + ProgressBar(t);
+            if (t >= 1f)
+            {
+                hold.OnHoldComplete(transform);
+                currentHold = null;
+                holdTimer = 0f;
+            }
+        }
+
         if (promptRoot != null)
         {
             promptRoot.SetActive(show);
@@ -40,6 +59,28 @@ public class PlayerInteractor : MonoBehaviour
 
         if (current != null && Input.GetKeyDown(interactKey))
             current.Interact(transform);
+    }
+
+    IHoldInteractable currentHold;
+    float holdTimer;
+
+    void ResetHold()
+    {
+        if (currentHold != null) currentHold.OnHoldProgress(0f);
+        currentHold = null;
+        holdTimer = 0f;
+    }
+
+    static string ProgressBar(float t)
+    {
+        int n = Mathf.RoundToInt(t * 12f);
+        return "[" + new string('|', n) + new string('.', 12 - n) + "]";
+    }
+
+    void OnDisable()
+    {
+        ResetHold();
+        if (promptRoot != null) promptRoot.SetActive(false);
     }
 
     static string KeyName(KeyCode k)
