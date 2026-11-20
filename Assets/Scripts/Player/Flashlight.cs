@@ -55,6 +55,7 @@ public class Flashlight : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
             audioSource.spatialBlend = 0f;
+            audioSource.outputAudioMixerGroup = GameAudio.Group(AudioChannel.SFX);
         }
 
         SetOn(startOn, false);

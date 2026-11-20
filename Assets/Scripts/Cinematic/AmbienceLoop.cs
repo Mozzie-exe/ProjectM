@@ -34,6 +34,7 @@ public class AmbienceLoop : MonoBehaviour
             src[i].playOnAwake = false;
             src[i].loop = false;
             src[i].spatialBlend = 0f;
+            src[i].outputAudioMixerGroup = GameAudio.Group(AudioChannel.Ambience);
             src[i].volume = 0f;
         }
     }

@@ -85,7 +85,7 @@ public class BreakableGlass : MonoBehaviour, IInteractable
         if (!keepBlocker && myCollider != null) myCollider.enabled = false;
 
         AudioClip clip = breakSound != null ? breakSound : GetGeneratedClip();
-        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position, volume);
+        if (clip != null) GameAudio.PlayAt(clip, transform.position, volume, AudioChannel.SFX);
     }
 
     // Ses dosyası yoksa: kısa bir çatlama + dağılan cam şıngırtıları

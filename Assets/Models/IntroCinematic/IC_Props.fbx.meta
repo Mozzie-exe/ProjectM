@@ -12,8 +12,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: IC_Chrome
+    second: {fileID: 2100000, guid: 932e1d15d9aa2a04c992e9fbf253388c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: IC_DarkPlastic
     second: {fileID: 2100000, guid: f86d9e805931c6b4cb4a96f75ac93fff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_Flare
+    second: {fileID: 2100000, guid: f0a998c46a9c5464cb4db96bc6a48c65, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -77,6 +87,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: IC_Rim
+    second: {fileID: 2100000, guid: a6027880291e1fd46a03baf1b8b11e37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: IC_Rubber
     second: {fileID: 2100000, guid: e85138a57eca88143b1157acce7412e8, type: 2}
   - first:
@@ -94,6 +109,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: IC_Sleeve
     second: {fileID: 2100000, guid: e84f8f0d76efc674b855fe6141f42800, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: IC_SoftTop
+    second: {fileID: 2100000, guid: 8502f97b49b7d9c44b9b4c5c11c432d9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

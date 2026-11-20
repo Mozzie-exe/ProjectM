@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a66d2309cacdc24ca592bfb9d60cdd7, type: 3}
+  m_Name: GameAudioSettings
+  m_EditorClassIdentifier: Assembly-CSharp::GameAudioSettings
+  mixer: {fileID: 24100000, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+  channels:
+  - id: 0
+    group: {fileID: 24300002, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+    param: MasterVol
+    level: 1
+  - id: 1
+    group: {fileID: 6835074932316781093, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+    param: MusicVol
+    level: 1
+  - id: 2
+    group: {fileID: -8540480990690741216, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+    param: SFXVol
+    level: 0.4
+  - id: 3
+    group: {fileID: 4574473995313409745, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+    param: CinematicVol
+    level: 0.4
+  - id: 4
+    group: {fileID: 2038596680015405056, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+    param: AmbienceVol
+    level: 0.4
+  - id: 5
+    group: {fileID: 5801805974748177100, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
+    param: UIVol
+    level: 1
