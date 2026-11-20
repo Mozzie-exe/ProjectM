@@ -35,9 +35,11 @@ public static class IntroCinematicBuilder
     const float T_KeyTurnStart = 24.6f, T_KeyTurnEnd = 25.0f, T_LightsOff = 25.0f;
     const float T_DoorStart = 26.7f, T_DoorEnd = 27.9f, T_DomeOn = 26.9f;
     const float T_DoorCloseStart = 32.9f, T_DoorClosed = 33.45f;   // indikten sonra kapıyı iter
-    const float T_FlashOn = 31.0f, T_Handoff = 53.6f;
+    const float T_FlashOn = 31.0f, T_Handoff = 56.2f;
+    // Geçen arabalar: pikap karşı şeritten sürüşte yanımızdan geçer; wagon önde etrafı tararken arkadan gelip soldan geçer
+    const float T_PickupPass = 6.0f, T_WagonPass = 43.4f;
     // Yürüyüş 1: kapıdan arabanın önüne. Tarama, köpek havlaması (irkilir, arkasını döner), yürüyüş 2: başladığı yere geri.
-    const float T_Walk1Start = 34.0f, T_Walk1End = 39.8f, T_Bark = 44.0f, T_WalkStart = 47.0f, T_WalkEnd = 53.0f;
+    const float T_Walk1Start = 34.0f, T_Walk1End = 39.8f, T_Bark = 46.6f, T_WalkStart = 49.6f, T_WalkEnd = 55.6f;
     const float T_Handbrake = 14.6f;   // araba durunca el freni çekilir (0.45 sn)
 
     static readonly Vector3 Eye = new Vector3(-0.40f, 1.55f, -0.40f);       // oturan sürücünün gözü
@@ -105,6 +107,9 @@ public static class IntroCinematicBuilder
         var E = Eye;
         H(0.0f, E, 3, 0);
         H(4.5f, E, 2, -5);
+        H(5.6f, E, 2, -6);
+        H(6.0f, E, 3, -13);                                         // karşıdan gelen pikaba kısa bakış
+        H(6.8f, E, 2, -3);
         H(8.0f, E, 2, 4);
         H(11.0f, E, 3, 0);
         H(13.6f, E + new Vector3(0, 0, 0.03f), 7, 0);              // durunca hafif öne
@@ -132,8 +137,12 @@ public static class IntroCinematicBuilder
         Vector3 F = WalkFront(1f).p;
         H(40.9f, F, 12, 38);                                        // sağa: arabanın önünden ağaçlara
         H(41.9f, F + new Vector3(0, 0.005f, 0), 7, 18);             // ileri, uzağa
-        H(42.9f, F, 9, -48, -1);                                    // sola
-        H(43.6f, F, 10, -36);
+        // Arkadan araba gelir (farları etrafı aydınlatır): sola döner, yanından geçişini ve uzaklaşan stop lambalarını izler
+        H(T_WagonPass - 0.8f, F, 8, -15);
+        H(T_WagonPass - 0.1f, F + new Vector3(0, -0.01f, 0), 6, -92, -1);
+        H(T_WagonPass + 0.7f, F, 7, -32);
+        H(T_WagonPass + 1.6f, F, 8, -14);
+        H(T_WagonPass + 2.6f, F, 9, -10);
         // Köpek havlaması: irkilir (kafa kısa bir an çöker), omzunun üstünden arkasına döner, dinler
         H(T_Bark + 0.15f, F + new Vector3(0, -0.03f, -0.01f), 4, -30);
         H(T_Bark + 0.40f, F + new Vector3(0, -0.02f, 0), 7, -48, 1);

@@ -24,6 +24,7 @@ public class AmbienceLoop : MonoBehaviour
     int cur;
     float fade = -1f;
     float indoor;
+    float zoneGain = -1f;
 
     void Awake()
     {
@@ -91,11 +92,15 @@ public class AmbienceLoop : MonoBehaviour
         }
 
         // Kapalı alandayken (IndoorZone) dışarının sesi de kısılır; sinematiğin araç içi değeriyle büyük olan geçerli
-        float target = GameAudio.TryListener(out Vector3 lp) ? IndoorZone.MuffleAt(lp) : 0f;
+        bool hasL = GameAudio.TryListener(out Vector3 lp);
+        float target = hasL ? IndoorZone.MuffleAt(lp) : 0f;
         indoor = Mathf.MoveTowards(indoor, target, Time.deltaTime * 1.5f);
         float m = Mathf.Max(muffle, indoor);
+        // Bölge sesi (tarlada kargalar) ve bölgede kısılan sesler; ~2.5 sn'de geçer
+        float zg = AmbienceZone.GainFor(this, hasL ? lp : new Vector3(1e6f, 0f, 1e6f));   // dinleyici yoksa: hiçbir bölgede değil
+        zoneGain = zoneGain < 0f ? zg : Mathf.MoveTowards(zoneGain, zg, Time.deltaTime * 0.4f);   // ilk karede atla
 
-        float gain = volume * Mathf.Lerp(1f, muffledVolume, m);
+        float gain = volume * zoneGain * Mathf.Lerp(1f, muffledVolume, m);
         if (fade >= 0f) { src[cur].volume = gain * wa; src[next].volume = gain * wb; }
         else src[cur].volume = gain;
 

@@ -48,12 +48,15 @@ public class IndoorZone : MonoBehaviour
             rz.transform.position = ClosestPoint(lp);
     }
 
-    public Vector3 ClosestPoint(Vector3 p)
+    public Vector3 ClosestPoint(Vector3 p) => BoxClosestPoint(transform, size, p);
+
+    // t'nin konum/dönüşünde, size (dünya ölçüsü) boyutlu kutunun p'ye en yakın noktası (AmbienceZone de kullanır)
+    public static Vector3 BoxClosestPoint(Transform t, Vector3 size, Vector3 p)
     {
-        Quaternion r = transform.rotation;
-        Vector3 l = Quaternion.Inverse(r) * (p - transform.position), h = size * 0.5f;
+        Quaternion r = t.rotation;
+        Vector3 l = Quaternion.Inverse(r) * (p - t.position), h = size * 0.5f;
         l = new Vector3(Mathf.Clamp(l.x, -h.x, h.x), Mathf.Clamp(l.y, -h.y, h.y), Mathf.Clamp(l.z, -h.z, h.z));
-        return transform.position + r * l;
+        return t.position + r * l;
     }
 
     public bool Contains(Vector3 p) => (ClosestPoint(p) - p).sqrMagnitude < 1e-6f;

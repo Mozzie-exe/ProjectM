@@ -63,4 +63,51 @@ public static class IndoorZoneBuilder
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         Debug.Log("IndoorZone: " + n + " kapalı alan kuruldu");
     }
+
+    // Tarla (çitli Field: x 135..412, z 62..469): içeride kargalar, cırcır böceği kısılır
+    const string RavensClip = "Assets/Sfx/Ambience/Ambience_Ravens.mp3";
+
+    [MenuItem("Tools/Audio/Build Field Ambience")]
+    public static void BuildField()
+    {
+        var field = GameObject.Find("Field");
+        if (!field) { Debug.LogWarning("AmbienceZone: Field bulunamadı"); return; }
+        var imp = (AudioImporter)AssetImporter.GetAtPath(RavensClip);
+        if (imp)
+        {
+            var s = imp.defaultSampleSettings;
+            s.loadType = AudioClipLoadType.Streaming;
+            imp.defaultSampleSettings = s;
+            imp.loadInBackground = true;
+            imp.SaveAndReimport();
+        }
+
+        var t = field.transform.Find("AmbienceZone_Tarla");
+        var go = t ? t.gameObject : new GameObject("AmbienceZone_Tarla");
+        if (!t) Undo.RegisterCreatedObjectUndo(go, "Build Field Ambience");
+        go.transform.SetParent(field.transform, true);
+        go.transform.SetPositionAndRotation(new Vector3(273.5f, 12f, 265.5f), Quaternion.identity);
+
+        var loop = go.GetComponent<AmbienceLoop>();
+        if (!loop) loop = go.AddComponent<AmbienceLoop>();   // AudioSource + AudioLowPassFilter'ı RequireComponent ekler
+        loop.clip = AssetDatabase.LoadAssetAtPath<AudioClip>(RavensClip);
+        loop.volume = 0.5f;
+        loop.pitchRange = new Vector2(0.96f, 1.04f);
+        var src = go.GetComponent<AudioSource>();
+        src.playOnAwake = false;
+
+        var z = go.GetComponent<AmbienceZone>();
+        if (!z) z = go.AddComponent<AmbienceZone>();
+        z.size = new Vector3(277f, 12f, 407f);
+        z.edgeFade = 10f;
+        z.own = loop;
+        z.duckLevel = 0.3f;
+        var crickets = GameObject.Find("Crickets");
+        z.duck = crickets && crickets.GetComponent<AmbienceLoop>() ? new[] { crickets.GetComponent<AmbienceLoop>() } : new AmbienceLoop[0];
+        if (z.duck.Length == 0) Debug.LogWarning("AmbienceZone: Crickets bulunamadı, kısılacak ses yok");
+        EditorUtility.SetDirty(loop);
+        EditorUtility.SetDirty(z);
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+        Debug.Log("AmbienceZone: tarla kuruldu (kargalar, cırcır %" + (z.duckLevel * 100) + ")");
+    }
 }
