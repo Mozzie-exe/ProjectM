@@ -40,7 +40,7 @@ public class DoorCloseBehind : MonoBehaviour
 
         done = true;
         door.Close(closeTime);
-        if (creakSound != null) AudioSource.PlayClipAtPoint(creakSound, door.transform.position);
+        if (creakSound != null) GameAudio.PlayAt(creakSound, door.transform.position, 1f, AudioChannel.SFX, 30f, 2f, false);
     }
 
     void OnDrawGizmosSelected()

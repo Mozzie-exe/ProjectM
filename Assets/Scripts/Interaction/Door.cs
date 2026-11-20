@@ -46,10 +46,8 @@ public class Door : MonoBehaviour, IInteractable
         {
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
-            audioSource.spatialBlend = 1f;
+            GameAudio.Apply3D(audioSource, 2f, 25f);
             audioSource.outputAudioMixerGroup = GameAudio.Group(AudioChannel.SFX);
-            audioSource.minDistance = 2f;
-            audioSource.maxDistance = 25f;
         }
     }
 

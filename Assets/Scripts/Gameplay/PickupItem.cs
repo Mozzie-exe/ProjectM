@@ -42,7 +42,7 @@ public class PickupItem : MonoBehaviour, IInteractable
         taken = true;
         if (PlayerInventory.Instance != null) PlayerInventory.Instance.Add(itemId, displayName);
         HudMessage.Show(string.IsNullOrEmpty(pickupMessage) ? displayName + " alındı." : pickupMessage);
-        if (pickupSound != null) AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+        if (pickupSound != null) GameAudio.PlayAt(pickupSound, transform.position, 1f, AudioChannel.SFX, 15f, 1f);
         onPickedUp?.Invoke();
         (hideObject != null ? hideObject : gameObject).SetActive(false);
     }

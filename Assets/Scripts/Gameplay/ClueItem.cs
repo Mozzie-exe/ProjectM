@@ -26,7 +26,7 @@ public class ClueItem : MonoBehaviour, IInteractable
             return;
         }
 
-        if (paperSound != null) AudioSource.PlayClipAtPoint(paperSound, transform.position);
+        if (paperSound != null) GameAudio.PlayAt(paperSound, transform.position, 1f, AudioChannel.SFX, 12f, 1f);
         if (Notebook.Instance != null) Notebook.Instance.Add(entry);
         if (!string.IsNullOrEmpty(grantItemId) && PlayerInventory.Instance != null)
             PlayerInventory.Instance.Add(grantItemId, entry.title);

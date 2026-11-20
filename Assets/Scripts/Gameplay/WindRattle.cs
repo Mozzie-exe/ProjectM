@@ -25,7 +25,7 @@ public class WindRattle : MonoBehaviour
         if (gust <= 0f && Random.value < gustChancePerSecond * Time.deltaTime)
         {
             gust = 1f;
-            if (bangSound != null) AudioSource.PlayClipAtPoint(bangSound, transform.position);
+            if (bangSound != null) GameAudio.PlayAt(bangSound, transform.position, 1f, AudioChannel.SFX, 60f, 3f, false);
         }
         gust = Mathf.MoveTowards(gust, 0f, Time.deltaTime * 2.5f);
         float offset = n * amplitude - Mathf.Sin(gust * Mathf.PI) * amplitude * 1.5f;

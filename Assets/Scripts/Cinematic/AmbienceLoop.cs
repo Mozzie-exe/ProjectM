@@ -23,6 +23,7 @@ public class AmbienceLoop : MonoBehaviour
     AudioLowPassFilter lowPass;
     int cur;
     float fade = -1f;
+    float indoor;
 
     void Awake()
     {
@@ -89,11 +90,16 @@ public class AmbienceLoop : MonoBehaviour
             }
         }
 
-        float gain = volume * Mathf.Lerp(1f, muffledVolume, muffle);
+        // Kapalı alandayken (IndoorZone) dışarının sesi de kısılır; sinematiğin araç içi değeriyle büyük olan geçerli
+        float target = GameAudio.TryListener(out Vector3 lp) ? IndoorZone.MuffleAt(lp) : 0f;
+        indoor = Mathf.MoveTowards(indoor, target, Time.deltaTime * 1.5f);
+        float m = Mathf.Max(muffle, indoor);
+
+        float gain = volume * Mathf.Lerp(1f, muffledVolume, m);
         if (fade >= 0f) { src[cur].volume = gain * wa; src[next].volume = gain * wb; }
         else src[cur].volume = gain;
 
         // Logaritmik geçiş: 22 kHz (açık) -> muffledCutoff (boğuk)
-        lowPass.cutoffFrequency = Mathf.Exp(Mathf.Lerp(Mathf.Log(22000f), Mathf.Log(muffledCutoff), muffle));
+        lowPass.cutoffFrequency = Mathf.Exp(Mathf.Lerp(Mathf.Log(22000f), Mathf.Log(muffledCutoff), m));
     }
 }

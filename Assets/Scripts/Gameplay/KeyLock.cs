@@ -25,7 +25,7 @@ public class KeyLock : MonoBehaviour, IDoorLock
             if (consumeKey) inv.Remove(requiredKey);
             foreach (var go in hideOnUnlock)
                 if (go != null) go.SetActive(false);
-            if (unlockSound != null) AudioSource.PlayClipAtPoint(unlockSound, transform.position);
+            if (unlockSound != null) GameAudio.PlayAt(unlockSound, transform.position, 1f, AudioChannel.SFX, 20f, 1.5f, false);
             HudMessage.Show(unlockMessage);
             return true;
         }

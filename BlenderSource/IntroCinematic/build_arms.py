@@ -158,15 +158,19 @@ def finger_pts(y, L, kz, bends):
 
 GRIP = (50, 75, 55)          # silindir kavrama (direksiyon, fener, kapı kolu)
 THUMB_BASE = (0.018, 0.030, -0.092)
+# Gevşek yumruk: r=0.021 silindiri sarar, eksen el yerelinde (-0.018, y, -0.032) (fener, kapı kolu)
+HOLD = [(73, 52, 48), (79, 56, 48), (73, 52, 48), (58, 40, 44)]
 POSES = {
     # ad: (her parmak için bükülme, başparmak noktaları)
     "Grip":  ([GRIP] * 4,
               [THUMB_BASE, (-0.008, 0.052, -0.055), (-0.026, 0.050, -0.025), (-0.036, 0.040, -0.004)]),
     "Relax": ([(22, 30, 22), (25, 34, 25), (28, 38, 26), (32, 42, 30)],
               [THUMB_BASE, (-0.002, 0.058, -0.060), (-0.014, 0.064, -0.032), (-0.022, 0.060, -0.010)]),
+    "Hold":  (HOLD,
+              [THUMB_BASE, (-0.0064, 0.046, -0.0639), (-0.044, 0.054, -0.0539), (-0.0515, 0.050, -0.0261)]),
     # İşaret parmağı ile başparmak arasında anahtar; diğer üç parmak fener tutmaya devam eder.
-    "Pinch": ([(40, 45, 25), GRIP, GRIP, GRIP],
-              [THUMB_BASE, (-0.006, 0.058, -0.048), (-0.016, 0.060, -0.010), (-0.022, 0.054, 0.024)]),
+    "Pinch": ([(40, 45, 25), HOLD[1], HOLD[2], HOLD[3]],
+              [THUMB_BASE, (0.010, 0.055, -0.050), (-0.010, 0.060, 0.000), (-0.022, 0.054, 0.024)]),
     "Open":  ([(4, 6, 4), (3, 5, 4), (4, 6, 5), (6, 8, 6)],
               [THUMB_BASE, (0.006, 0.062, -0.068), (0.002, 0.078, -0.044), (0.000, 0.088, -0.022)]),
 }

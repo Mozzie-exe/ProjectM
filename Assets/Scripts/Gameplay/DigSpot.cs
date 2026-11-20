@@ -59,7 +59,8 @@ public class DigSpot : MonoBehaviour, IInteractable, IHoldInteractable
                 src = gameObject.AddComponent<AudioSource>();
                 src.clip = digLoop;
                 src.loop = true;
-                src.spatialBlend = 1f;
+                src.outputAudioMixerGroup = GameAudio.Group(AudioChannel.SFX);
+                GameAudio.Apply3D(src, 1.5f, 20f);
             }
             if (t > 0f && !src.isPlaying) src.Play();
             if (t <= 0f && src.isPlaying) src.Stop();
@@ -69,7 +70,7 @@ public class DigSpot : MonoBehaviour, IInteractable, IHoldInteractable
         {
             footstepsPlayed = true;
             var cam = Camera.main != null ? Camera.main.transform : transform;
-            AudioSource.PlayClipAtPoint(footstepsNearby, cam.position - cam.forward * 6f);
+            GameAudio.PlayAt(footstepsNearby, cam.position - cam.forward * 6f, 1f, AudioChannel.SFX, 30f, 2f);
         }
     }
 

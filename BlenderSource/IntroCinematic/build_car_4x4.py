@@ -431,28 +431,30 @@ for x, w in ((-0.52, 0.06), (-0.40, 0.08), (-0.28, 0.07)):
 # tünel, vites, çekiş kolu, el freni, konsol, paspaslar
 body.box2((-0.15, -0.95, FLOOR), (0.15, 0.76, 0.76), TRIM)
 body.tube([(0.0, 0.12, 0.76), (0.0, 0.08, 0.98)], 0.010, METAL, segs=8)
-body.cyl((0.0, 0.075, 1.00), 0.025, 0.05, TRIM, segs=12)
+body.cyl((0.0, 0.075, 1.00), 0.020, 0.06, TRIM, segs=12)          # vites topuzu: sağ el gevşek yumrukla tutar (r 0.021)
 body.tube([(0.08, 0.04, 0.76), (0.08, 0.0, 0.92)], 0.009, METAL, segs=8)
 body.cyl((0.08, -0.005, 0.935), 0.018, 0.035, TRIM, segs=10)
-body.box2((-0.035, -0.55, 0.76), (0.035, -0.25, 0.80), TRIM)
+body.box2((-0.04, -0.56, 0.76), (0.04, -0.46, 0.80), TRIM)           # el freni körüğü
 body.box2((-0.10, -0.95, 0.76), (0.10, -0.60, 0.90), TRIM)
 for s in (-1, 1):
     body.box2((s * 0.20, -0.55, FLOOR + 0.004), (s * 0.80, 0.62, FLOOR + 0.018), RUBBER)
 
-# Kova koltuklar. Minder üstü z=0.95: evrak ve fener yolcu minderinde durur.
+# Kova koltuklar. Minder üstü z=0.85 (DZ ile 10 cm alçak: oturan kafaya göre omuz minderden ~32 cm yukarıda,
+# kollar minderin içine girmesin). Evrak ve fener yolcu minderinde durur.
 # Döşeme ayrı obje: kalın pahla yastık gibi yuvarlak kenarlı (gövdenin 1.2 cm pahı kutu gibi duruyordu).
 seats = Part("Seats", bevel=0.032)
+DZ = -0.10
 def bucket(cx):
-    body.box2((cx - 0.20, -0.70, FLOOR), (cx + 0.20, -0.20, 0.80), METAL)
-    seats.box2((cx - 0.235, -0.72, 0.80), (cx + 0.235, -0.16, 0.935), SEAT)
-    seats.box2((cx - 0.19, -0.70, 0.935), (cx + 0.19, -0.18, 0.95), SEAT)
+    body.box2((cx - 0.20, -0.70, FLOOR), (cx + 0.20, -0.20, 0.80 + DZ), METAL)
+    seats.box2((cx - 0.235, -0.72, 0.80 + DZ), (cx + 0.235, -0.16, 0.935 + DZ), SEAT)
+    seats.box2((cx - 0.19, -0.70, 0.935 + DZ), (cx + 0.19, -0.18, 0.95 + DZ), SEAT)
     for s in (-1, 1):
-        seats.box2((cx + s * 0.195, -0.72, 0.935), (cx + s * 0.235, -0.18, 0.985), SEAT)  # yan destek
-        seats.box((cx + s * 0.205, -0.78, 1.25), (0.075, 0.15, 0.58), SEAT, rot=(12, 0, -s * 8))  # sırt yan desteği
-    seats.box((cx, -0.80, 1.25), (0.48, 0.13, 0.62), SEAT, rot=(12, 0, 0))                # sırt
-    seats.box((cx, -0.875, 1.665), (0.27, 0.10, 0.17), SEAT, rot=(12, 0, 0))              # baş dayama
+        seats.box2((cx + s * 0.195, -0.72, 0.935 + DZ), (cx + s * 0.235, -0.18, 0.985 + DZ), SEAT)  # yan destek
+        seats.box((cx + s * 0.205, -0.78, 1.25 + DZ), (0.075, 0.15, 0.58), SEAT, rot=(12, 0, -s * 8))  # sırt yan desteği
+    seats.box((cx, -0.80, 1.25 + DZ), (0.48, 0.13, 0.62), SEAT, rot=(12, 0, 0))                # sırt
+    seats.box((cx, -0.875, 1.665 + DZ), (0.27, 0.10, 0.17), SEAT, rot=(12, 0, 0))              # baş dayama
     for s in (-1, 1):
-        body.seg((cx + s * 0.08, -0.845, 1.52), (cx + s * 0.08, -0.865, 1.60), 0.012, 0.012, METAL)
+        body.seg((cx + s * 0.08, -0.845, 1.52 + DZ), (cx + s * 0.08, -0.865, 1.60 + DZ), 0.012, 0.012, METAL)
 bucket(-0.42)
 bucket(0.44)
 seats.box2((-0.72, -1.62, FLOOR), (0.72, -1.12, 0.90), SEAT)                                # arka koltuk
@@ -529,6 +531,14 @@ for a in (0, 180, 270):
     sw.seg(swp(*(d * 0.06)), swp(*(d * 0.18)), 0.04, 0.014, TRIM, up=tuple(R3 @ V((0, 0, 1))))
 sw.cyl(swp(0, 0, -0.03), 0.045, 0.05, TRIM, axis=R59, segs=12)
 sw.build()
+
+# ================================================================= EL FRENİ (pivot arkada; sinematikte ön ucu yukarı çekilir)
+HB = (0.0, -0.50, 0.815)
+hb = Part("Handbrake", pivot=HB)
+hb.box((0.0, -0.39, 0.815), (0.03, 0.24, 0.02), METAL)
+hb.cyl((0.0, -0.27, 0.82), 0.019, 0.12, LEATHER, axis='Y', segs=12)   # tutamak: gevşek yumruk (r 0.021) sarar
+hb.cyl((0.0, -0.205, 0.82), 0.008, 0.012, METAL, axis='Y', segs=10)   # kilit düğmesi
+hb.build()
 
 # ================================================================= KONTAK ANAHTARI
 KEY = (-0.13, 0.41, 1.10)
@@ -738,7 +748,7 @@ for name, (tex, tile, col, metal, smooth, emit) in PREVIEW.items():
     m.diffuse_color = col if col else (0.5, 0.5, 0.5, 1)
 
 # ================================================================= DIŞA AKTAR
-NAMES = ["Body", "Seats", "SpareTire", "Glass", "Door_L", "SteeringWheel", "IgnitionKey",
+NAMES = ["Body", "Seats", "SpareTire", "Glass", "Door_L", "SteeringWheel", "IgnitionKey", "Handbrake",
          "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR",
          "HeadlightGlow", "TaillightGlow", "Gauges", "GaugeGlow"]
 if bpy.context.object and bpy.context.object.mode != 'OBJECT':

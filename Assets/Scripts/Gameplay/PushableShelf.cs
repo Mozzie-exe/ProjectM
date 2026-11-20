@@ -37,7 +37,7 @@ public class PushableShelf : MonoBehaviour, IInteractable
     IEnumerator Push()
     {
         moving = true;
-        if (scrapeSound != null) AudioSource.PlayClipAtPoint(scrapeSound, transform.position);
+        if (scrapeSound != null) GameAudio.PlayAt(scrapeSound, transform.position, 1f, AudioChannel.SFX, 30f, 2f);
         Vector3 start = transform.localPosition;
         Vector3 end = start + pushOffset;
         float t = 0f;
