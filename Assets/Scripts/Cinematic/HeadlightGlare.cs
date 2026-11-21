@@ -10,6 +10,8 @@ public class HeadlightGlare : MonoBehaviour
     [Tooltip("Metre başına büyüme (uzakta da görünsün)")]
     public float distanceGrow = 0.025f;
     public Color color = new Color(1f, 0.9f, 0.7f, 1f);
+    [Tooltip("Her yönden görünür (sokak lambası); kapalıysa yalnız ebeveynin önünden bakınca")]
+    public bool omni;
 
     MeshRenderer mr;
     MaterialPropertyBlock mpb;
@@ -31,7 +33,7 @@ public class HeadlightGlare : MonoBehaviour
         Vector3 dir = toCam / dist;
         // Arabanın önüne bakan yön (ebeveyn +Z): yandan/arkadan bakınca söner
         Vector3 fwd = transform.parent ? transform.parent.forward : transform.forward;
-        float facing = Mathf.Clamp01((Vector3.Dot(fwd, dir) - 0.15f) / 0.6f);
+        float facing = omni ? 1f : Mathf.Clamp01((Vector3.Dot(fwd, dir) - 0.15f) / 0.6f);
         transform.rotation = Quaternion.LookRotation(-dir, cam.transform.up);
         float s = size + dist * distanceGrow;
         Vector3 ps = transform.parent ? transform.parent.lossyScale : Vector3.one;

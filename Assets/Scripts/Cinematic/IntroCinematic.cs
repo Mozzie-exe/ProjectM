@@ -35,6 +35,13 @@ public class IntroCinematic : MonoBehaviour
     public float fadeOutBeforeHandoff = 0.5f;
     public float fadeInAfterHandoff = 0.6f;
 
+    [Header("Yer ve saat yazısı (sol alt)")]
+    public Graphic titleText;
+    public Graphic timeText;
+    [Tooltip("Timeline zamanı (sn)")]
+    public float titleIn = 5f, timeIn = 7.5f, textOut = 21f;
+    public float textFadeDuration = 1.8f;
+
     [Header("Ortam sesi")]
     [Tooltip("Araçtayken boğuk, kapı açılınca netleşir; oyun boyunca çalmaya devam eder.")]
     public AmbienceLoop[] ambience;
@@ -79,6 +86,8 @@ public class IntroCinematic : MonoBehaviour
         if (playerListener) playerListener.enabled = false;
         cinematicListener.enabled = true;
         SetFade(1f);
+        SetAlpha(titleText, 0f);
+        SetAlpha(timeText, 0f);
     }
 
     void Start()
@@ -102,10 +111,13 @@ public class IntroCinematic : MonoBehaviour
         }
 
         float t = (float)director.time;
-        float fadeIn = 1f - Mathf.Clamp01(t / fadeInAtStart);
+        float fadeIn = 1f - Smooth01(t / fadeInAtStart);
         float fadeOut = Mathf.Clamp01((t - (handoffTime - fadeOutBeforeHandoff)) / fadeOutBeforeHandoff);
         SetFade(Mathf.Max(fadeIn, fadeOut));
         SetMuffle(1f - Mathf.Clamp01((t - ambienceOpenStart) / Mathf.Max(0.01f, ambienceOpenEnd - ambienceOpenStart)));
+        float outA = 1f - Smooth01((t - textOut) / textFadeDuration);
+        SetAlpha(titleText, Smooth01((t - titleIn) / textFadeDuration) * outA);
+        SetAlpha(timeText, Smooth01((t - timeIn) / textFadeDuration) * outA);
 
         if (t >= handoffTime - 0.001f)
             Handoff();
@@ -116,6 +128,8 @@ public class IntroCinematic : MonoBehaviour
         handedOff = true;
         director.Pause(); // son kare olduğu gibi kalsın (araba park hâlinde)
         SetMuffle(0f);
+        SetAlpha(titleText, 0f);
+        SetAlpha(timeText, 0f);
 
         var cc = player.GetComponent<CharacterController>();
         if (cc) cc.enabled = false;
@@ -143,6 +157,17 @@ public class IntroCinematic : MonoBehaviour
         if (ambience == null) return;
         foreach (var a in ambience)
             if (a) a.muffle = m;
+    }
+
+    static float Smooth01(float s) { s = Mathf.Clamp01(s); return s * s * (3f - 2f * s); }
+
+    static void SetAlpha(Graphic g, float a)
+    {
+        if (!g) return;
+        var c = g.color;
+        c.a = a;
+        g.color = c;
+        g.enabled = a > 0.001f;
     }
 
     void SetFade(float a)

@@ -24,8 +24,8 @@ public static class IntroCinematicBuilder
 
     // Sahne yerleşimi (dünya)
     const float RoadY = 11.1f;     // "yol" objesinin üst yüzeyi
-    const float ParkX = 80f;
-    const float ParkZ = 2.0f;      // kuzey (çiftlik) kenarına yakın
+    const float ParkX = 32f;       // kavşak lambasının biraz önü
+    const float ParkZ = -1.0f;     // kuzey (çiftlik) kenarına yakın; kenardaki ağaçlardan uzak
     const float LaneZ = -6f;
     const float V0 = 14f;          // sürüş hızı (m/sn, dünya)
     const float CruiseEnd = 9f, StopTime = 14f;
@@ -35,12 +35,23 @@ public static class IntroCinematicBuilder
     const float T_KeyTurnStart = 24.6f, T_KeyTurnEnd = 25.0f, T_LightsOff = 25.0f;
     const float T_DoorStart = 26.7f, T_DoorEnd = 27.9f, T_DomeOn = 26.9f;
     const float T_DoorCloseStart = 32.9f, T_DoorClosed = 33.45f;   // indikten sonra kapıyı iter
-    const float T_FlashOn = 31.0f, T_Handoff = 56.2f;
+    const float T_FlashOn = 31.0f, T_Handoff = 60.2f;
+    // Hikâye zamanı: bütün sabitler buna göre. Timeline gerçek zamanı = hikâye + Lead (önce karanlıkta uzun sürüş).
+    const float Lead = 14f;
+    const float T_Start = -Lead, T_End = T_Handoff + Lead;   // T_End: Timeline süresi
     // Geçen arabalar: pikap karşı şeritten sürüşte yanımızdan geçer; wagon önde etrafı tararken arkadan gelip soldan geçer
-    const float T_PickupPass = 6.0f, T_WagonPass = 43.4f;
-    // Yürüyüş 1: kapıdan arabanın önüne. Tarama, köpek havlaması (irkilir, arkasını döner), yürüyüş 2: başladığı yere geri.
-    const float T_Walk1Start = 34.0f, T_Walk1End = 39.8f, T_Bark = 46.6f, T_WalkStart = 49.6f, T_WalkEnd = 55.6f;
+    const float T_PickupPass = 6.0f, T_WagonPass = 48.0f;
+    // Yürüyüş 1: kapıdan arabanın önüne. Etrafı kolaçan eder, wagon geçer, köpek havlaması (irkilir, arkasını döner),
+    // yürüyüş 2: toprak yola doğru döner ve birkaç adım atar, sinematik biter.
+    const float T_Walk1Start = 34.0f, T_Walk1End = 39.8f, T_Bark = 52.0f, T_WalkStart = 55.0f, T_WalkEnd = 59.4f;
     const float T_Handbrake = 14.6f;   // araba durunca el freni çekilir (0.45 sn)
+    // Park etmeye yaklaşırken bakış sağ öndeki eve kayar, görüş daralır (odaklanır)
+    const float T_HouseLook = 9.2f, T_HouseZoomIn = 9.6f, T_HouseZoomOut = 11.7f, T_HouseLookEnd = 12.6f;
+    // Duruş sırası (manuel vites): gaz bırakılır (9) -> fren -> durmaya yakın debriyaj ve boşa (T_Neutral) -> durur (StopTime) -> el freni -> kontak
+    const float T_Neutral = 13.2f, NeutralDur = 0.4f, NeutralDeg = 14f;
+    const float HouseZoom = 0.45f;     // en dar anda FOV çarpanı
+    static readonly Vector3 HouseTarget = new Vector3(-103f, 24f, 220f);   // MainHouse_V2 (dünya)
+    static readonly Vector3 DirtRoadEntry = new Vector3(5f, 11.1f, 10f);   // toprak yolun ana yoldan ayrıldığı yer (dünya)
 
     static readonly Vector3 Eye = new Vector3(-0.40f, 1.55f, -0.40f);       // oturan sürücünün gözü
     static readonly Vector3 Stand = new Vector3(-1.75f, 1.60f, -1.05f);     // indikten sonra (göz 2.85 m / K)
@@ -91,31 +102,55 @@ public static class IntroCinematicBuilder
     {
         new Vector3(-1.75f, 0, -1.00f), new Vector3(-1.98f, 0, 0.55f), new Vector3(-1.78f, 0, 2.20f), new Vector3(-1.00f, 0, 3.30f)
     };
-    static readonly Vector3[] PathBack =
-    {
-        new Vector3(-1.00f, 0, 3.30f), new Vector3(-1.70f, 0, 2.45f), new Vector3(-2.00f, 0, 0.80f), new Vector3(-1.75f, 0, -1.05f)
-    };
+    // Toprak yola doğru birkaç adım (BuildHeadKeys araba yerelinde hesaplar)
+    static Vector3[] PathRoad;
     // Vites topuzu (dikey silindir r 0.020) ve el freni (pivot arkada, tutamak ileri eksenli silindir r 0.019)
     static readonly Vector3 GearKnob = new Vector3(0f, 1.00f, 0.075f);
     static readonly Vector3 HbPivot = new Vector3(0f, 0.815f, -0.50f), HbGrip = new Vector3(0f, 0.82f, -0.27f);
+    static readonly Vector3 GearPivot = new Vector3(0f, 0.76f, 0.12f);   // vites kolunun tabanı (build_car_4x4.py GL)
+    static Quaternion GearRot(float t) => Quaternion.AngleAxis(NeutralDeg * Smooth((t - T_Neutral) / NeutralDur), Vector3.right);   // topuz öne, dik konuma (boş)
     static Quaternion HbRot(float t) => Quaternion.AngleAxis(-22f * Smooth((t - T_Handbrake) / 0.45f), Vector3.right);   // ön ucu yukarı
 
     static void BuildHeadKeys()
     {
         headKeys.Clear();
         headAng.Clear();
+        // Önde durulan nokta (geçen wagon bunu hedefler) ve toprak yola doğru yürüyüş yolu (araba yereli)
+        P cw = CarWorld(40f);
+        standFront = cw.p + cw.r * (WalkFront(1f).p * K);
+        Vector3 dir = Quaternion.Inverse(cw.r) * (DirtRoadEntry - standFront);
+        dir.y = 0f; dir.Normalize();
+        Vector3 side = Vector3.Cross(Vector3.up, dir);
+        Vector3 f0 = PathFront[PathFront.Length - 1];
+        PathRoad = new[] { f0, f0 + dir * 1.2f + side * 0.12f, f0 + dir * 2.5f + side * 0.08f, f0 + dir * 3.6f };
         var E = Eye;
+        H(-Lead, E, 4, 0);                                          // karanlık yol, farların önü
+        H(-10.5f, E, 3, -3);
+        H(-7.5f, E, 3, 5);                                          // sağdaki tarlaya kısa bakış
+        H(-5.8f, E, 3, 2);
+        H(-3.0f, E, 2, -4);
         H(0.0f, E, 3, 0);
         H(4.5f, E, 2, -5);
         H(5.6f, E, 2, -6);
         H(6.0f, E, 3, -13);                                         // karşıdan gelen pikaba kısa bakış
         H(6.8f, E, 2, -3);
-        H(8.0f, E, 2, 4);
-        H(11.0f, E, 3, 0);
-        H(13.6f, E + new Vector3(0, 0, 0.03f), 7, 0);              // durunca hafif öne
-        H(14.3f, E, 6, 8);
-        H(14.95f, E + new Vector3(0.04f, -0.04f, 0.02f), 38, 40);   // el frenine bakış (el kadrajın altında görünür)
-        H(15.7f, E + new Vector3(0.03f, -0.02f, 0.01f), 22, 30);
+        H(8.2f, E, 2, 4);
+        // Ev: önce gözler kayar (kısa bakış), sonra kafa eve döner ve odaklanır; araba yavaşlarken bakış evde kalır.
+        // Sağ ön direk bakışı kesmesin diye öne ve sağa doğru hafifçe eğilir (ağaçların üstünden çatıyı görür).
+        Vector3 lean = new Vector3(-0.04f, 0.02f, 0.22f);   // direksiyona doğru öne eğilir: sağ ön direk evin sağına kayar
+        Vector2 h0 = AimAt(T_HouseLook - 0.6f, E, HouseTarget);
+        H(T_HouseLook - 0.6f, E, 2, Mathf.Lerp(4f, h0.y, 0.3f));
+        for (float t = T_HouseLook; t <= T_HouseLookEnd - 0.8f + 1e-3f; t += 0.5f)
+        {
+            Vector3 hp = E + lean * Smooth((t - T_HouseLook + 0.4f) / 1.2f);
+            Vector2 a = AimAt(t, hp, HouseTarget);
+            H(t, hp, a.x + 0.5f, a.y - 2f);   // ev kadrajda, sağ ön direğin hemen solunda (ön camdan)
+        }
+        // Durmaya yakın: bakış vitese iner, boşa alışı görür; oradan el frenine geçer
+        H(T_Neutral - 0.45f, E + new Vector3(0.04f, -0.05f, 0.04f), 36, 34);
+        H(T_Neutral + 0.65f, E + new Vector3(0.05f, -0.06f, 0.04f), 41, 39);
+        H(14.75f, E + new Vector3(0.06f, -0.06f, 0.03f), 50, 58);   // el frenine bakış: elin çekişi kadrajda
+        H(15.7f, E + new Vector3(0.03f, -0.02f, 0.01f), 24, 32);
         H(17.0f, E + new Vector3(0.09f, -0.04f, 0.04f), 33, 52);   // sağ koltuğa bakış, gövde o yana eğilir
         H(19.0f, E + new Vector3(0.15f, -0.08f, 0.04f), 36, 55);
         H(21.0f, E + new Vector3(0.05f, -0.04f, 0.03f), 30, 40);
@@ -135,21 +170,29 @@ public static class IntroCinematicBuilder
         HW(T_Walk1Start, WalkFront(0f));
         HW(T_Walk1End, WalkFront(1f));
         Vector3 F = WalkFront(1f).p;
-        H(40.9f, F, 12, 38);                                        // sağa: arabanın önünden ağaçlara
-        H(41.9f, F + new Vector3(0, 0.005f, 0), 7, 18);             // ileri, uzağa
-        // Arkadan araba gelir (farları etrafı aydınlatır): sola döner, yanından geçişini ve uzaklaşan stop lambalarını izler
-        H(T_WagonPass - 0.8f, F, 8, -15);
-        H(T_WagonPass - 0.1f, F + new Vector3(0, -0.01f, 0), 6, -92, -1);
-        H(T_WagonPass + 0.7f, F, 7, -32);
-        H(T_WagonPass + 1.6f, F, 8, -14);
-        H(T_WagonPass + 2.6f, F, 9, -10);
+        // Etrafı kolaçan eder: yavaş, bakışlar arasında kısa duraklar (fener bakışla birlikte gezer)
+        H(40.8f, F, 9, 22);
+        H(42.0f, F + new Vector3(0.01f, 0, 0), 7, 58);                 // sağa: tarla ve çit
+        H(43.2f, F + new Vector3(0.01f, 0.004f, 0), 5, 74);            // tarlanın derinliği, biraz daha sağ
+        Vector2 hs = AimAt(44.6f, F, HouseTarget);
+        H(44.6f, F, hs.x + 1f, hs.y);                                   // uzaktaki eve takılır
+        H(45.8f, F + new Vector3(0, 0.004f, 0), hs.x + 0.5f, hs.y - 2f);
+        H(46.7f, F, 13, -6);                                            // ileri, yola ve ayağının önüne
+        // Arkadan araba gelir (farları etrafı aydınlatır): sesine sola döner, geçişini ve uzaklaşan stop lambalarını gözüyle izler
+        for (float t = T_WagonPass - 1.0f; t <= T_WagonPass + 3.0f + 1e-3f; t += 0.25f)
+        {
+            Vector2 a = AimAt(t, F, WagonAt(t).p + Vector3.up * 1.6f);
+            float yaw = Mathf.Max(a.y, -125f);                          // arkasına kadar dönmez, omzunun üstünden yakalar
+            H(t, F + new Vector3(0, -0.005f, 0), Mathf.Clamp(a.x, -4f, 12f), yaw, Mathf.Clamp(-yaw * 0.012f, -1.2f, 1.2f));
+        }
+        H(T_WagonPass + 3.8f, F, 9, -8);
         // Köpek havlaması: irkilir (kafa kısa bir an çöker), omzunun üstünden arkasına döner, dinler
         H(T_Bark + 0.15f, F + new Vector3(0, -0.03f, -0.01f), 4, -30);
         H(T_Bark + 0.40f, F + new Vector3(0, -0.02f, 0), 7, -48, 1);
         H(T_Bark + 1.30f, F + new Vector3(0, -0.01f, 0), 12, -140, 2.5f);
         H(T_Bark + 1.90f, F, 10, -164, 1.5f);
         H(T_Bark + 2.60f, F, 11, -172);
-        HW(T_WalkStart, WalkBack(0f));
+        HW(T_WalkStart, WalkRoad(0f));
         // Açılar komşusuna göre sarılır (195 ile -162 arası 360 derecelik tur atmasın)
         for (int i = 1; i < headAng.Count; i++)
         {
@@ -196,19 +239,106 @@ public static class IntroCinematicBuilder
         return new P(pos, Quaternion.Euler(pitch, yaw, roll));
     }
     static P WalkFront(float u) => WalkAlong(PathFront, u, -20f, 13f, 10f, 10f);
-    // Geri dönüş: başladığı yere (kapının yanı) varır, havlamanın geldiği arkaya bakar; devirde yatay
-    static P WalkBack(float u) => WalkAlong(PathBack, u, -172f, 11f, float.NaN, 0f);
+    // Son: havlamanın geldiği arkadan toprak yola döner, birkaç adım atar; devirde yatay bakar
+    static P WalkRoad(float u) => WalkAlong(PathRoad, u, -172f, 11f, float.NaN, 0f);
+
+    // Niyet: anahtarlar ve yürüyüşlerin söylediği "nereye bakmak istiyor". Gerçek kafa bunu gecikmeli izler (BakeHead).
+    static P IntentAt(float t)
+    {
+        if (t >= T_WalkStart)
+            return WalkRoad(Mathf.Clamp01((t - T_WalkStart) / (T_WalkEnd - T_WalkStart)));
+        if (t >= T_Walk1Start && t <= T_Walk1End)
+            return WalkFront((t - T_Walk1Start) / (T_Walk1End - T_Walk1Start));
+        return SampleHead(t);
+    }
+
+    // Dünyadaki bir noktaya bakış açısı (araba yerelinde pitch, yaw). Pozitif pitch = aşağı.
+    static Vector2 AimAt(float t, Vector3 headLocal, Vector3 world)
+    {
+        P c = CarWorld(t);
+        Vector3 d = Quaternion.Inverse(c.r) * (world - (c.p + c.r * (headLocal * K)));
+        float yaw = Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg;
+        float pitch = -Mathf.Atan2(d.y, new Vector2(d.x, d.z).magnitude) * Mathf.Rad2Deg;
+        return new Vector2(pitch, yaw);
+    }
+
+    // ---- doğal kafa: niyeti ikinci dereceden bir sistemle (kütle-yay-sönüm) izler, üstüne nefes ve el titremesi eklenir.
+    // Böylece anahtarlarda durup kalkmaz: dönüşe hızlanarak girer, hafif aşıp yerine oturur, bakışlar arasında akar.
+    const float BakeHz = 240f;
+    static P[] headBake;
+    static readonly Vector3 AngF = new Vector3(1.5f, 1.25f, 1.0f), AngZ = new Vector3(0.85f, 0.72f, 1.0f), AngR = new Vector3(0.4f, 0.5f, 0f);
+    const float PosF = 2.4f;
+
+    static Vector3 Unwrap(Quaternion q, Vector3 prev)
+    {
+        Vector3 e = q.eulerAngles;
+        for (int c = 0; c < 3; c++) e[c] = prev[c] + Mathf.DeltaAngle(prev[c], e[c]);
+        return e;
+    }
+
+    static float Perlin(float t, float seed) => (Mathf.PerlinNoise(t, seed) - 0.5f) * 2f;
+
+    static void BakeHead()
+    {
+        int n = Mathf.CeilToInt(T_End * BakeHz) + 2;
+        headBake = new P[n];
+        float dt = 1f / BakeHz;
+        P x0 = IntentAt(T_Start);
+        Vector3 xa = Unwrap(x0.r, Vector3.zero), ya = xa, va = Vector3.zero, prevXa = xa;
+        Vector3 yp = x0.p, vp = Vector3.zero, prevXp = x0.p;
+        for (int i = 0; i < n; i++)
+        {
+            float t = i * dt + T_Start;
+            P x = IntentAt(Mathf.Min(t, T_Handoff));
+            xa = Unwrap(x.r, prevXa);
+            if (i > 0)
+            {
+                Vector3 xda = (xa - prevXa) / dt, xdp = (x.p - prevXp) / dt;
+                for (int c = 0; c < 3; c++)
+                {
+                    float w = 2f * Mathf.PI * AngF[c], k1 = AngZ[c] / (Mathf.PI * AngF[c]), k2 = 1f / (w * w), k3 = AngR[c] * AngZ[c] / w;
+                    k2 = Mathf.Max(k2, dt * dt / 2f + dt * k1 / 2f, dt * k1);
+                    ya[c] += dt * va[c];
+                    va[c] += dt * (xa[c] + k3 * xda[c] - ya[c] - k1 * va[c]) / k2;
+                }
+                // Konum: sönümlü (aşmaz), yalnız yatayda; adım iniş-kalkışı (y) olduğu gibi kalır
+                float pw = 2f * Mathf.PI * PosF, pk1 = 1f / (Mathf.PI * PosF), pk2 = Mathf.Max(1f / (pw * pw), dt * pk1);
+                for (int c = 0; c < 3; c += 2)
+                {
+                    yp[c] += dt * vp[c];
+                    vp[c] += dt * (x.p[c] - yp[c] - pk1 * vp[c]) / pk2;
+                }
+                yp.y = x.p.y;
+            }
+            prevXa = xa; prevXp = x.p;
+
+            // Canlılık: nefes (4.2 sn) ve yavaş el/kafa kayması; otururken daha az
+            float amp = Mathf.Lerp(0.55f, 1f, Smooth((t - 28f) / 3f));
+            float breath = Mathf.Sin(2f * Mathf.PI * t / 4.2f);
+            Vector3 ang = ya + new Vector3(
+                (Perlin(t * 0.40f, 3.7f) * 0.7f + Perlin(t * 1.5f, 9.2f) * 0.15f) * amp + breath * 0.35f,
+                (Perlin(t * 0.33f, 1.3f) * 0.9f + Perlin(t * 1.3f, 7.1f) * 0.2f) * amp,
+                Perlin(t * 0.28f, 5.5f) * 0.5f * amp);
+            Vector3 pos = yp + new Vector3(0f, Mathf.Sin(2f * Mathf.PI * t / 4.2f + 0.8f) * 0.0035f, 0f);
+            if (t < StopTime) // yol titreşimi
+                pos.y += (Mathf.Sin(t * 13f) * 0.004f + Mathf.Sin(t * 7.3f) * 0.003f) * (1f - Smooth((t - 12f) / 2f));
+            headBake[i] = new P(pos, Quaternion.Euler(ang));
+        }
+    }
 
     static P HeadAt(float t)
     {
-        if (t >= T_WalkStart)
-            return WalkBack(Mathf.Clamp01((t - T_WalkStart) / (T_WalkEnd - T_WalkStart)));
-        if (t >= T_Walk1Start && t <= T_Walk1End)
-            return WalkFront((t - T_Walk1Start) / (T_Walk1End - T_Walk1Start));
-        P pose = SampleHead(t);
-        if (t < StopTime) // yol titreşimi
-            pose.p.y += (Mathf.Sin(t * 13f) * 0.004f + Mathf.Sin(t * 7.3f) * 0.003f) * (1f - Smooth((t - 12f) / 2f));
-        return pose;
+        float f = (Mathf.Clamp(t, T_Start, T_Handoff) - T_Start) * BakeHz;
+        int i = Mathf.Min((int)f, headBake.Length - 2);
+        return P.Lerp(headBake[i], headBake[i + 1], f - i);
+    }
+
+    // Eve bakarken görüş daralır (odaklanma), sonra yavaşça açılır
+    static float baseFov = 60f;
+    static float FovAt(float t)
+    {
+        float z = Smooth((t - T_HouseZoomIn) / 1.7f) * (1f - Smooth((t - T_HouseZoomOut) / 1.3f));
+        return baseFov * Mathf.Lerp(1f, HouseZoom, z);
     }
 
     // Kafa: zaman ağırlıklı Catmull-Rom (Hermite). Her anahtarda durup kalkmaz; hız sürekli değişir.
@@ -575,8 +705,15 @@ public static class IntroCinematicBuilder
             Quaternion q = HbRot(t);
             return HoldPose(HbPivot + q * (HbGrip - HbPivot), q * Vector3.forward, q * new Vector3(-0.5f, 1f, 0f), false);
         };
+        Func<float, Func<Vector3, P>> gearAt = t => f =>
+        {
+            Quaternion q = GearRot(t);
+            return HoldPose(GearPivot + q * (GearKnob - GearPivot), q * Vector3.up, q * new Vector3(-0.75f, 0f, -0.65f), false);
+        };
         KeyA(handR, 0f, false, gear);
-        KeyA(handR, 13.9f, false, gear);
+        KeyA(handR, T_Neutral - 0.05f, false, gear);
+        dense(handR, false, T_Neutral, T_Neutral + NeutralDur + 0.05f, gearAt);   // topuzu öne iter: boş
+        KeyA(handR, 13.95f, false, gearAt(13.95f));
         KeyA(handR, 14.3f, false, f => { var g = hbAt(14.3f)(f); return new P(g.p + new Vector3(-0.03f, 0.06f, 0f), g.r); });
         dense(handR, false, 14.5f, 15.15f, hbAt);
         KeyA(handR, 15.55f, false, f => { var g = hbAt(15.55f)(f); return new P(g.p + new Vector3(-0.04f, 0.08f, 0f), g.r); });
@@ -668,7 +805,10 @@ public static class IntroCinematicBuilder
     public static void Build()
     {
         FinalDelta = CarDelta(StopTime - 0.2f);
+        var fovCam = GameObject.Find("Player").transform.Find("CamHolder/Camera").GetComponent<Camera>();
+        baseFov = fovCam.fieldOfView;
         BuildHeadKeys();
+        BakeHead();
         BuildHandKeys();
 
         SetupMaterials();
@@ -741,7 +881,7 @@ public static class IntroCinematicBuilder
         var docsL = MeshGO("DocsL", ModelDir + "/IC_Props.fbx", "Documents", hL.transform, docsInL);
         var chest = new GameObject("Chest");
         chest.transform.SetParent(car, false);
-        ApplyPose(chest.transform, ChestAt(0f), false);
+        ApplyPose(chest.transform, ChestAt(T_Start), false);
         var docsTuck = MeshGO("DocsTuck", ModelDir + "/IC_Props.fbx", "Documents", chest.transform, DocsTuckInChest);
         var flashR = MeshGO("FlashR", ModelDir + "/IC_Props.fbx", "Flashlight", hR.transform, flashInR);
         var beam = new GameObject("Beam").transform;
@@ -784,20 +924,21 @@ public static class IntroCinematicBuilder
         director.playOnAwake = true;
 
         // Editörde ilk kareyi göster
-        ApplyPose(car, CarWorld(0f), true);
-        ApplyPose(head, HeadAt(0f), false);
-        ApplyPose(hL.transform, SampleKeys(handL, 0f), false);
-        ApplyPose(hR.transform, SampleKeys(handR, 0f), false);
-        ApplyPose(arms[0].transform, UpperAt(0f, true), false);
-        ApplyPose(arms[1].transform, ForeAt(0f, true), false);
-        ApplyPose(arms[2].transform, UpperAt(0f, false), false);
-        ApplyPose(arms[3].transform, ForeAt(0f, false), false);
+        ApplyPose(car, CarWorld(T_Start), true);
+        ApplyPose(head, HeadAt(T_Start), false);
+        ApplyPose(hL.transform, SampleKeys(handL, T_Start), false);
+        ApplyPose(hR.transform, SampleKeys(handR, T_Start), false);
+        ApplyPose(arms[0].transform, UpperAt(T_Start, true), false);
+        ApplyPose(arms[1].transform, ForeAt(T_Start, true), false);
+        ApplyPose(arms[2].transform, UpperAt(T_Start, false), false);
+        ApplyPose(arms[3].transform, ForeAt(T_Start, false), false);
         foreach (var h in new[] { hL, hR })
             foreach (var s in HandShapes) h.transform.Find(s).gameObject.SetActive(s == "Grip");
         docsR.SetActive(false); docsL.SetActive(false); docsTuck.SetActive(false); flashR.SetActive(false);
         beam.gameObject.SetActive(false); dome.gameObject.SetActive(false);
 
         var fade = SetupFade();
+        SetupTitle(out var titleText, out var timeText);
 
         // Oyuna bağlantı
         var ic = root.AddComponent<IntroCinematic>();
@@ -819,8 +960,15 @@ public static class IntroCinematicBuilder
         off.RemoveAll(b => b == null);
         ic.disableDuringCinematic = off.ToArray();
         ic.flashlight = playerCam.GetComponent<Flashlight>();
-        ic.handoffTime = T_Handoff;
+        ic.handoffTime = T_End;
         ic.fade = fade;
+        ic.fadeInAtStart = 6f;                 // karanlıktan uzun, yavaş açılış
+        ic.titleText = titleText;
+        ic.timeText = timeText;
+        ic.titleIn = 4.5f;
+        ic.timeIn = 7.3f;
+        ic.textOut = T_HouseLook - 2.8f + Lead;   // eve bakmadan, araba yavaşlamaya başlarken kaybolur
+        ic.textFadeDuration = 1.8f;
 
         // Gece ortam sesi: sinematikten bağımsız, oyunda da çalmaya devam eder
         var oldAmb = GameObject.Find("NightAmbience");
@@ -829,8 +977,8 @@ public static class IntroCinematicBuilder
         var crickets = Ambience(amb.transform, "Crickets", "Ambience_Crickets", 0.55f, 1.0f, 26.0f, 2.5f, new Vector2(0.98f, 1.02f));
         var wind = Ambience(amb.transform, "Wind", "Ambience_Wind", 0.22f, 0.3f, 7.4f, 1.5f, new Vector2(0.85f, 1.05f));
         ic.ambience = new[] { crickets, wind };
-        ic.ambienceOpenStart = T_DoorStart;
-        ic.ambienceOpenEnd = T_DoorEnd;
+        ic.ambienceOpenStart = T_DoorStart + Lead;
+        ic.ambienceOpenEnd = T_DoorEnd + Lead;
         Undo.RegisterCreatedObjectUndo(amb, "Build Intro Cinematic");
         IndoorZoneBuilder.BuildField();   // tarla bölgesi yeni Crickets objesini kıssın (eskisi silindi)
 
@@ -845,13 +993,13 @@ public static class IntroCinematicBuilder
         Undo.RegisterCreatedObjectUndo(root, "Build Intro Cinematic");
         EditorSceneManager.MarkSceneDirty(root.scene);
         Selection.activeGameObject = root;
-        Debug.Log("Intro cinematic kuruldu. Süre: " + T_Handoff + " sn. Timeline: " + CineDir + "/IntroCinematic.playable");
+        Debug.Log("Intro cinematic kuruldu. Süre: " + T_End + " sn. Timeline: " + CineDir + "/IntroCinematic.playable");
     }
 
     // ------------------------------------------------------------------ geçen arabalar
     // Pikap karşı şeritte (z -16) +x yönüne, wagon bizim şeritte (z -6) -x yönüne gider.
     // Ses kaydının (Car_Passing.mp3) en yüksek anı 3.4 sn: klip geçişten o kadar önce başlar.
-    const float PickupSpeed = 16f, WagonSpeed = 15f, PickupZ = -16f, WagonZ = -6f, PassPeak = 3.4f;
+    const float PickupSpeed = 16f, WagonSpeed = 15f, PickupZ = -16f, WagonZ = -8.5f, PassPeak = 3.4f;
 
     static Vector3 standFront;   // oyuncunun arabanın önünde durduğu nokta (dünya)
     static P PickupAt(float t) =>
@@ -861,9 +1009,7 @@ public static class IntroCinematicBuilder
 
     static void BuildTraffic(GameObject root, TimelineAsset tl, PlayableDirector director, UnityEngine.Audio.AudioMixerGroup group)
     {
-        P cw = CarWorld(40f);
-        standFront = cw.p + cw.r * (WalkFront(1f).p * K);
-
+        // standFront BuildHeadKeys'te hesaplanır (kafa wagonu oraya göre izler)
         var traffic = new GameObject("Traffic");
         traffic.transform.SetParent(root.transform, false);
         var anim = traffic.AddComponent<Animator>();
@@ -872,7 +1018,7 @@ public static class IntroCinematicBuilder
         var wagon = TrafficCar(traffic.transform, "Wagon", "IC_TrafficWagon", new Vector3(0.69f, 0.69f, 2.95f), new Vector3(0, 0.60f, -2.93f));
 
         var clip = new AnimationClip { frameRate = FPS };
-        int n = Mathf.CeilToInt(T_Handoff * FPS) + 1;
+        int n = Mathf.CeilToInt(T_End * FPS) + 1;
         AddPoseCurves(clip, "Pickup", n, PickupAt);
         AddPoseCurves(clip, "Wagon", n, WagonAt);
         foreach (var w in new[] { "FL", "FR", "RL", "RR" })
@@ -894,7 +1040,7 @@ public static class IntroCinematicBuilder
         var tc = track.CreateClip(clip);
         tc.displayName = "Gecen Arabalar";
         tc.start = 0;
-        tc.duration = T_Handoff;
+        tc.duration = T_End;
         ((AnimationPlayableAsset)tc.asset).removeStartOffset = false;
         director.SetGenericBinding(track, anim);
 
@@ -903,7 +1049,7 @@ public static class IntroCinematicBuilder
         TrafficAudio(tl, director, group, pickup, "Trafik Pikap Sesi", pass, T_PickupPass, 0.55f, 2600f); // araç içinden boğuk
         TrafficAudio(tl, director, group, wagon, "Trafik Wagon Sesi", pass, T_WagonPass, 0.95f, 0f);
 
-        ApplyPose(pickup.transform, PickupAt(0f), false);
+        ApplyPose(pickup.transform, PickupAt(T_Start), false);
         ApplyPose(wagon.transform, WagonAt(T_WagonPass - 7f), false);
         wagon.SetActive(false);
         EditorUtility.SetDirty(tl);
@@ -1076,11 +1222,62 @@ public static class IntroCinematicBuilder
         return img;
     }
 
+    // Sol altta yer ve saat: "SAINT PABLO", biraz sonra altında saat. Zamanlamayı IntroCinematic yapar.
+    const string TitleLine = "SAINT PABLO", TimeLine = "10:30 PM";
+    static void SetupTitle(out Text title, out Text time)
+    {
+        var canvas = GameObject.Find("Canvas");
+        var existing = canvas.transform.Find("IntroTitle");
+        if (existing) UnityEngine.Object.DestroyImmediate(existing.gameObject);
+        var root = new GameObject("IntroTitle", typeof(RectTransform));
+        root.transform.SetParent(canvas.transform, false);
+        var rt = (RectTransform)root.transform;
+        rt.anchorMin = rt.anchorMax = rt.pivot = Vector2.zero;
+        rt.anchoredPosition = new Vector2(72f, 64f);
+        rt.sizeDelta = new Vector2(900f, 140f);
+        root.transform.SetAsLastSibling();   // kararmanın da üstünde (siyahtan çıkarken okunur)
+        var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        title = TitleTextGO(root.transform, "Place", Spaced(TitleLine), font, 46, FontStyle.Normal, new Vector2(0f, 40f), new Color(0.86f, 0.84f, 0.78f, 0f));
+        time = TitleTextGO(root.transform, "Time", TimeLine, font, 22, FontStyle.Normal, new Vector2(4f, 6f), new Color(0.70f, 0.68f, 0.62f, 0f));
+    }
+
+    // Harf aralığı (eski UI Text'te letter spacing yok)
+    static string Spaced(string s)
+    {
+        var sb = new System.Text.StringBuilder();
+        foreach (string w in s.Split(' ')) { if (sb.Length > 0) sb.Append("   "); sb.Append(string.Join(" ", w.ToCharArray())); }
+        return sb.ToString();
+    }
+
+    static Text TitleTextGO(Transform parent, string name, string text, Font font, int size, FontStyle style, Vector2 pos, Color color)
+    {
+        var go = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
+        go.transform.SetParent(parent, false);
+        var rt = (RectTransform)go.transform;
+        rt.anchorMin = rt.anchorMax = rt.pivot = Vector2.zero;
+        rt.anchoredPosition = pos;
+        rt.sizeDelta = new Vector2(900f, size * 1.4f);
+        var t = go.GetComponent<Text>();
+        t.text = text;
+        t.font = font;
+        t.fontSize = size;
+        t.fontStyle = style;
+        t.alignment = TextAnchor.LowerLeft;
+        t.horizontalOverflow = HorizontalWrapMode.Overflow;
+        t.color = color;
+        t.raycastTarget = false;
+        t.enabled = false;
+        var sh = go.AddComponent<Shadow>();
+        sh.effectColor = new Color(0f, 0f, 0f, 0.6f);
+        sh.effectDistance = new Vector2(2f, -2f);
+        return t;
+    }
+
     // ------------------------------------------------------------------ animasyon klibi
     static AnimationClip BuildClip()
     {
         var clip = new AnimationClip { frameRate = FPS };
-        int n = Mathf.CeilToInt(T_Handoff * FPS) + 1;
+        int n = Mathf.CeilToInt(T_End * FPS) + 1;
 
         AddPoseCurves(clip, "", n, CarWorld);
         AddPoseCurves(clip, "Head", n, HeadAt);
@@ -1104,7 +1301,12 @@ public static class IntroCinematicBuilder
         AddRotCurves(clip, "Model/Door_L", n, t => DoorRot(t).r);
         Quaternion m180 = Quaternion.Euler(0, 180, 0);
         AddRotCurves(clip, "Model/Handbrake", n, t => Quaternion.Inverse(m180) * HbRot(t) * m180);
-        AddRotCurves(clip, "Model/IgnitionKey", n, t => Quaternion.AngleAxis(Smooth((t - T_KeyTurnStart) / (T_KeyTurnEnd - T_KeyTurnStart)) * 35f, Vector3.forward));
+        AddRotCurves(clip, "Model/GearLever", n, t => Quaternion.Inverse(m180) * GearRot(t) * m180);
+        var fov = new AnimationCurve();
+        for (int i = 0; i < n; i += 3) fov.AddKey(i / FPS, FovAt(i / FPS - Lead));
+        for (int i = 0; i < fov.length; i++) fov.SmoothTangents(i, 0f);
+        clip.SetCurve("Head/CinematicCamera", typeof(Camera), "field of view", fov);
+        AddRotCurves(clip, "Model/IgnitionKey", n,t => Quaternion.AngleAxis(Smooth((t - T_KeyTurnStart) / (T_KeyTurnEnd - T_KeyTurnStart)) * 35f, Vector3.forward));
 
         Active(clip, "Model/HeadlightGlow", (0f, true), (T_LightsOff, false));
         Active(clip, "Model/TaillightGlow", (0f, true), (T_LightsOff, false));
@@ -1150,7 +1352,7 @@ public static class IntroCinematicBuilder
         var pos = new Vector3[n]; var rot = new Quaternion[n];
         for (int i = 0; i < n; i++)
         {
-            var p = f(i / FPS);
+            var p = f(i / FPS - Lead);
             pos[i] = p.p; rot[i] = p.r;
         }
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.x", Curve(n, i => pos[i].x));
@@ -1162,7 +1364,7 @@ public static class IntroCinematicBuilder
     static void AddRotCurves(AnimationClip clip, string path, int n, Func<float, Quaternion> f)
     {
         var rot = new Quaternion[n];
-        for (int i = 0; i < n; i++) rot[i] = f(i / FPS);
+        for (int i = 0; i < n; i++) rot[i] = f(i / FPS - Lead);
         WriteRot(clip, path, rot);
     }
 
@@ -1193,8 +1395,8 @@ public static class IntroCinematicBuilder
     static void Active(AnimationClip clip, string path, params (float t, bool on)[] steps)
     {
         var curve = new AnimationCurve();
-        foreach (var s in steps) curve.AddKey(new Keyframe(s.t, s.on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
-        curve.AddKey(new Keyframe(T_Handoff, steps[steps.Length - 1].on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
+        foreach (var s in steps) curve.AddKey(new Keyframe(s.t <= 0f ? 0f : s.t + Lead, s.on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
+        curve.AddKey(new Keyframe(T_End, steps[steps.Length - 1].on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
         clip.SetCurve(path, typeof(GameObject), "m_IsActive", curve);
     }
 
@@ -1211,7 +1413,7 @@ public static class IntroCinematicBuilder
         var tc = track.CreateClip(clip);
         tc.displayName = "Giris";
         tc.start = 0;
-        tc.duration = T_Handoff;
+        tc.duration = T_End;
         ((AnimationPlayableAsset)tc.asset).removeStartOffset = false;
         EditorUtility.SetDirty(tl);
         AssetDatabase.SaveAssets();
@@ -1225,11 +1427,13 @@ public static class IntroCinematicBuilder
 
     static void SetupAudioImport()
     {
-        foreach (var n in new[] { "Car_ArriveStopDoor", "Footsteps_Gravel", "Flashlight_Click", "Dog_DistantBark", "Ambience_Wind", "Ambience_Crickets" })
+        foreach (var n in new[] { "Car_ArriveStopDoor", "Footsteps_Gravel", "Flashlight_Click", "Dog_DistantBark", "Ambience_Wind", "Ambience_Crickets", "Handbrake", "Car_ArriveAndStop", "GearShift",
+                                    "Drive_Interior", "EngineOff_Key", "Door_Open", "Door_Close", "Footsteps_Asphalt", "Paper_Grab", "Paper_Rustle", "Flashlight_Pickup", "Cloth_Rustle" })
         {
             var imp = (AudioImporter)AssetImporter.GetAtPath(SfxDir + "/" + n + ".mp3");
             if (!imp) continue;
-            bool longClip = n.StartsWith("Ambience") || n.StartsWith("Footsteps") || n.StartsWith("Car");
+            bool longClip = n.StartsWith("Ambience") || n.StartsWith("Footsteps") || n.StartsWith("Car") || n.StartsWith("Gear")
+                            || n.StartsWith("Drive") || n == "Flashlight_Pickup" || n == "Cloth_Rustle";
             var s = imp.defaultSampleSettings;
             var want = longClip ? AudioClipLoadType.CompressedInMemory : AudioClipLoadType.DecompressOnLoad;
             if (s.loadType == want && s.compressionFormat == AudioCompressionFormat.Vorbis) continue;
@@ -1259,7 +1463,7 @@ public static class IntroCinematicBuilder
     static void AudioClipOn(AudioTrack tr, AudioClip c, double start, double clipIn, double dur, double vol, double easeIn = 0, double easeOut = 0)
     {
         var tc = tr.CreateClip(c);
-        tc.start = start;
+        tc.start = start + Lead;   // hikâye zamanı -> Timeline
         tc.clipIn = clipIn;
         tc.duration = dur;
         tc.easeInDuration = easeIn;
@@ -1269,45 +1473,95 @@ public static class IntroCinematicBuilder
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 
-    // Kaynak: Car_ArriveStopDoor.mp3 -> 3-9.8 sn motor, ~9.9 sn kontak kapanışı, 11.1-11.4 kapı açılışı, 13.9 sn kapı çarpması
+    // Sesler (Pixabay): Drive_Interior (araç içi yol ve motor), Car_ArriveAndStop (yavaşlama-duruş), EngineOff_Key (kontak),
+    // Door_Open/Door_Close, Footsteps_Asphalt, Paper_Grab/Paper_Rustle, Flashlight_Pickup, Cloth_Rustle, GearShift, Handbrake.
+    // Rölanti: Car_ArriveStopDoor.mp3 3.5-9.5 sn (duruştan kontağa kadar döngü).
+    static AudioClip Need(string name)
+    {
+        var c = Sfx(name);
+        if (!c) Debug.LogWarning(name + ".mp3 yok");
+        return c;
+    }
+
     static void BuildAudio(TimelineAsset tl)
     {
         var car = Sfx("Car_ArriveStopDoor");
+        var drive = tl.CreateTrack<AudioTrack>(null, "Surus");
         var engA = tl.CreateTrack<AudioTrack>(null, "Motor A");
         var engB = tl.CreateTrack<AudioTrack>(null, "Motor B");
         var door = tl.CreateTrack<AudioTrack>(null, "Kapi");
         var feet = tl.CreateTrack<AudioTrack>(null, "Ayak Sesleri");
         var fx = tl.CreateTrack<AudioTrack>(null, "Fener ve Kopek");
+        var hands = tl.CreateTrack<AudioTrack>(null, "Eller");
+        var arrive = tl.CreateTrack<AudioTrack>(null, "Varis");
 
-        // Motor: 3.5-9.5 sn arası düzgün bölümü iki izde çapraz geçişle döndür; durunca rölantide kıs
+        // Sürüş: araç içinden yol ve motor uğultusu (32.9 sn, tek parça yeter). Gaz bırakılınca (9) söner.
+        var drv = Need("Drive_Interior");
+        if (drv) AudioClipOn(drive, drv, T_Start, 0, 12.5 - T_Start, 0.8, 0, 4.0);
+
+        // Varış (Car_ArriveAndStop.mp3): yavaşlama ve rölantiye oturuş. Kayıtta 10.5 sn'de araba durur; bu an StopTime'a oturur.
+        var arr = Need("Car_ArriveAndStop");
+        const double ArriveStopAt = 10.5, ArriveFrom = 8.0, ArriveTo = 17.6;
+        double arriveOffset = ArriveStopAt - StopTime;   // kayıt zamanı = hikâye + offset
+        if (arr) AudioClipOn(arrive, arr, ArriveFrom, ArriveFrom + arriveOffset, ArriveTo - ArriveFrom, 0.6, 2.0, 1.2);
+
+        // Rölanti: yavaşlarken altta başlar, varış sesi bitince öne çıkar, kontakla biter
         const double segIn = 3.5, segLen = 6.0, overlap = 0.6;
-        double engineOff = T_KeyTurnEnd - 0.5; // kontak sesi bu andan 0.4 sn sonra
-        double t = 0; int i = 0;
+        var keyOff = Need("EngineOff_Key");
+        double engineOff = keyOff ? T_KeyTurnStart + 0.35 : T_KeyTurnEnd - 0.5;
+        double t = 7.5; int i = 0;
         while (t < engineOff)
         {
             double len = System.Math.Min(segLen, engineOff + 0.3 - t);
-            float vol = t + len * 0.5 < StopTime ? 0.75f : 0.45f;
-            AudioClipOn(i % 2 == 0 ? engA : engB, car, t, i == 0 ? 3.0 : segIn, len, vol, i == 0 ? 0 : overlap, overlap);
+            double mid = t + len * 0.5;
+            float vol = arr && mid < 17.6 ? 0.3f : 0.42f;   // varış sesi çalarken altta kalır
+            AudioClipOn(i % 2 == 0 ? engA : engB, car, t, segIn, len, vol, i == 0 ? 1.5 : overlap, keyOff ? 0.25 : overlap);
             i++;
             if (len < segLen) break; // son (kırpılmış) parça
             t += len - overlap;
         }
-        // Kontak kapanışı (motor sönmesi)
-        AudioClipOn(i % 2 == 0 ? engA : engB, car, engineOff, 9.3, 1.2, 0.55, 0.3, 0.3);
+        // Kontak: kayıtta 0.7 sn anahtar tıkı, ~1.0 sn motor söner (anahtarı çıkarma sesi kullanılmaz)
+        if (keyOff) AudioClipOn(hands, keyOff, T_KeyTurnStart - 0.15, 0.5, 1.0, 0.8, 0.1, 0.2);
+        else AudioClipOn(i % 2 == 0 ? engA : engB, car, engineOff, 9.3, 1.2, 0.55, 0.3, 0.3);
 
-        // Kapı açılışı ve kapanışı
-        AudioClipOn(door, car, T_DoorStart - 0.2, 10.9, 1.1, 0.9, 0, 0.2);
-        AudioClipOn(door, car, T_DoorClosed - 0.2, 13.7, 1.6, 1.0, 0, 0.4);
+        // Kapı: açılışta kol tıkı (0.2) ve dil boşalması (0.5); kapanışta çarpma 0.65 sn'de
+        var dOpen = Need("Door_Open"); var dClose = Need("Door_Close");
+        if (dOpen) AudioClipOn(door, dOpen, T_DoorStart - 0.45, 0, 1.1, 0.9);
+        if (dClose) AudioClipOn(door, dClose, T_DoorClosed - 0.25, 0.4, 2.0, 0.9, 0, 0.4);
 
-        // Ayak sesleri: araçtan iniş, kapıya dönüş, yürüyüş
-        var steps = Sfx("Footsteps_Gravel");
-        AudioClipOn(feet, steps, 29.0, 0.6, 2.6, 0.7, 0, 0.3);
-        AudioClipOn(feet, steps, 32.4, 3.4, 1.2, 0.5, 0, 0.3);
-        AudioClipOn(feet, steps, T_Walk1Start, 6.0, T_Walk1End - T_Walk1Start + 0.2, 0.7, 0.2, 0.5);
-        AudioClipOn(feet, steps, T_WalkStart, 6.0, T_WalkEnd - T_WalkStart + 0.2, 0.8, 0.2, 0.5);
+        // Ayak sesleri (asfalt; adım arası ~0.65 sn): araçtan iniş, kapıya dönüş, yürüyüşler
+        var steps = Need("Footsteps_Asphalt");
+        if (steps)
+        {
+            AudioClipOn(feet, steps, 29.0, 4.0, 2.6, 0.8, 0, 0.3);
+            AudioClipOn(feet, steps, 32.4, 6.2, 1.2, 0.6, 0, 0.3);
+            AudioClipOn(feet, steps, T_Walk1Start, 0.25, T_Walk1End - T_Walk1Start + 0.2, 0.8, 0.2, 0.5);
+            AudioClipOn(feet, steps, T_WalkStart, 3.0, T_WalkEnd - T_WalkStart + 0.2, 0.85, 0.2, 0.5);
+        }
+        // İnerken kıyafet hışırtısı
+        var cloth = Need("Cloth_Rustle");
+        if (cloth) AudioClipOn(hands, cloth, 28.3, 2.5, 3.0, 0.7, 0.3, 0.5);
 
-        // Fener tıkı ve uzaktan köpek havlaması (etrafa bakarken)
+        // Evrak: kavrayış (kayıtta 0.9 sn), sol ele verirken ve koltuğun altına sıkıştırırken hışırtı
+        var pGrab = Need("Paper_Grab"); var pRustle = Need("Paper_Rustle");
+        if (pGrab) AudioClipOn(hands, pGrab, T_GrabDocs - 0.1, 0.8, 0.9, 0.6, 0, 0.2);
+        if (pRustle)
+        {
+            AudioClipOn(hands, pRustle, T_DocsToLeft - 0.2, 0.2, 0.9, 0.45, 0, 0.2);
+            AudioClipOn(hands, pRustle, T_DocsTuck - 0.3, 0.2, 0.9, 0.4, 0, 0.2);
+        }
+        // Fener koltuktan alınır (kayıtta 8.5 sn'deki tıkırtı kavrama anına)
+        var fPick = Need("Flashlight_Pickup");
+        if (fPick) AudioClipOn(hands, fPick, T_GrabFlash - 0.3, 8.2, 0.8, 0.5, 0, 0.2);
+
+        // Fener tıkı, vites, el freni, uzaktan köpek havlaması
         AudioClipOn(fx, Sfx("Flashlight_Click"), T_FlashOn - 0.03, 0, 0.8, 0.8);
+        // Boşa alma: kayıtta (freesound_community "Vitesses") 7.6 sn'deki tok tık; kol vitesten çıkarken
+        var gs = Need("GearShift");
+        if (gs) AudioClipOn(fx, gs, T_Neutral + 0.12, 7.56, 0.5, 0.7, 0, 0.12);
+        // El freni: kayıtta cırcırlı çekiş 0.40-0.92 sn; kolun 0.45 sn'lik hareketine oturur
+        var hb = Need("Handbrake");
+        if (hb) AudioClipOn(fx, hb, T_Handbrake - 0.03, 0.37, 0.65, 0.8, 0, 0.1);
         AudioClipOn(fx, Sfx("Dog_DistantBark"), T_Bark, 0, 6.3, 0.35, 0, 0.5);
 
         EditorUtility.SetDirty(tl);

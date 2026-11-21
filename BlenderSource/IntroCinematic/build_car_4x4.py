@@ -430,8 +430,7 @@ for x, w in ((-0.52, 0.06), (-0.40, 0.08), (-0.28, 0.07)):
     body.box2((x - w / 2, 0.62, 0.66), (x + w / 2, 0.64, 0.74), RUBBER)
 # tünel, vites, çekiş kolu, el freni, konsol, paspaslar
 body.box2((-0.15, -0.95, FLOOR), (0.15, 0.76, 0.76), TRIM)
-body.tube([(0.0, 0.12, 0.76), (0.0, 0.08, 0.98)], 0.010, METAL, segs=8)
-body.cyl((0.0, 0.075, 1.00), 0.020, 0.06, TRIM, segs=12)          # vites topuzu: sağ el gevşek yumrukla tutar (r 0.021)
+# vites kolu ayrı obje (GearLever): sinematikte boşa alınır
 body.tube([(0.08, 0.04, 0.76), (0.08, 0.0, 0.92)], 0.009, METAL, segs=8)
 body.cyl((0.08, -0.005, 0.935), 0.018, 0.035, TRIM, segs=10)
 body.box2((-0.04, -0.56, 0.76), (0.04, -0.46, 0.80), TRIM)           # el freni körüğü
@@ -539,6 +538,14 @@ hb.box((0.0, -0.39, 0.815), (0.03, 0.24, 0.02), METAL)
 hb.cyl((0.0, -0.27, 0.82), 0.019, 0.12, LEATHER, axis='Y', segs=12)   # tutamak: gevşek yumruk (r 0.021) sarar
 hb.cyl((0.0, -0.205, 0.82), 0.008, 0.012, METAL, axis='Y', segs=10)   # kilit düğmesi
 hb.build()
+
+# ================================================================= VİTES KOLU (pivot tabanda; sinematikte vitesten boşa öne itilir)
+GL = (0.0, 0.12, 0.76)
+gl = Part("GearLever", pivot=GL)
+gl.tube([(0.0, 0.12, 0.76), (0.0, 0.08, 0.98)], 0.010, METAL, segs=8)
+gl.cyl((0.0, 0.075, 1.00), 0.020, 0.06, TRIM, segs=12)          # vites topuzu: sağ el gevşek yumrukla tutar (r 0.021)
+gl.cyl((0.0, 0.12, 0.765), 0.032, 0.02, RUBBER, segs=12)        # körük
+gl.build()
 
 # ================================================================= KONTAK ANAHTARI
 KEY = (-0.13, 0.41, 1.10)
@@ -748,7 +755,7 @@ for name, (tex, tile, col, metal, smooth, emit) in PREVIEW.items():
     m.diffuse_color = col if col else (0.5, 0.5, 0.5, 1)
 
 # ================================================================= DIŞA AKTAR
-NAMES = ["Body", "Seats", "SpareTire", "Glass", "Door_L", "SteeringWheel", "IgnitionKey", "Handbrake",
+NAMES = ["Body", "Seats", "SpareTire", "Glass", "Door_L", "SteeringWheel", "IgnitionKey", "Handbrake", "GearLever",
          "Wheel_FL", "Wheel_FR", "Wheel_RL", "Wheel_RR",
          "HeadlightGlow", "TaillightGlow", "Gauges", "GaugeGlow"]
 if bpy.context.object and bpy.context.object.mode != 'OBJECT':
