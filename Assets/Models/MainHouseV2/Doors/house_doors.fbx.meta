@@ -3,7 +3,42 @@ guid: 58be04a4fb9cc5043aa5327db665fc94
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor
+    second: {fileID: 2100000, guid: 9cf318f4d02f8ee46b8c78f4f9db5e6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Door_OldBrass
+    second: {fileID: 2100000, guid: f6b46d08b50eec14c99910b27294862a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Door_PeelingPaint
+    second: {fileID: 2100000, guid: 824ade1826dee0e46b3ffb7a7b5f054d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Door_WeatheredWood
+    second: {fileID: 2100000, guid: 7c664c59a5e33e848906b1e5d39847bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fixture_Dark
+    second: {fileID: 2100000, guid: 7248ce5d7fd619e43b61a79ce7363ed9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Rusty
+    second: {fileID: 2100000, guid: 6e1b76ab9072d2945becc09621f1a251, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood_WeatheredBrown
+    second: {fileID: 2100000, guid: 38cba870575a6024482c9ebc007764f7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

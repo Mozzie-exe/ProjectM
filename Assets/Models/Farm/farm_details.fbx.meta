@@ -3,7 +3,32 @@ guid: a5313fec40874cc4b8323813d02dae54
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor
+    second: {fileID: 2100000, guid: 8a72b496dae1f3244891db805c3fa8a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Burlap
+    second: {fileID: 2100000, guid: 9795420fec42b7a47b15dad11ba716dc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corn_Dry
+    second: {fileID: 2100000, guid: 592cfe0a4649c3a4fb95be871b684a93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Curtain_Gingham
+    second: {fileID: 2100000, guid: dc6bc80dc812ff84db81b02f4df53a3d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fixture_Dark
+    second: {fileID: 2100000, guid: b79e39dd7fcce414888b0aa44017efe0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

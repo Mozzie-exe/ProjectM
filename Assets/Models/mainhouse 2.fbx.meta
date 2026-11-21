@@ -3,7 +3,197 @@ guid: 6c3b926944518ac4f872b64533eded44
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor
+    second: {fileID: 2100000, guid: 823ba6667f4612544ab051146b37dded, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.001
+    second: {fileID: 2100000, guid: 1329f1432b790c6468de9d770c238953, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.002
+    second: {fileID: 2100000, guid: d6be9e56786bf4442b6b842068e6972b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.003
+    second: {fileID: 2100000, guid: dafe5568be53ffe4e9073d299f5f47b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.005
+    second: {fileID: 2100000, guid: a290ed32beb75ad4c8c965e1d22283cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.006
+    second: {fileID: 2100000, guid: 586235297f41b4a43ba8fd35eaf43262, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.007
+    second: {fileID: 2100000, guid: c5d7f544d3e5b934794a56d104a6680d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.008
+    second: {fileID: 2100000, guid: 7a0eebbfa088a7445adf023fa8085139, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.009
+    second: {fileID: 2100000, guid: 84004e09b1c6b4c4580936e31d7f3a2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.010
+    second: {fileID: 2100000, guid: cee6515e7e36bca49854bf6c3d09f0d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.011
+    second: {fileID: 2100000, guid: d510ef2e6019b7f49b41a79733fbfb13, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.012
+    second: {fileID: 2100000, guid: 8153a37abab4bac45921ae07e87509ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.013
+    second: {fileID: 2100000, guid: 8b18a34eef5ddb6498e72f5af26aaf4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.014
+    second: {fileID: 2100000, guid: 9642303830d1d6846baa395da11a9b32, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.016
+    second: {fileID: 2100000, guid: fd84278f8fef46f4ab58c19331983b48, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.017
+    second: {fileID: 2100000, guid: 27991654223ac4b49a505a9ba82bf550, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.018
+    second: {fileID: 2100000, guid: 0cb070da0498067409dde89477457dce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor.019
+    second: {fileID: 2100000, guid: 2f9b801beedabff4ab4a8398c95fc9e5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 6f74da06e7570f4438c35a2ca67e4bc2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 68d9f510f6ad29444885d12fd3f4d4d1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: b150de27c6013554abd64464c7ca1a45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: a68316cdd90f2eb4f94dfbdd3bf08e66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: 5adaa5a8f8a58ae48adec66ffba102ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: d54dc7c3340e8bd4d8e3614130411dc2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: fcda5a446e0b5584d966a668e5c6b9e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.009
+    second: {fileID: 2100000, guid: 340e8748c187d5346a1b85fc80b9f1b0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.010
+    second: {fileID: 2100000, guid: ed6514399dda093408bde2ed99b1856e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.017
+    second: {fileID: 2100000, guid: 45a98ccb3db855f408d6c0defae8e63a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.018
+    second: {fileID: 2100000, guid: bf2310269ede8c146818e2dcccea0324, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.019
+    second: {fileID: 2100000, guid: 782088830561b564f89cceaed6892b6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.020
+    second: {fileID: 2100000, guid: abb4b4bc8f6a91543ac88279301686b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.021
+    second: {fileID: 2100000, guid: 4d7c85e4966eb0b4d9db85141b76ae6c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.022
+    second: {fileID: 2100000, guid: 8c2a1f6a96bd54448b9f3c0aee65e8f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.023
+    second: {fileID: 2100000, guid: 5815ef2e8175d30499674361732f0b26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.024
+    second: {fileID: 2100000, guid: b63c586f273b2644e938dd9537d37ed1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WoodenPlanks
+    second: {fileID: 2100000, guid: 0f54da5f77539644291de225bf644513, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Woodenplanks
+    second: {fileID: 2100000, guid: 2ff2f7e9e7f8b2445850bc4dc9d118b0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: roof
+    second: {fileID: 2100000, guid: 71da05558e83d89409d743d2e774ea06, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

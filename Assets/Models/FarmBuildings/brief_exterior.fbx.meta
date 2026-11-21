@@ -3,7 +3,32 @@ guid: c95bafb9416aa98469815bc53e1dfe6f
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BasementFloor
+    second: {fileID: 2100000, guid: d3ac8a4d39e76ae4eaf433da23209234, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mailbox_Flag
+    second: {fileID: 2100000, guid: 72f60f39e50be7b4c9be34dca1bb39cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_PaintedRusty
+    second: {fileID: 2100000, guid: e8b9183c48a3ad5439f770b21f3bf63a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal_Rusty
+    second: {fileID: 2100000, guid: a0ecfac5137c0734c9ca168092bdc836, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood_WeatheredBrown
+    second: {fileID: 2100000, guid: 1395733dff41765409c3341bc13d159c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
