@@ -37,9 +37,13 @@ public class NotebookUI : MonoBehaviour
     void Update()
     {
         if (ReadableView.IsOpen) return;
+        if (!CanToggle(open, PlayerControlLock.IsLocked)) return;
         if (Input.GetKeyDown(toggleKey) || Input.GetKeyDown(altToggleKey)) SetOpen(!open);
         else if (open && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
     }
+
+    // Başka bir şey (sinematik, kapı bakışı) oyuncuyu kilitlemişken not defteri açılmaz; açıksa kapatılabilir
+    public static bool CanToggle(bool open, bool locked) => open || !locked;
 
     void SetOpen(bool value)
     {

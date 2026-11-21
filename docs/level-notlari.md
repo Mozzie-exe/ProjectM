@@ -1,4 +1,4 @@
-# Level tasarımı notları (giriş sinematiğinden)
+# Level tasarımı notları (giriş ve oyun sonu sinematikleri)
 
 Giriş sinematiği üzerinde çalışırken level tarafında gördüğümüz şeyler. Sinematik `Tools > Intro Cinematic > Build`
 (`Assets/Scripts/Editor/IntroCinematicBuilder.cs`) ile kuruluyor. Aşağıdakiler level'a dokunduğu için sana bırakıldı.
@@ -73,9 +73,31 @@ son saniyesinde kapatılıyor ve **oyunda da kapalı kalıyor**. Sinematik biler
 
 Bunların yeri değişirse sinematik kayar:
 
-- Arabanın park yeri: (32, 11.1, -1)
+- Arabanın park yeri: (32, 11.1, 2), yolun kuzey kenarına yanaşık (sağ yanı kenardan ~0.3 m içeride)
 - Toprak yolun ana yoldan ayrıldığı yer: (5, 11.1, 10); toprak yol kuzeye gidiyor
 - `StreetLamp_ToprakYol` (18, 9.8, 56): sinematiğin son karesi bu lambaya ve toprak yola bakıyor
 - `StreetLamp_Kavsak` (16, 10.9, -23): sürüşte ileride görünen varış ışığı
 - `MainHouse_V2`: merkez yaklaşık (-103, 20, 220); sinematikte araba dururken ve son karede kadrajda
-- Oyuncu sinematik bitince (21.4, 12.6, 2.0) noktasında, kuzeye (toprak yola) bakarak başlıyor
+- Oyuncu sinematik bitince yaklaşık (21.1, 12.6, 4.5) noktasında, asfaltın hemen kenarında, kuzeye (toprak yola)
+  bakarak başlıyor
+
+## Oyun sonu sinematiği (bodrum, taş oda)
+
+Sinematik `Tools > End Cinematic > Build` (`Assets/Scripts/Editor/EndCinematicBuilder.cs`) ile kuruluyor. Akış:
+`Kapi_TasOda` ilk açılınca kısa bir bakış, ceset odası müziği ve kalp çarpıntısı başlıyor, koşu kapanıyor. Örtülü
+cesede E ile 19 sn'lik sinematik oynuyor ve oyun dolap oyuncunun üstüne devrilirken siyah ekranla bitiyor.
+
+- Builder şu objeleri **adıyla** buluyor: `Kapi_TasOda` (Door bileşeni), `Bodrum_OrtuluSekil`, `Bodrum_Ortu`,
+  `Bodrum_Yeni/Bodrum_DevrilenDolap`, `BodrumOda_TopraKZemin` (zemin yüksekliği) ve `Bodrum_Blood_Drips` (duvardaki
+  kana bakılıyor). Adlarını değiştirirsen sinematik kurulamaz. Not: `MainHouse_V2` altında kapalı duran ikinci bir
+  `Bodrum_DevrilenDolap` var; kullanılan `Bodrum_Yeni` altındaki.
+- Kameranın yolu, eller ve dolabın devrilme yönü bu objelerin sınırlarından hesaplanıyor. Ceseti, örtüyü veya dolabı
+  taşırsan Build'i yeniden çalıştırman yeterli; yine de aşağıdaki boşlukları koru.
+- `Bodrum_Ortu` objesine bir **BoxCollider** ve **CorpseInspect** bileşeni eklendi (E etkileşimi). Bunları silme.
+- Dolap sinematiğin son 0.8 saniyesinde oyunda döndürülüyor (sahnede yeri değişmiyor). Alt kenarı
+  (-87.4, 1.55, 190.25) çevresinde, **kuzeybatıya, cesedin baş ucuna doğru** 35° devriliyor. Dolabın önü ve cesetle
+  arası boş kalmalı.
+- Kameranın yürüdüğü yol örtünün **güney yanı**: çizmelerin ~2 m batısından (-93, 192.4) başlıyor, örtünün
+  0.4–0.8 m güneyinden geçiyor ve baş ucunda (-87.9, 191.3) çömeliyor. Bu şeride eşya koyma; kamera içinden geçer.
+- Odada ışık yok, sinematikte tek ışık fener. Odaya ışık eklersen sinematiğin havası değişir.
+- Canvas'a `EndBlack` adında tam ekran siyah bir görüntü eklendi (başta kapalı).

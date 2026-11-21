@@ -25,7 +25,7 @@ public static class IntroCinematicBuilder
     // Sahne yerleşimi (dünya)
     const float RoadY = 11.1f;     // "yol" objesinin üst yüzeyi
     const float ParkX = 32f;       // kavşak lambasının biraz önü
-    const float ParkZ = -1.0f;     // kuzey (çiftlik) kenarına yakın; kenardaki ağaçlardan uzak
+    const float ParkZ = 2.0f;      // kuzey (çiftlik) kenarına yanaşık: gövde yarı genişliği ~2.0, yol kenarı z 4.28 (~0.3 boşluk)
     const float LaneZ = -6f;
     const float V0 = 14f;          // sürüş hızı (m/sn, dünya)
     const float CruiseEnd = 9f, StopTime = 14f;

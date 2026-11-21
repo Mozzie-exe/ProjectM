@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask mask;
 
     public Stamina staminaController;
+    [Tooltip("Kapalıyken koşulamaz (oyun sonu: ceset odası)")]
+    public bool sprintAllowed = true;
 
     [Header("Eğilme")]
     public KeyCode crouchKey = KeyCode.LeftControl;
@@ -86,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = transform.right * horizontal + transform.forward * vertical;
         bool isMoving = move.sqrMagnitude > 0.01f;
 
-        bool isSprinting = !IsCrouching && Input.GetKey(KeyCode.LeftShift) && isMoving && staminaController != null && staminaController.CanSprint;
+        bool isSprinting = sprintAllowed && !IsCrouching && Input.GetKey(KeyCode.LeftShift) && isMoving && staminaController != null && staminaController.CanSprint;
 
         IsMoving = isMoving;
         IsSprinting = isSprinting;
