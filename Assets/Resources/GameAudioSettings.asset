@@ -25,7 +25,7 @@ MonoBehaviour:
   - id: 2
     group: {fileID: -8540480990690741216, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
     param: SFXVol
-    level: 0.4
+    level: 0.3
   - id: 3
     group: {fileID: 4574473995313409745, guid: edd2f16d1fbdd314b99a1f1197d85c22, type: 2}
     param: CinematicVol

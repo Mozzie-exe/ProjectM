@@ -12,6 +12,10 @@ public class HeadlightGlare : MonoBehaviour
     public Color color = new Color(1f, 0.9f, 0.7f, 1f);
     [Tooltip("Her yönden görünür (sokak lambası); kapalıysa yalnız ebeveynin önünden bakınca")]
     public bool omni;
+    [Tooltip("Büyümenin üst sınırı (m). 0: sınırsız. Uzaktaki lamba güneş gibi büyük bir top olmasın diye.")]
+    public float maxSize = 0f;
+    [Tooltip("Bu mesafede parlaklık %35'e iner (0: kısılmaz). Uzaktaki ışık küçük, sönük bir nokta kalır.")]
+    public float farDim = 0f;
 
     MeshRenderer mr;
     MaterialPropertyBlock mpb;
@@ -36,9 +40,11 @@ public class HeadlightGlare : MonoBehaviour
         float facing = omni ? 1f : Mathf.Clamp01((Vector3.Dot(fwd, dir) - 0.15f) / 0.6f);
         transform.rotation = Quaternion.LookRotation(-dir, cam.transform.up);
         float s = size + dist * distanceGrow;
+        if (maxSize > 0f) s = Mathf.Min(s, maxSize);
         Vector3 ps = transform.parent ? transform.parent.lossyScale : Vector3.one;
         transform.localScale = new Vector3(s / ps.x, s / ps.y, 1f);
-        mpb.SetColor(BaseColor, color * facing);
+        float dim = farDim > 0f ? Mathf.Lerp(1f, 0.35f, Mathf.Clamp01(dist / farDim)) : 1f;
+        mpb.SetColor(BaseColor, color * (facing * dim));
         mr.SetPropertyBlock(mpb);
     }
 

@@ -17,6 +17,8 @@ public class AmbienceLoop : MonoBehaviour
     [Header("Araç içi")]
     [Range(0f, 1f)] public float muffle;
     [Range(0f, 1f)] public float muffledVolume = 0.35f;
+    [Tooltip("Geçici susma (1 = sessiz). Sinematik, motor kapanınca böcekleri bir an susturmak için kullanır.")]
+    [Range(0f, 1f)] public float hush;
     public float muffledCutoff = 900f;
 
     readonly AudioSource[] src = new AudioSource[2];
@@ -26,12 +28,39 @@ public class AmbienceLoop : MonoBehaviour
     float indoor;
     float zoneGain = -1f;
 
+#if UNITY_EDITOR
+    // Sahnedeki AudioSource klipsiz ve "Play On Awake" açıksa Unity onu bizim Awake'ten önce çalmaya çalışır
+    // ("Only custom filters can be played" uyarısı). Kaydedilen bileşeni burada düzelt.
+    void OnValidate()
+    {
+        foreach (var s in GetComponents<AudioSource>())
+            if (s.playOnAwake || s.clip != clip)
+            {
+                s.playOnAwake = false;
+                s.clip = clip;
+                UnityEditor.EditorUtility.SetDirty(s);
+            }
+        // Çapraz geçişin ikinci kaynağı da sahnede kayıtlı olsun: oyunda filtreli objeye klipsiz kaynak eklemek aynı uyarıyı verir
+        if (GetComponents<AudioSource>().Length < 2 && !Application.isPlaying)
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                if (!this || GetComponents<AudioSource>().Length >= 2) return;
+                var s2 = gameObject.AddComponent<AudioSource>();
+                s2.playOnAwake = false;
+                s2.clip = clip;
+                UnityEditor.EditorUtility.SetDirty(gameObject);
+            };
+    }
+#endif
+
     void Awake()
     {
         lowPass = GetComponent<AudioLowPassFilter>();
+        if (clip && clip.loadState == AudioDataLoadState.Unloaded) clip.LoadAudioData();
+        var existing = GetComponents<AudioSource>();
         for (int i = 0; i < 2; i++)
         {
-            src[i] = i == 0 ? GetComponent<AudioSource>() : gameObject.AddComponent<AudioSource>();
+            src[i] = i < existing.Length ? existing[i] : gameObject.AddComponent<AudioSource>();
             src[i].clip = clip;
             src[i].playOnAwake = false;
             src[i].loop = false;
@@ -100,7 +129,7 @@ public class AmbienceLoop : MonoBehaviour
         float zg = AmbienceZone.GainFor(this, hasL ? lp : new Vector3(1e6f, 0f, 1e6f));   // dinleyici yoksa: hiçbir bölgede değil
         zoneGain = zoneGain < 0f ? zg : Mathf.MoveTowards(zoneGain, zg, Time.deltaTime * 0.4f);   // ilk karede atla
 
-        float gain = volume * zoneGain * Mathf.Lerp(1f, muffledVolume, m);
+        float gain = volume * zoneGain * Mathf.Lerp(1f, muffledVolume, m) * (1f - hush);
         if (fade >= 0f) { src[cur].volume = gain * wa; src[next].volume = gain * wb; }
         else src[cur].volume = gain;
 

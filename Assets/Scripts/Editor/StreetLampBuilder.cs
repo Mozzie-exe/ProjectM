@@ -91,6 +91,8 @@ public static class StreetLampBuilder
                 g.omni = true;
                 g.size = 1.1f;
                 g.distanceGrow = 0.018f;
+                g.maxSize = 2.4f;     // uzaktan (sürüşte) güneş gibi top değil, küçük bir ışık noktası
+                g.farDim = 300f;
                 g.color = new Color(1f, 0.72f, 0.42f, 1f) * 0.8f;
             }
 

@@ -47,7 +47,34 @@ public class IntroCinematic : MonoBehaviour
     public AmbienceLoop[] ambience;
     public float ambienceOpenStart = 26.7f;
     public float ambienceOpenEnd = 27.9f;
+    [Tooltip("Motor kapanınca ortam bir an susar, sonra sesler teker teker geri gelir (Timeline zamanı, sn). <0: kapalı")]
+    public float hushAt = -1f;
+    public float hushIn = 0.5f, hushHold = 1.8f, hushReturn = 3.5f;
+    [Tooltip("Her ortam sesi bir öncekinden bu kadar sonra döner")]
+    public float hushStagger = 1.4f;
 
+    [Header("Bitiş")]
+    [Tooltip("Sinematiğin sonunda sönen ev ışıkları (oyunda da sönük kalır)")]
+    public GameObject houseLights;
+    [Tooltip("Timeline zamanı (sn). <0: sönmez")]
+    public float houseLightsOffAt = -1f;
+
+    [Header("Atlama")]
+    [Tooltip("Bu tuşlardan biri basılı tutulunca sinematik atlanır")]
+    public KeyCode[] skipKeys = { KeyCode.Space, KeyCode.Return, KeyCode.Escape };
+    public float skipHold = 0.8f;
+    public float skipFade = 0.35f;
+    [Tooltip("Sağ altta 'basılı tut' ipucu")]
+    public Graphic skipHint;
+    public float hintIn = 4f;
+    [Range(0f, 1f)] public float hintAlpha = 0.45f;
+    [Tooltip("Sinematik bir kez izlendiyse (kontrole geçildiyse) sonraki açılışlarda doğrudan oyuna başla")]
+    public bool autoSkipIfSeen = true;
+    [Tooltip("Editörde de otomatik atla (kapalıyken editörde sinematik her seferinde oynar)")]
+    public bool autoSkipInEditor = false;
+    const string SeenKey = "IntroCinematic.Seen";
+
+    float skipHeld, skipClock = -1f;
     bool[] wasEnabled;
     AudioListener playerListener, cinematicListener;
     bool handedOff;
@@ -88,10 +115,22 @@ public class IntroCinematic : MonoBehaviour
         SetFade(1f);
         SetAlpha(titleText, 0f);
         SetAlpha(timeText, 0f);
+        SetAlpha(skipHint, 0f);
     }
 
     void Start()
     {
+        bool auto = autoSkipIfSeen && PlayerPrefs.GetInt(SeenKey, 0) == 1;
+#if UNITY_EDITOR
+        auto &= autoSkipInEditor;
+#endif
+        if (auto)
+        {
+            director.time = handoffTime;
+            director.Evaluate();
+            Handoff();   // kararmadan açılır (fadeInAfterHandoff)
+            return;
+        }
         // Projede "Enter Play Mode" sahne yeniden yüklemesi kapalı; Play On Awake'e güvenme
         if (director.state != PlayState.Playing)
         {
@@ -110,14 +149,44 @@ public class IntroCinematic : MonoBehaviour
             return;
         }
 
+        // Atlama: tuş basılı tutulunca kararır, sonra son kareye atlayıp kontrolü verir
+        if (skipClock < 0f)
+        {
+            bool held = false;
+            foreach (var k in skipKeys) held |= Input.GetKey(k);
+            skipHeld = held ? skipHeld + Time.unscaledDeltaTime : 0f;
+            if (skipHeld >= skipHold) skipClock = 0f;
+        }
+        if (skipClock >= 0f)
+        {
+            skipClock += Time.unscaledDeltaTime;
+            SetFade(Mathf.Max(fade ? fade.color.a : 0f, Mathf.Clamp01(skipClock / skipFade)));
+            SetAlpha(titleText, 0f);
+            SetAlpha(timeText, 0f);
+            SetAlpha(skipHint, 0f);
+            if (skipClock >= skipFade)
+            {
+                director.time = handoffTime;
+                director.Evaluate();
+                Handoff();
+            }
+            return;
+        }
+
         float t = (float)director.time;
         float fadeIn = 1f - Smooth01(t / fadeInAtStart);
         float fadeOut = Mathf.Clamp01((t - (handoffTime - fadeOutBeforeHandoff)) / fadeOutBeforeHandoff);
         SetFade(Mathf.Max(fadeIn, fadeOut));
         SetMuffle(1f - Mathf.Clamp01((t - ambienceOpenStart) / Mathf.Max(0.01f, ambienceOpenEnd - ambienceOpenStart)));
+        SetHush(t);
+        if (houseLights && houseLightsOffAt >= 0f && t >= houseLightsOffAt && houseLights.activeSelf)
+            houseLights.SetActive(false);
         float outA = 1f - Smooth01((t - textOut) / textFadeDuration);
         SetAlpha(titleText, Smooth01((t - titleIn) / textFadeDuration) * outA);
         SetAlpha(timeText, Smooth01((t - timeIn) / textFadeDuration) * outA);
+        // İpucu: sonlara doğru (devirden 3 sn önce) söner; basılı tutarken belirginleşir
+        float hint = Smooth01((t - hintIn) / 1.5f) * (1f - Smooth01((t - (handoffTime - 3f)) / 1.5f));
+        SetAlpha(skipHint, hint * Mathf.Lerp(hintAlpha, 1f, Mathf.Clamp01(skipHeld / skipHold)));
 
         if (t >= handoffTime - 0.001f)
             Handoff();
@@ -128,8 +197,13 @@ public class IntroCinematic : MonoBehaviour
         handedOff = true;
         director.Pause(); // son kare olduğu gibi kalsın (araba park hâlinde)
         SetMuffle(0f);
+        SetHush(float.MaxValue);
+        if (houseLights && houseLightsOffAt >= 0f) houseLights.SetActive(false);
         SetAlpha(titleText, 0f);
         SetAlpha(timeText, 0f);
+        SetAlpha(skipHint, 0f);
+        PlayerPrefs.SetInt(SeenKey, 1);
+        PlayerPrefs.Save();
 
         var cc = player.GetComponent<CharacterController>();
         if (cc) cc.enabled = false;
@@ -157,6 +231,22 @@ public class IntroCinematic : MonoBehaviour
         if (ambience == null) return;
         foreach (var a in ambience)
             if (a) a.muffle = m;
+    }
+
+    void SetHush(float t)
+    {
+        if (ambience == null) return;
+        for (int i = 0; i < ambience.Length; i++)
+        {
+            if (!ambience[i]) continue;
+            float h = 0f;
+            if (hushAt >= 0f)
+            {
+                float back = hushAt + hushIn + hushHold + i * hushStagger;
+                h = Smooth01((t - hushAt) / hushIn) * (1f - Smooth01((t - back) / hushReturn));
+            }
+            ambience[i].hush = h;
+        }
     }
 
     static float Smooth01(float s) { s = Mathf.Clamp01(s); return s * s * (3f - 2f * s); }
