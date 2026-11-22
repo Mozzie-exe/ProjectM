@@ -11,6 +11,18 @@ public static class PlayerControlLock
 
     public static bool IsLocked => count > 0;
 
+    // Domain reload kapalı (Enter Play Mode Options): statik sayaç Play'ler arasında kalır.
+    // Oyun sonu kilidi hiç açılmadığı için her Play başında sıfırlanır.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    public static void ResetState()
+    {
+        for (int i = 0; i < locked.Count; i++)
+            if (locked[i] != null) locked[i].enabled = wasEnabled[i];
+        locked.Clear();
+        wasEnabled.Clear();
+        count = 0;
+    }
+
     public static void Push()
     {
         count++;

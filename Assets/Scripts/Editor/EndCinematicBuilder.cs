@@ -395,13 +395,12 @@ public static class EndCinematicBuilder
         var playerCam = camT ? camT.GetComponent<Camera>() : null;
         Need(playerCam, "Player/CamHolder/Camera");
         var music = Need(AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sfx/ceset_room_extended.wav"), "Assets/Sfx/ceset_room_extended.wav");
-        var heartbeat = Need(AssetDatabase.LoadAssetAtPath<AudioClip>(EndSfxDir + "/Heartbeat_Loop.mp3"), "Heartbeat_Loop.mp3");
         var creak = Need(AssetDatabase.LoadAssetAtPath<AudioClip>(EndSfxDir + "/Cabinet_Creak.mp3"), "Cabinet_Creak.mp3");
         var fall = Need(AssetDatabase.LoadAssetAtPath<AudioClip>(EndSfxDir + "/Cabinet_Fall.mp3"), "Cabinet_Fall.mp3");
         var steps = Need(AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sfx/Intro/Footsteps_Gravel.mp3"), "Footsteps_Gravel.mp3");
         var arms = Need(AssetDatabase.LoadAssetAtPath<GameObject>(ArmsFbx), ArmsFbx);
         var props = Need(AssetDatabase.LoadAssetAtPath<GameObject>(PropsFbx), PropsFbx);
-        if (!door || !playerCam || !music || !heartbeat || !creak || !fall || !steps || !arms || !props) return;
+        if (!door || !playerCam || !music || !creak || !fall || !steps || !arms || !props) return;
 
         var old = GameObject.Find("EndCinematic");
         if (old) Undo.DestroyObjectImmediate(old);
@@ -496,7 +495,6 @@ public static class EndCinematicBuilder
         ec.player = player.transform;
         ec.playerCamera = playerCam;
         ec.music = music;
-        ec.heartbeat = heartbeat;
         ec.director = director;
         ec.head = head;
         ec.cinematicCamera = cam;

@@ -3,26 +3,6 @@ using NUnit.Framework;
 public class EndCinematicMathTests
 {
     [Test]
-    public void Heartbeat_Far_IsQuietAndSlow()
-    {
-        Assert.AreEqual(0.25f, EndCinematicMath.HeartbeatVolume(20f), 1e-4f);
-        Assert.AreEqual(0.85f, EndCinematicMath.HeartbeatPitch(14f), 1e-4f);
-    }
-
-    [Test]
-    public void Heartbeat_Near_IsLoudAndFast()
-    {
-        Assert.AreEqual(0.9f, EndCinematicMath.HeartbeatVolume(1f), 1e-4f);
-        Assert.AreEqual(1.3f, EndCinematicMath.HeartbeatPitch(2f), 1e-4f);
-    }
-
-    [Test]
-    public void Heartbeat_RisesAsDistanceFalls()
-    {
-        Assert.Less(EndCinematicMath.HeartbeatVolume(10f), EndCinematicMath.HeartbeatVolume(5f));
-    }
-
-    [Test]
     public void DoorLook_Profile()
     {
         Assert.AreEqual(0f, EndCinematicMath.DoorLookWeight(0f), 1e-4f);

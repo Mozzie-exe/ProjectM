@@ -3,14 +3,14 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-// Oyun sonu. Taş oda kapısı ilk açılınca: kısa bakış (cesede), ceset odası müziği, kalp çarpıntısı, koşu kapanır.
+// Oyun sonu. Taş oda kapısı ilk açılınca: kısa bakış (cesede), ceset odası müziği, koşu kapanır.
 // Cesetle etkileşimde (CorpseInspect) asıl sinematik oynar ve oyun siyah ekranla biter.
 // Sahne kurulumu: Tools > End Cinematic > Build (EndCinematicBuilder).
 public class EndCinematic : MonoBehaviour
 {
     [Header("Level")]
     public Door door;
-    [Tooltip("Örtülü ceset; bakış ve çarpıntı mesafesi bunun görünür merkezine göre")]
+    [Tooltip("Örtülü ceset; bakış bunun görünür merkezine")]
     public Transform corpse;
 
     [Header("Oyuncu")]
@@ -19,7 +19,6 @@ public class EndCinematic : MonoBehaviour
 
     [Header("Ses")]
     public AudioClip music;
-    public AudioClip heartbeat;
     [Range(0f, 1f)] public float musicVolume = 0.8f;
     public float musicFadeIn = 2f;
 
@@ -47,7 +46,7 @@ public class EndCinematic : MonoBehaviour
     Quaternion startRot;
     bool blendDone, hushed, blacked, cinematicMuted, ended;
 
-    AudioSource musicSource, heartbeatSource;
+    AudioSource musicSource;
     bool doorTriggered, looking;
     float lookClock, musicClock = -1f;
     Quaternion lookFrom;
@@ -59,7 +58,6 @@ public class EndCinematic : MonoBehaviour
     void Awake()
     {
         musicSource = MakeSource(music, AudioChannel.Music);
-        heartbeatSource = MakeSource(heartbeat, AudioChannel.SFX);
         if (rig) rig.SetActive(false);
         SaveCabinetRest();
     }
@@ -127,14 +125,6 @@ public class EndCinematic : MonoBehaviour
             musicClock += Time.deltaTime;
             musicSource.volume = musicVolume * Mathf.Clamp01(musicClock / Mathf.Max(0.01f, musicFadeIn));
         }
-
-        if (doorTriggered && !Started)
-        {
-            Vector3 d = playerCamera.transform.position - CorpseCenter;
-            d.y = 0f;
-            heartbeatSource.volume = EndCinematicMath.HeartbeatVolume(d.magnitude);
-            heartbeatSource.pitch = EndCinematicMath.HeartbeatPitch(d.magnitude);
-        }
     }
 
     void TriggerDoor()
@@ -145,7 +135,6 @@ public class EndCinematic : MonoBehaviour
 
         musicClock = 0f;
         if (music) musicSource.Play();
-        if (heartbeat) heartbeatSource.Play();
 
         PlayerControlLock.Push();
         // Kontrol kilidi imleci açar; bakış sırasında görünmesin
@@ -253,7 +242,6 @@ public class EndCinematic : MonoBehaviour
         hushed = true;
         foreach (var ch in EndCinematicMath.HushChannels) Mute(ch);
         musicSource.Stop();
-        heartbeatSource.Stop();
     }
 
     void Mute(AudioChannel id)

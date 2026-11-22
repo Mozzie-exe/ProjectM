@@ -3,14 +3,6 @@ using UnityEngine;
 // Oyun sonu sinematiğinin saf hesapları (test edilebilir, sahneye bağlı değil).
 public static class EndCinematicMath
 {
-    const float FarDistance = 14f, NearDistance = 2f;
-
-    // Cesede uzaklık -> 0 (uzak) .. 1 (yakın)
-    static float Closeness(float distance) => Smooth((FarDistance - distance) / (FarDistance - NearDistance));
-
-    public static float HeartbeatVolume(float distance) => Mathf.Lerp(0.25f, 0.9f, Closeness(distance));
-    public static float HeartbeatPitch(float distance) => Mathf.Lerp(0.85f, 1.3f, Closeness(distance));
-
     // Kapı bakışı: cesede döner (1.1 sn), bakar (0.6 sn), eski bakışa döner (1.3 sn)
     public const float DoorLookDuration = 3f;
     const float LookIn = 1.1f, LookHold = 1.7f;

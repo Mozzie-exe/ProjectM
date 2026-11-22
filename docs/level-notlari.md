@@ -84,7 +84,7 @@ Bunların yeri değişirse sinematik kayar:
 ## Oyun sonu sinematiği (bodrum, taş oda)
 
 Sinematik `Tools > End Cinematic > Build` (`Assets/Scripts/Editor/EndCinematicBuilder.cs`) ile kuruluyor. Akış:
-`Kapi_TasOda` ilk açılınca kısa bir bakış, ceset odası müziği ve kalp çarpıntısı başlıyor, koşu kapanıyor. Örtülü
+`Kapi_TasOda` ilk açılınca kısa bir bakış, ceset odası müziği başlıyor, koşu kapanıyor. Örtülü
 cesede E ile 19 sn'lik sinematik oynuyor ve oyun dolap oyuncunun üstüne devrilirken siyah ekranla bitiyor.
 
 - Builder şu objeleri **adıyla** buluyor: `Kapi_TasOda` (Door bileşeni), `Bodrum_OrtuluSekil`, `Bodrum_Ortu`,
