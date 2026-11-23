@@ -53,6 +53,23 @@ yıpranmış köy lambası modeli).
   300 m'de sönükleşiyor; önceden sürüşte uzaktan güneş gibi büyük bir top olarak görünüyordu.
 - Lambanın yerini değiştirirsen sinematiğin son karesi kayar (bkz. aşağıdaki noktalar).
 
+## Tünel (yeni)
+
+Yol x 540–622 arasında, kuzeydeki terrain tepesiyle güneydeki `Yol_Guney_Arazi` tepesinin arasındaki yarmadan
+geçiyordu; yamaçlar yolun 7–8 m üstünde kalıyordu. Buraya bir tünel eklendi: `Tunel` objesi, `Tools > Level > Build Tunnel`
+(`Assets/Scripts/Editor/TunnelBuilder.cs`) ile kuruluyor.
+
+- **Terrain'e ve `Yol_Guney_Arazi`'ye dokunulmadı.** Tünel ayrı bir obje; iki yamacın yüksekliğini okuyup üstünü
+  toprak bir örtüyle birleştiriyor. Yamaçları değiştirirsen Build'i yeniden çalıştır, örtü yeni yüksekliklere oturur.
+- Ölçüler: duvarlar z −21.5 ve +1.0'da (yolun iki yanında), dikey duvar 3.5 m, kemerle birlikte tavan yoldan 6 m
+  yukarıda (y 17.1). Ağızlarda 0.6 m kalınlığında beton duvar var.
+- Malzemeler: `Tunel_Beton` (iç yüz ve ağızlar), örtüde `Toprak_YolKenari`, tavanda 12 m arayla küçük sodyum lambaları
+  (`Tunel_Lamba`, sadece parlıyor, ışık kaynağı yok).
+- MeshCollider var, obje static.
+- Giriş sinematiğinde araba tünelden 15–22. saniyeler arasında, siyah ekranın açıldığı sırada geçiyor; içerisi
+  farlarla aydınlanıyor. Tüneli kaydırırsan bu görüntü de değişir.
+- Diğer tepe (x −275…−150) için tünel yapılmadı; sinematik oradan geçmiyor.
+
 ## Evin ışıkları sinematiğin sonunda sönüyor
 
 `MainHouse_V2/HouseLights` (iki pencere parlaması `Glow_Cam_S_14/26`, iki iç ışık ve iki gaz lambası ışığı) sinematiğin

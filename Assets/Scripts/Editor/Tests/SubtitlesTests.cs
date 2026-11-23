@@ -31,6 +31,32 @@ public class SubtitlesTests
     }
 
     [Test]
+    public void Duck_ZeroFarFromLines() => Assert.AreEqual(0f, Subtitles.Duck(Lines, 1f, 0.3f, 0.6f), 1e-4f);
+
+    [Test]
+    public void Duck_FullInsideLine() => Assert.AreEqual(1f, Subtitles.Duck(Lines, 4f, 0.3f, 0.6f), 1e-4f);
+
+    [Test]
+    public void Duck_RampsBeforeStart()
+    {
+        float d = Subtitles.Duck(Lines, 3f - 0.15f, 0.3f, 0.6f);
+        Assert.Greater(d, 0f);
+        Assert.Less(d, 1f);
+    }
+
+    [Test]
+    public void Duck_ReleasesAfterEnd()
+    {
+        float d = Subtitles.Duck(Lines, 5.3f, 0.3f, 0.6f);
+        Assert.Greater(d, 0f);
+        Assert.Less(d, 1f);
+        Assert.AreEqual(0f, Subtitles.Duck(Lines, 5.65f, 0.3f, 0.6f), 1e-4f);
+    }
+
+    [Test]
+    public void Duck_NullIsZero() => Assert.AreEqual(0f, Subtitles.Duck(null, 4f, 0.3f, 0.6f), 1e-4f);
+
+    [Test]
     public void Alpha_FadesInAndOut()
     {
         var l = Lines[0];

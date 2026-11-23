@@ -37,8 +37,16 @@ public static class IntroCinematicBuilder
     const float T_DoorCloseStart = 32.9f, T_DoorClosed = 33.45f;   // indikten sonra kapıyı iter
     const float T_FlashOn = 31.0f, T_Handoff = 60.2f;
     // Hikâye zamanı: bütün sabitler buna göre. Timeline gerçek zamanı = hikâye + Lead (önce karanlıkta uzun sürüş).
-    const float Lead = 14f;
-    const float T_Start = -Lead, T_End = T_Handoff + Lead;   // T_End: Timeline süresi
+    // Uzun telefon konuşması tabelaya (-7.7) kadar sürsün diye sürüş 46 sn önceden başlar (eskiden 14).
+    // İlk FadeHold sn simsiyah (tartışmanın başı karanlıkta; araba bu sırada arazinin bittiği x>648 bölgesinde).
+    // Yol objesi x=804'te biter: Lead en fazla ~43.6 olabilirdi; 46'da ilk ~3 sn araba yolun ötesinde ama ekran siyah.
+    const float Lead = 46f, FadeHold = 12f;
+    // Kontak kapanıp evrak sıkıştırıldıktan sonra (T_Pause) zaman PauseLen sn durur: sessizlikte telefonun son kısmı.
+    // Bütün sabitler "eski" hikâye zamanında yazılı; W() eski -> gerçek, U() gerçek -> eski (duraklamada T_Pause'da kalır).
+    const float T_Pause = 26.1f, PauseLen = 23.3f;
+    const float T_Start = -Lead, T_End = T_Handoff + PauseLen + Lead;   // T_End: Timeline süresi
+    static float W(float s) => s > T_Pause ? s + PauseLen : s;
+    static float U(float r) => r <= T_Pause ? r : (r < T_Pause + PauseLen ? T_Pause : r - PauseLen);
     // Geçen arabalar: pikap karşı şeritten sürüşte yanımızdan geçer; wagon önde etrafı tararken arkadan gelip soldan geçer
     const float T_PickupPass = 6.0f, T_WagonPass = 48.0f;
     // Yürüyüş 1: kapıdan arabanın önüne. Etrafı kolaçan eder, wagon geçer, köpek havlaması (irkilir, arkasını döner),
@@ -983,16 +991,24 @@ public static class IntroCinematicBuilder
         ic.flashlight = playerCam.GetComponent<Flashlight>();
         ic.handoffTime = T_End;
         ic.fade = fade;
+        ic.fadeHoldAtStart = FadeHold;        // konuşma simsiyahta başlar
         ic.fadeInAtStart = 6f;                 // karanlıktan uzun, yavaş açılış
         ic.titleText = titleText;
         ic.timeText = timeText;
-        ic.titleIn = 4.5f;
-        ic.timeIn = 7.3f;
+        ic.titleIn = 4.5f + ic.fadeHoldAtStart;
+        ic.timeIn = 7.3f + ic.fadeHoldAtStart;
+        ic.hintIn = 4f + ic.fadeHoldAtStart;
         ic.textOut = T_HouseLook - 2.8f + Lead;   // eve bakmadan, araba yavaşlamaya başlarken kaybolur
         ic.textFadeDuration = 1.8f;
         ic.skipHint = SetupSkipHint();
         ic.subtitleText = SetupSubtitle();
         ic.subtitles = DialogueSubtitles();
+        // Konuşurken motor, sürüş ve trafik kısılır (radyo zaten çok kısık)
+        var duck = new List<AudioSource>();
+        foreach (var t in timeline.GetOutputTracks())
+            if (t is AudioTrack && DuckTracks.Contains(t.name) && director.GetGenericBinding(t) is AudioSource ds) duck.Add(ds);
+        ic.duckSources = duck.ToArray();
+        ic.duckLevel = 0.5f;
 
         // Gece ortam sesi: sinematikten bağımsız, oyunda da çalmaya devam eder
         var oldAmb = GameObject.Find("NightAmbience");
@@ -1001,15 +1017,15 @@ public static class IntroCinematicBuilder
         var crickets = Ambience(amb.transform, "Crickets", "Ambience_Crickets", 0.55f, 1.0f, 26.0f, 2.5f, new Vector2(0.98f, 1.02f));
         var wind = Ambience(amb.transform, "Wind", "Ambience_Wind", 0.22f, 0.3f, 7.4f, 1.5f, new Vector2(0.85f, 1.05f));
         ic.ambience = new[] { wind, crickets };   // susmadan dönüş sırası: önce rüzgâr, sonra böcekler
-        ic.ambienceOpenStart = T_DoorStart + Lead;
-        ic.ambienceOpenEnd = T_DoorEnd + Lead;
+        ic.ambienceOpenStart = W(T_DoorStart) + Lead;
+        ic.ambienceOpenEnd = W(T_DoorEnd) + Lead;
         // Motor kapanınca dünya bir an susar (EngineOff ile aynı an), sonra sesler teker teker döner
         ic.hushAt = T_KeyTurnStart + 0.35f + Lead;
         // Son bakışta (lamba ve uzaktaki ev kadrajda) evin ışıkları söner; kontrol bu soruyla geçer
         var houseLights = GameObject.Find("HouseLights");
         if (houseLights) houseLights.SetActive(true);
         ic.houseLights = houseLights;
-        ic.houseLightsOffAt = T_Handoff - 1.4f + Lead;
+        ic.houseLightsOffAt = W(T_Handoff - 1.4f) + Lead;
         Undo.RegisterCreatedObjectUndo(amb, "Build Intro Cinematic");
         IndoorZoneBuilder.BuildField();   // tarla bölgesi yeni Crickets objesini kıssın (eskisi silindi)
 
@@ -1077,7 +1093,7 @@ public static class IntroCinematicBuilder
 
         // Ses arabanın üstünde: sola/sağa kayar; yükselip alçalma kayıttan gelir (mesafe zayıflaması geniş)
         var pass = Sfx("Car_Passing");
-        TrafficAudio(tl, director, group, pickup, "Trafik Pikap Sesi", pass, T_PickupPass, 0.35f, 2600f); // araç içinden boğuk; Richard'ın son repliğini bastırmasın
+        TrafficAudio(tl, director, group, pickup, "Trafik Pikap Sesi", pass, T_PickupPass, 0.25f, 2600f); // araç içinden boğuk; Richard'ın son repliğini bastırmasın
         TrafficAudio(tl, director, group, wagon, "Trafik Wagon Sesi", pass, T_WagonPass, 0.95f, 0f);
 
         ApplyPose(pickup.transform, PickupAt(T_Start), false);
@@ -1341,7 +1357,7 @@ public static class IntroCinematicBuilder
         int n = Mathf.CeilToInt(T_End * FPS) + 1;
 
         AddPoseCurves(clip, "", n, CarWorld);
-        AddPoseCurves(clip, "Head", n, HeadAt);
+        AddPoseCurves(clip, "Head", n, HeadAt, real: HeadPaused);
         AddPoseCurves(clip, "HandL", n, t => SampleKeys(handL, t));
         AddPoseCurves(clip, "HandR", n, t => SampleKeys(handR, t));
         AddPoseCurves(clip, "Chest", n, ChestAt);
@@ -1364,7 +1380,7 @@ public static class IntroCinematicBuilder
         AddRotCurves(clip, "Model/Handbrake", n, t => Quaternion.Inverse(m180) * HbRot(t) * m180);
         AddRotCurves(clip, "Model/GearLever", n, t => Quaternion.Inverse(m180) * GearRot(t) * m180);
         var fov = new AnimationCurve();
-        for (int i = 0; i < n; i += 3) fov.AddKey(i / FPS, FovAt(i / FPS - Lead));
+        for (int i = 0; i < n; i += 3) fov.AddKey(i / FPS, FovAt(U(i / FPS - Lead)));
         for (int i = 0; i < fov.length; i++) fov.SmoothTangents(i, 0f);
         clip.SetCurve("Head/CinematicCamera", typeof(Camera), "field of view", fov);
         AddRotCurves(clip, "Model/IgnitionKey", n,t => Quaternion.AngleAxis(Smooth((t - T_KeyTurnStart) / (T_KeyTurnEnd - T_KeyTurnStart)) * 35f, Vector3.forward));
@@ -1408,12 +1424,29 @@ public static class IntroCinematicBuilder
     }
     static float SteerWheelDeg(float t) => Steer(t) * SteerRatio;
 
-    static void AddPoseCurves(AnimationClip clip, string path, int n, Func<float, P> f)
+    // Duraklamada kafa donmasın: eski zamandaki poza nefes, hafif kayma ve öne eğilip düşünme eklenir (kenarlarda 0)
+    static P HeadPaused(float r)
+    {
+        P h = HeadAt(U(r));
+        float u = r - T_Pause;
+        if (u <= 0f || u >= PauseLen) return h;
+        float env = Smooth(u / 1.2f) * Smooth((PauseLen - u) / 1.2f);
+        float think = Smooth((u - 0.8f) / 1.5f) * (1f - Smooth((u - (PauseLen - 2.4f)) / 1.6f));   // soru sorulurken başı hafif öne düşer
+        var ang = new Vector3(
+            (Perlin(r * 0.35f, 2.1f) * 0.8f + Mathf.Sin(2f * Mathf.PI * r / 4.2f) * 0.4f) * env + think * 4f,
+            Perlin(r * 0.27f, 6.4f) * 1.6f * env - think * 3f,
+            Perlin(r * 0.22f, 8.8f) * 0.5f * env);
+        return new P(h.p + new Vector3(0f, Mathf.Sin(2f * Mathf.PI * r / 4.2f + 0.8f) * 0.0035f * env, 0f), h.r * Quaternion.Euler(ang));
+    }
+
+    // f eski hikâye zamanını alır (U ile); real verilirse gerçek hikâye zamanıyla o çağrılır
+    static void AddPoseCurves(AnimationClip clip, string path, int n, Func<float, P> f, Func<float, P> real = null)
     {
         var pos = new Vector3[n]; var rot = new Quaternion[n];
         for (int i = 0; i < n; i++)
         {
-            var p = f(i / FPS - Lead);
+            float r = i / FPS - Lead;
+            var p = real != null ? real(r) : f(U(r));
             pos[i] = p.p; rot[i] = p.r;
         }
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.x", Curve(n, i => pos[i].x));
@@ -1425,7 +1458,7 @@ public static class IntroCinematicBuilder
     static void AddRotCurves(AnimationClip clip, string path, int n, Func<float, Quaternion> f)
     {
         var rot = new Quaternion[n];
-        for (int i = 0; i < n; i++) rot[i] = f(i / FPS - Lead);
+        for (int i = 0; i < n; i++) rot[i] = f(U(i / FPS - Lead));
         WriteRot(clip, path, rot);
     }
 
@@ -1456,7 +1489,7 @@ public static class IntroCinematicBuilder
     static void Active(AnimationClip clip, string path, params (float t, bool on)[] steps)
     {
         var curve = new AnimationCurve();
-        foreach (var s in steps) curve.AddKey(new Keyframe(s.t <= 0f ? 0f : s.t + Lead, s.on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
+        foreach (var s in steps) curve.AddKey(new Keyframe(s.t <= 0f ? 0f : W(s.t) + Lead, s.on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
         curve.AddKey(new Keyframe(T_End, steps[steps.Length - 1].on ? 1 : 0, float.PositiveInfinity, float.PositiveInfinity));
         clip.SetCurve(path, typeof(GameObject), "m_IsActive", curve);
     }
@@ -1544,10 +1577,11 @@ public static class IntroCinematicBuilder
         return r;
     }
 
-    static void AudioClipOn(AudioTrack tr, AudioClip c, double start, double clipIn, double dur, double vol, double easeIn = 0, double easeOut = 0)
+    // start: eski hikâye zamanı (W ile duraklamadan sonrası kayar); warp=false ise gerçek hikâye zamanı
+    static void AudioClipOn(AudioTrack tr, AudioClip c, double start, double clipIn, double dur, double vol, double easeIn = 0, double easeOut = 0, bool warp = true)
     {
         var tc = tr.CreateClip(c);
-        tc.start = start + Lead;   // hikâye zamanı -> Timeline
+        tc.start = (warp ? W((float)start) : start) + Lead;   // hikâye zamanı -> Timeline
         tc.clipIn = clipIn;
         tc.duration = dur;
         tc.easeInDuration = easeIn;
@@ -1567,19 +1601,42 @@ public static class IntroCinematicBuilder
         return c;
     }
 
-    // Telefon konuşması sürüşte (araba 6.3 sn'de tabelayı geçer: "Just passed the sign"), not kâğıt sol ele geçince okunur.
-    // at: hikâye zamanı (Timeline = at + Lead). Altyazı replik bitince 0.35 sn daha kalır.
+    // Telefon konuşması simsiyahta başlar, sürüşte sürer (araba -7.7'de tabelayı geçer: "Just passed the sign"),
+    // not kâğıt sol ele geçince okunur; son kısım kontak kapandıktan sonraki duraklamada (T_Pause..T_Pause+PauseLen).
+    // at: GERÇEK hikâye zamanı (Timeline = at + Lead; W uygulanmaz). Altyazı replik bitince 0.35 sn daha kalır.
+    // Hikâye: Richard bir yol ayrımında Wayne'i satmış (kararı Wayne'e yıkmış), Wayne arşive sürülmüş.
+    // Ritim: karanlıkta soğuk açılış, "Benim kararım, Richard" ile öfke, "Sen de beni gömdün" ile kırgınlık; uzun sessizlik,
+    // Richard'ın iç çekişiyle konu işe döner. "Tabelayı yeni geçtim" araba tabelayı geçince (-7.7). Richard "Wayne—" diye
+    // araya girer, Wayne üstünden konuşur (0.2 sn bindirme). Park sonrası Wayne nefes alıp sorar, Richard 1.7 sn susar.
     static readonly (string file, float at, string sub)[] Dialogue =
     {
-        ("Dlg_01_Richard_ThereYet",    3.0f - Lead, "Wayne. Vardın mı?"),
-        ("Dlg_02_Wayne_PassedSign",    5.0f - Lead, "Tabelayı yeni geçtim."),
-        ("Dlg_03_Richard_Locals",      7.1f - Lead, "Köylüler o çiftlik evinden sesler duyuyormuş. Çoğunlukla geceleri.\nEv yıllardır boş."),
-        ("Dlg_04_Wayne_Touching",     13.4f - Lead, "Ve aklına ben geldim. Ne incelik."),
-        ("Dlg_05_Richard_AskedForYou", 16.1f - Lead, "Gelmedin. İhbar senin adınla geldi. Seni istediler."),
-        ("Dlg_06_Wayne_WhoDid",       21.4f - Lead, "...Kim istedi?"),
+        ("Dlg_00a_Richard_BeenAWhile", -42.33f, "Uzun zaman oldu."),
+        ("Dlg_00b_Wayne_ThreeYears",   -40.07f, "Üç yıl. Saydığını bilmiyordum."),
+        ("Dlg_00c_Richard_Counted",    -36.47f, "Saydım. Her gününü."),
+        ("Dlg_00d_Wayne_RecordsRoom",  -33.42f, "Komik. Ben de saydım. Arşiv odasında."),
+        ("Dlg_00e_Richard_WayneCut",   -28.62f, "Wayne—"),
+        ("Dlg_00f_Wayne_MyCall",       -28.02f, "O odada durup kararın benim olduğunu söyledin.\nBenim kararım, Richard."),
+        ("Dlg_00g_Richard_Family",     -22.67f, "Bir ailem vardı. İkimizi birden gömerlerdi."),
+        ("Dlg_00h_Wayne_Buried",       -19.02f, "Sen de beni gömdün."),
+        ("Dlg_00i_Richard_NotTheTime", -15.02f, "Burası tartışmanın ne yeri ne zamanı, Wayne.\nÇiftliğe vardın mı?"),
+        ("Dlg_00j_Wayne_Fine",          -9.95f, "Peki."),
+        ("Dlg_02_Wayne_PassedSign",     -7.3f, "Tabelayı yeni geçtim."),
+        ("Dlg_03_Richard_Locals",       -5.4f, "Köylüler o çiftlik evinden sesler duyuyormuş. Çoğunlukla geceleri.\nEv yıllardır boş."),
+        ("Dlg_03b_Richard_Miller",      0.75f, "Eski Miller evi. Aile '89'da gitti.\nO günden beri kimse dokunmadı."),
+        ("Dlg_03c_Wayne_Miller",        5.95f, "...Miller."),
+        ("Dlg_04_Wayne_Touching",        7.3f, "Ve aklına ben geldim. Ne incelik."),
+        ("Dlg_05_Richard_AskedForYou",  9.85f, "Gelmedin. İhbar senin adınla geldi. Seni istediler."),
         ("Dlg_07_Wayne_Note",         T_DocsToLeft + 0.4f, "\"Işıklar sönmeden gel.\""),
+        ("Dlg_08b_Wayne_Truth1",       AskAt, "Richard. Onca yılın hatrına... beni nasıl bir konumda bıraktığını\nbir kenara bırak ve bana doğruyu söyle."),
+        ("Dlg_08c_Wayne_Truth2",       AskAt + 7.45f, "Beni kim istedi? Ve neden?"),
+        ("Dlg_09b_Richard_AllIKnow",   AskAt + 11.65f, "Tek bildiğim, eski dostum, bu işi sana vermeleri."),
+        ("Dlg_09c_Richard_CallMe",     AskAt + 15.6f, "İşin bitince beni mutlaka ara. Karakolu değil. Beni."),
+        ("Dlg_10_Wayne_OldTimes",      AskAt + 20.1f, "Tıpkı eski günlerdeki gibi."),
     };
+    const float AskAt = T_Pause + 0.8f;                 // park sonrası soru (son replik AskAt+21.8'de biter, PauseLen buna göre)
+    const float BreathBeforeAsk = AskAt - 0.95f;        // Breath_Hold (0.84 sn) sorudan hemen önce
     const float SubtitleHold = 0.35f;
+    static readonly HashSet<string> DuckTracks = new HashSet<string> { "Surus", "Motor A", "Motor B", "Varis", "Trafik Pikap Sesi", "Trafik Wagon Sesi" };
 
     static AudioClip DialogueClip(string name)
     {
@@ -1661,7 +1718,7 @@ public static class IntroCinematicBuilder
         var arr = Need("Car_ArriveAndStop");
         const double ArriveStopAt = 10.5, ArriveFrom = 8.0, ArriveTo = 17.6;
         double arriveOffset = ArriveStopAt - StopTime;   // kayıt zamanı = hikâye + offset
-        if (arr) AudioClipOn(arrive, arr, ArriveFrom, ArriveFrom + arriveOffset, ArriveTo - ArriveFrom, 0.38, 2.0, 1.2);   // ~-19 dB: sürüşten sıçrama yapmasın
+        if (arr) AudioClipOn(arrive, arr, ArriveFrom, ArriveFrom + arriveOffset, ArriveTo - ArriveFrom, 0.22, 2.0, 1.2);   // ~-23 dB: park ederken diyaloğu bastırmasın
 
         // Rölanti: yavaşlarken altta başlar, varış sesi bitince öne çıkar, kontakla biter
         const double segIn = 3.5, segLen = 6.0, overlap = 0.6;
@@ -1672,7 +1729,7 @@ public static class IntroCinematicBuilder
         {
             double len = System.Math.Min(segLen, engineOff + 0.3 - t);
             double mid = t + len * 0.5;
-            float vol = arr && mid < 17.6 ? 0.3f : 0.42f;   // varış sesi çalarken altta kalır
+            float vol = arr && mid < 17.6 ? 0.18f : 0.28f;   // varış sesi çalarken altta kalır
             AudioClipOn(i % 2 == 0 ? engA : engB, car, t, segIn, len, vol, i == 0 ? 1.5 : overlap, keyOff ? 0.25 : overlap);
             i++;
             if (len < segLen) break; // son (kırpılmış) parça
@@ -1682,7 +1739,7 @@ public static class IntroCinematicBuilder
         // earshot ile 2.4-5.5 sn "kontakla motor kapatma" olarak doğrulandı. Kapanış anahtar dönüşünün sonuna oturur.
         // Motor soğurken tıkırtı (freesound_community "Clicking Engine Cooldown" 59-91 sn, seyrekleşen kısım): kontaktan ~1.3 sn sonra başlar
         var cool = Need("Car_CoolingTicks");
-        if (cool) AudioClipOn(arrive, cool, T_KeyTurnStart + 1.6, 0, 31.0, CoolVol, 0.5, 4.0);
+        if (cool) AudioClipOn(arrive, cool, T_KeyTurnStart + 1.6, 0, 31.0 + PauseLen, CoolVol, 0.5, 4.0, warp: false);   // duraklamanın sessizliğinde de tıkırdar
         if (keyOff) AudioClipOn(hands, keyOff, T_KeyTurnEnd - 0.1 - 0.6, 2.4, 3.1, 0.8, 0.3, 0.6);
         else AudioClipOn(i % 2 == 0 ? engA : engB, car, engineOff, 9.3, 1.2, 0.55, 0.3, 0.3);
 
@@ -1736,7 +1793,11 @@ public static class IntroCinematicBuilder
         foreach (var d in Dialogue)
         {
             var c = DialogueClip(d.file);
-            if (c) AudioClipOn(dlg, c, d.at, 0, c.length, 1.0);
+            if (c) AudioClipOn(dlg, c, d.at, 0, c.length, 1.0, warp: false);
+        }
+        {
+            var br = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sfx/Ending/Breath_Hold.mp3");
+            if (br) AudioClipOn(dlg, br, BreathBeforeAsk, 0, br.length, 0.5, 0, 0.1, warp: false);   // ~-31 LUFS: fark edilir, öne çıkmaz
         }
 
         EditorUtility.SetDirty(tl);

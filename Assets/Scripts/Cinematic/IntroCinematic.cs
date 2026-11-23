@@ -31,6 +31,8 @@ public class IntroCinematic : MonoBehaviour
 
     [Header("Kararma")]
     public Image fade;
+    [Tooltip("Açılmadan önce ekran bu kadar sn simsiyah kalır")]
+    public float fadeHoldAtStart = 0f;
     public float fadeInAtStart = 2f;
     public float fadeOutBeforeHandoff = 0.5f;
     public float fadeInAfterHandoff = 0.6f;
@@ -43,6 +45,11 @@ public class IntroCinematic : MonoBehaviour
     // Diyalog altyazıları (Timeline zamanı)
     public Text subtitleText;
     public SubtitleLine[] subtitles;
+    [Tooltip("Diyalog sırasında kısılan sesler (motor, sürüş, trafik)")]
+    public AudioSource[] duckSources;
+    [Range(0f, 1f)] public float duckLevel = 0.5f;   // 0.5 ≈ -6 dB
+    public float duckAttack = 0.3f, duckRelease = 0.8f;
+    float[] duckBase;
     public float textFadeDuration = 1.8f;
 
     [Header("Ortam sesi")]
@@ -120,6 +127,19 @@ public class IntroCinematic : MonoBehaviour
         SetAlpha(timeText, 0f);
         SetAlpha(skipHint, 0f);
         SetAlpha(subtitleText, 0f);
+        if (duckSources != null)
+        {
+            duckBase = new float[duckSources.Length];
+            for (int i = 0; i < duckSources.Length; i++) duckBase[i] = duckSources[i] ? duckSources[i].volume : 1f;
+        }
+    }
+
+    void SetDuck(float d)
+    {
+        if (duckSources == null || duckBase == null) return;
+        float k = Mathf.Lerp(1f, duckLevel, d);
+        for (int i = 0; i < duckSources.Length; i++)
+            if (duckSources[i]) duckSources[i].volume = duckBase[i] * k;
     }
 
     void Start()
@@ -179,7 +199,7 @@ public class IntroCinematic : MonoBehaviour
         }
 
         float t = (float)director.time;
-        float fadeIn = 1f - Smooth01(t / fadeInAtStart);
+        float fadeIn = 1f - Smooth01((t - fadeHoldAtStart) / fadeInAtStart);
         float fadeOut = Mathf.Clamp01((t - (handoffTime - fadeOutBeforeHandoff)) / fadeOutBeforeHandoff);
         SetFade(Mathf.Max(fadeIn, fadeOut));
         SetMuffle(1f - Mathf.Clamp01((t - ambienceOpenStart) / Mathf.Max(0.01f, ambienceOpenEnd - ambienceOpenStart)));
@@ -190,6 +210,7 @@ public class IntroCinematic : MonoBehaviour
         SetAlpha(titleText, Smooth01((t - titleIn) / textFadeDuration) * outA);
         SetAlpha(timeText, Smooth01((t - timeIn) / textFadeDuration) * outA);
         ShowSubtitle(t);
+        SetDuck(Subtitles.Duck(subtitles, t, duckAttack, duckRelease));
         // İpucu: sonlara doğru (devirden 3 sn önce) söner; basılı tutarken belirginleşir
         float hint = Smooth01((t - hintIn) / 1.5f) * (1f - Smooth01((t - (handoffTime - 3f)) / 1.5f));
         SetAlpha(skipHint, hint * Mathf.Lerp(hintAlpha, 1f, Mathf.Clamp01(skipHeld / skipHold)));
@@ -211,6 +232,7 @@ public class IntroCinematic : MonoBehaviour
     {
         handedOff = true;
         SetAlpha(subtitleText, 0f);
+        SetDuck(0f);
         director.Pause(); // son kare olduğu gibi kalsın (araba park hâlinde)
         SetMuffle(0f);
         SetHush(float.MaxValue);
