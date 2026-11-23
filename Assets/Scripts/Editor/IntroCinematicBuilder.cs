@@ -991,6 +991,8 @@ public static class IntroCinematicBuilder
         ic.textOut = T_HouseLook - 2.8f + Lead;   // eve bakmadan, araba yavaşlamaya başlarken kaybolur
         ic.textFadeDuration = 1.8f;
         ic.skipHint = SetupSkipHint();
+        ic.subtitleText = SetupSubtitle();
+        ic.subtitles = DialogueSubtitles();
 
         // Gece ortam sesi: sinematikten bağımsız, oyunda da çalmaya devam eder
         var oldAmb = GameObject.Find("NightAmbience");
@@ -1075,7 +1077,7 @@ public static class IntroCinematicBuilder
 
         // Ses arabanın üstünde: sola/sağa kayar; yükselip alçalma kayıttan gelir (mesafe zayıflaması geniş)
         var pass = Sfx("Car_Passing");
-        TrafficAudio(tl, director, group, pickup, "Trafik Pikap Sesi", pass, T_PickupPass, 0.55f, 2600f); // araç içinden boğuk
+        TrafficAudio(tl, director, group, pickup, "Trafik Pikap Sesi", pass, T_PickupPass, 0.35f, 2600f); // araç içinden boğuk; Richard'ın son repliğini bastırmasın
         TrafficAudio(tl, director, group, wagon, "Trafik Wagon Sesi", pass, T_WagonPass, 0.95f, 0f);
 
         ApplyPose(pickup.transform, PickupAt(T_Start), false);
@@ -1265,7 +1267,7 @@ public static class IntroCinematicBuilder
         rt.anchoredPosition = new Vector2(72f, 64f);
         rt.sizeDelta = new Vector2(900f, 140f);
         root.transform.SetAsLastSibling();   // kararmanın da üstünde (siyahtan çıkarken okunur)
-        var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        var font = TitleFont();
         title = TitleTextGO(root.transform, "Place", Spaced(TitleLine), font, 46, FontStyle.Normal, new Vector2(0f, 40f), new Color(0.86f, 0.84f, 0.78f, 0f));
         time = TitleTextGO(root.transform, "Time", TimeLine, font, 22, FontStyle.Normal, new Vector2(4f, 6f), new Color(0.70f, 0.68f, 0.62f, 0f));
     }
@@ -1283,7 +1285,7 @@ public static class IntroCinematicBuilder
         rt.anchoredPosition = new Vector2(-48f, 40f);
         rt.sizeDelta = new Vector2(500f, 40f);
         root.transform.SetAsLastSibling();
-        var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        var font = TitleFont();
         var t = TitleTextGO(root.transform, "Text", SkipHintLine, font, 18, FontStyle.Normal, Vector2.zero, new Color(0.80f, 0.78f, 0.72f, 0f));
         var trt = (RectTransform)t.transform;
         trt.anchorMin = trt.anchorMax = trt.pivot = new Vector2(1f, 0f);
@@ -1291,6 +1293,13 @@ public static class IntroCinematicBuilder
         trt.sizeDelta = new Vector2(500f, 26f);
         t.alignment = TextAnchor.LowerRight;
         return t;
+    }
+
+    // Oyunun arayüz fontu (daktilo); yoksa yerleşik font
+    static Font TitleFont()
+    {
+        var f = AssetDatabase.LoadAssetAtPath<Font>("Assets/Resources/Fonts/CourierPrime/CourierPrime-Regular.ttf");
+        return f ? f : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
     }
 
     // Harf aralığı (eski UI Text'te letter spacing yok)
@@ -1558,6 +1567,71 @@ public static class IntroCinematicBuilder
         return c;
     }
 
+    // Telefon konuşması sürüşte (araba 6.3 sn'de tabelayı geçer: "Just passed the sign"), not kâğıt sol ele geçince okunur.
+    // at: hikâye zamanı (Timeline = at + Lead). Altyazı replik bitince 0.35 sn daha kalır.
+    static readonly (string file, float at, string sub)[] Dialogue =
+    {
+        ("Dlg_01_Richard_ThereYet",    3.0f - Lead, "Wayne. Vardın mı?"),
+        ("Dlg_02_Wayne_PassedSign",    5.0f - Lead, "Tabelayı yeni geçtim."),
+        ("Dlg_03_Richard_Locals",      7.1f - Lead, "Köylüler o çiftlik evinden sesler duyuyormuş. Çoğunlukla geceleri.\nEv yıllardır boş."),
+        ("Dlg_04_Wayne_Touching",     13.4f - Lead, "Ve aklına ben geldim. Ne incelik."),
+        ("Dlg_05_Richard_AskedForYou", 16.1f - Lead, "Gelmedin. İhbar senin adınla geldi. Seni istediler."),
+        ("Dlg_06_Wayne_WhoDid",       21.4f - Lead, "...Kim istedi?"),
+        ("Dlg_07_Wayne_Note",         T_DocsToLeft + 0.4f, "\"Işıklar sönmeden gel.\""),
+    };
+    const float SubtitleHold = 0.35f;
+
+    static AudioClip DialogueClip(string name)
+    {
+        var c = AssetDatabase.LoadAssetAtPath<AudioClip>(SfxDir + "/Dialogue/" + name + ".wav");
+        if (!c) Debug.LogWarning(name + ".wav yok");
+        return c;
+    }
+
+    static SubtitleLine[] DialogueSubtitles()
+    {
+        var lines = new List<SubtitleLine>();
+        for (int i = 0; i < Dialogue.Length; i++)
+        {
+            var c = DialogueClip(Dialogue[i].file);
+            if (!c) continue;
+            float start = Dialogue[i].at + Lead;
+            float end = start + c.length + SubtitleHold;
+            if (i + 1 < Dialogue.Length) end = Mathf.Min(end, Dialogue[i + 1].at + Lead - 0.05f);
+            lines.Add(new SubtitleLine(start, end, Dialogue[i].sub));
+        }
+        return lines.ToArray();
+    }
+
+    // Alt ortada altyazı (başlığın üstünde; "SAINT PABLO" sol altta)
+    static Text SetupSubtitle()
+    {
+        var canvas = GameObject.Find("Canvas");
+        var existing = canvas.transform.Find("IntroSubtitle");
+        if (existing) UnityEngine.Object.DestroyImmediate(existing.gameObject);
+        var go = new GameObject("IntroSubtitle", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
+        go.transform.SetParent(canvas.transform, false);
+        var rt = (RectTransform)go.transform;
+        rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(0.5f, 0f);
+        rt.anchoredPosition = new Vector2(0f, 190f);
+        rt.sizeDelta = new Vector2(1400f, 110f);
+        go.transform.SetAsLastSibling();
+        var t = go.GetComponent<Text>();
+        t.font = TitleFont();
+        t.fontSize = 30;
+        t.alignment = TextAnchor.LowerCenter;
+        t.horizontalOverflow = HorizontalWrapMode.Wrap;
+        t.verticalOverflow = VerticalWrapMode.Overflow;
+        t.lineSpacing = 1.1f;
+        t.color = new Color(0.93f, 0.91f, 0.86f, 0f);
+        t.raycastTarget = false;
+        var o = go.AddComponent<Outline>();
+        o.effectColor = new Color(0f, 0f, 0f, 0.85f);
+        o.effectDistance = new Vector2(1.5f, -1.5f);
+        t.text = "";
+        return t;
+    }
+
     const double CoolVol = 0.15;   // tıkırtı tepeleri ~0 dBFS: sessizliğin içinde duyulsun, sıçratmasın
     const double RadioVol = 0.07;   // ~-30 dB: sürüş sesinin (-27) altında, fark edilir ama baskın değil
 
@@ -1657,6 +1731,14 @@ public static class IntroCinematicBuilder
         if (hb) AudioClipOn(fx, hb, T_Handbrake - 0.03, 0.37, 0.65, 0.8, 0, 0.1);
         AudioClipOn(fx, Sfx("Dog_DistantBark"), T_Bark, 0, 6.3, 0.35, 0, 0.5);
 
+        // Diyalog (ElevenLabs geçici seslendirme; Richard telefon filtresinden). Sfx/Intro/Dialogue
+        var dlg = tl.CreateTrack<AudioTrack>(null, "Diyalog");
+        foreach (var d in Dialogue)
+        {
+            var c = DialogueClip(d.file);
+            if (c) AudioClipOn(dlg, c, d.at, 0, c.length, 1.0);
+        }
+
         EditorUtility.SetDirty(tl);
         AssetDatabase.SaveAssets();
     }
@@ -1667,6 +1749,11 @@ public static class IntroCinematicBuilder
     static void SetupRoadside()
     {
         var old = GameObject.Find("IC_Roadside");
+        // Tabela sahnede elle taşınıp büyütülmüş olabilir: yeniden kurarken yeri/ölçeği korunur
+        var oldSign = old ? old.transform.Find("Sign_SaintPablo") : null;
+        Vector3? signPos = oldSign ? oldSign.position : (Vector3?)null;
+        Quaternion signRot = oldSign ? oldSign.rotation : Quaternion.identity;
+        Vector3 signScale = oldSign ? oldSign.localScale : Vector3.one;
         if (old) UnityEngine.Object.DestroyImmediate(old);
         var root = new GameObject("IC_Roadside").transform;
 
@@ -1738,10 +1825,14 @@ public static class IntroCinematicBuilder
         // Yol tabelası: kuzey kenarda, yola dönük (araç -x'e gider; tabela yüzü +x'e bakar)
         {
             var g = Group("Sign_SaintPablo", 322f, 5.2f, -90f);
+            if (signPos.HasValue) { g.position = signPos.Value; g.rotation = signRot; g.localScale = signScale; }
             Box("PostL", g, new Vector3(-0.9f, 1.6f, 0), new Vector3(0.12f, 3.2f, 0.12f), rust);
             Box("PostR", g, new Vector3(0.9f, 1.6f, 0), new Vector3(0.12f, 3.2f, 0.12f), rust);
             Box("Plate", g, new Vector3(0, 2.75f, -0.08f), new Vector3(2.5f, 1.1f, 0.05f), sign);
-            Box("Border", g, new Vector3(0, 2.75f, -0.06f), new Vector3(2.62f, 1.22f, 0.03f), reflWhite);
+            // Beyaz kenar yalnızca önden, plakanın etrafında ince bir çerçeve olarak görünür; arkası koyu metal
+            // (önceden kenar plakanın arkasına taşıyordu ve arkadan bakınca parlayan beyaz bir dikdörtgen görünüyordu)
+            Box("Border", g, new Vector3(0, 2.75f, -0.085f), new Vector3(2.62f, 1.22f, 0.03f), reflWhite);
+            Box("Back", g, new Vector3(0, 2.75f, -0.045f), new Vector3(2.66f, 1.26f, 0.02f), rust);
             var tg = new GameObject("Text");
             tg.transform.SetParent(g, false);
             tg.transform.localPosition = new Vector3(0, 2.75f, -0.115f);
@@ -1754,7 +1845,16 @@ public static class IntroCinematicBuilder
             tm.anchor = TextAnchor.MiddleCenter;
             tm.alignment = TextAlignment.Left;
             tm.color = new Color(0.9f, 0.9f, 0.85f);
-            tg.GetComponent<MeshRenderer>().sharedMaterial = tm.font.material;
+            // Yerleşik font malzemesi derinliğe bakmaz (yazı arabanın içinden görünüyordu): derinliğe uyan shader
+            string tmPath = ModelDir + "/Materials/IC_SignText.mat";
+            var textMat = AssetDatabase.LoadAssetAtPath<Material>(tmPath);
+            if (!textMat)
+            {
+                textMat = new Material(Shader.Find("ProjectM/WorldText"));
+                AssetDatabase.CreateAsset(textMat, tmPath);
+            }
+            textMat.mainTexture = tm.font.material.mainTexture;
+            tg.GetComponent<MeshRenderer>().sharedMaterial = textMat;
         }
 
         // Tahta çit: kuzey kenarda, tarlanın önünde; birkaç direk eğik, bir tahta eksik

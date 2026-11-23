@@ -129,7 +129,7 @@ public class PlayerInteractor : MonoBehaviour
         rt.sizeDelta = new Vector2(800f, 60f);
 
         promptText = promptRoot.AddComponent<Text>();
-        promptText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        promptText.font = UiFactory.DefaultFont;
         promptText.fontSize = fontSize;
         promptText.alignment = TextAnchor.MiddleCenter;
         promptText.color = Color.white;

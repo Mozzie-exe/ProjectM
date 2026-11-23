@@ -36,7 +36,10 @@ Bunlar builder tarafından her Build'de silinip yeniden kuruluyor. Elle düzenle
 Taşımak istersen bize söyle, builder'da değiştirelim.
 
 - `IC_Roadside`: reflektör direkleri (yolun iki kenarı, x 62–384), posta kutusu (x ≈ 268), "SAINT PABLO 3 / MILLER RD 1"
-  tabelası (x ≈ 322), tahta çit (x 150–214, z ≈ 6.4). "Miller Rd" uydurma bir isim, istersen değiştiririz.
+  tabelası, tahta çit (x 150–214, z ≈ 6.4). "Miller Rd" uydurma bir isim, istersen değiştiririz.
+- Tabela (`Sign_SaintPablo`) sahnede elle (301, 7.06) noktasına taşınıp 2.15 kat büyütülmüş. Build artık tabelanın
+  sahnedeki yerini, dönüşünü ve ölçeğini koruyor; tabelayı elle taşıyabilirsin. Yazısı artık arabanın içinden
+  görünmüyor, arkası koyu metal (önceden arkadan bakınca parlayan beyaz bir dikdörtgen görünüyordu).
 - `IntroCinematic` altındaki araba, eller ve trafik araçları.
 
 ## Sokak lambaları
@@ -85,7 +88,7 @@ Bunların yeri değişirse sinematik kayar:
 
 Sinematik `Tools > End Cinematic > Build` (`Assets/Scripts/Editor/EndCinematicBuilder.cs`) ile kuruluyor. Akış:
 `Kapi_TasOda` ilk açılınca kısa bir bakış, ceset odası müziği başlıyor, koşu kapanıyor. Örtülü
-cesede E ile 19 sn'lik sinematik oynuyor ve oyun dolap oyuncunun üstüne devrilirken siyah ekranla bitiyor.
+cesede E ile 21.5 sn'lik sinematik oynuyor ve oyun dolap oyuncunun üstüne devrilirken siyah ekranla bitiyor.
 
 - Builder şu objeleri **adıyla** buluyor: `Kapi_TasOda` (Door bileşeni), `Bodrum_OrtuluSekil`, `Bodrum_Ortu`,
   `Bodrum_Yeni/Bodrum_DevrilenDolap`, `BodrumOda_TopraKZemin` (zemin yüksekliği) ve `Bodrum_Blood_Drips` (duvardaki
@@ -94,10 +97,14 @@ cesede E ile 19 sn'lik sinematik oynuyor ve oyun dolap oyuncunun üstüne devril
 - Kameranın yolu, eller ve dolabın devrilme yönü bu objelerin sınırlarından hesaplanıyor. Ceseti, örtüyü veya dolabı
   taşırsan Build'i yeniden çalıştırman yeterli; yine de aşağıdaki boşlukları koru.
 - `Bodrum_Ortu` objesine bir **BoxCollider** ve **CorpseInspect** bileşeni eklendi (E etkileşimi). Bunları silme.
-- Dolap sinematiğin son 0.8 saniyesinde oyunda döndürülüyor (sahnede yeri değişmiyor). Alt kenarı
+- Dolap gıcırtıyla birlikte (18 sn) yavaşça 5° öne eğiliyor, son 0.8 saniyede devriliyor; bu dönüş oyunda
+  yapılıyor (sahnede yeri değişmiyor). Alt kenarı
   (-87.4, 1.55, 190.25) çevresinde, **kuzeybatıya, cesedin baş ucuna doğru** 35° devriliyor. Dolabın önü ve cesetle
   arası boş kalmalı.
 - Kameranın yürüdüğü yol örtünün **güney yanı**: çizmelerin ~2 m batısından (-93, 192.4) başlıyor, örtünün
   0.4–0.8 m güneyinden geçiyor ve baş ucunda (-87.9, 191.3) çömeliyor. Bu şeride eşya koyma; kamera içinden geçer.
-- Odada ışık yok, sinematikte tek ışık fener. Odaya ışık eklersen sinematiğin havası değişir.
+- Odada ışık yok. Sinematikte fenerin yanında, sinematiğe ait sönük, soğuk bir spot ışık var (`EndCinematic/BackLight`,
+  dolabın arkasında tavana yakın, ~(-86.7, 8.9, 188.9)). Yalnızca sinematik sırasında yanıyor; dolap eğilince gölgesi
+  örtünün baş ucuna ve duvara kayıyor. Dolabın üstüyle tavan arası boş kalmalı, yoksa ışık kapanır.
+  Odaya ayrıca ışık eklersen sinematiğin havası değişir.
 - Canvas'a `EndBlack` adında tam ekran siyah bir görüntü eklendi (başta kapalı).

@@ -17,11 +17,14 @@ public static class EndCinematicMath
     public const float StartBlendDuration = 1.2f;
     public static float StartBlend(float t) => Smooth(t / StartBlendDuration);
 
-    // Dolabın devrilme açısı (derece); t: devrilme başından beri sn. Ağır cisim: yavaş başlar, hızlanır.
-    public static float CabinetFallAngle(float t)
+    // Dolabın açısı (derece), sinematik zamanında. Gıcırtıyla yavaşça CabinetPreLean'e eğilir,
+    // devrilmede hızlanarak 35°'ye varır (ağır cisim: yavaş başlar, hızlanır).
+    public const float CabinetPreLean = 5f, CabinetFinalAngle = 35f, CabinetFallDuration = 0.8f;
+    public static float CabinetAngle(float t, float creakAt, float fallAt)
     {
-        float u = Mathf.Clamp01(t / 0.8f);
-        return 35f * u * u;
+        float lean = CabinetPreLean * Smooth((t - creakAt) / Mathf.Max(0.01f, fallAt - creakAt));
+        float u = Mathf.Clamp01((t - fallAt) / CabinetFallDuration);
+        return lean + (CabinetFinalAngle - CabinetPreLean) * u * u;
     }
 
     // Ceset sessizliğinde susturulan kanallar (Cinematic açık kalır: dolap sesleri oradan)

@@ -22,8 +22,9 @@ public static class EndCinematicBuilder
     const float FPS = 30f;
 
     // Sinematik zamanı (sn), spec tablosu
-    public const float T_BlendEnd = 1.2f, T_InspectEnd = 6.5f, T_WalkEnd = 10.0f, T_Reach = 13.0f, T_Creak = 15.5f,
-        T_TurnStart = 16.2f, T_TurnEnd = 16.6f, T_FallStart = 16.6f, T_Black = 17.4f, T_End = 19.0f;
+    public const float T_BlendEnd = 1.2f, T_InspectEnd = 6.5f, T_WalkEnd = 10.0f, T_Reach = 13.0f, T_Creak = 18.0f,
+        T_TurnStart = 18.7f, T_TurnEnd = 19.1f, T_FallStart = 19.1f, T_Black = 19.9f, T_End = 21.5f;
+    // Sessizlik T_Reach..T_Creak (5 sn): el örtünün üstünde titreyerek durur
 
     // Göz yüksekliği zeminden (dünya): oyuncu kamerası ayakta 2.85; sinematikte tek dizin üstüne çöker
     const float EyeStand = 2.85f, EyeCrouch = 1.85f;
@@ -50,7 +51,7 @@ public static class EndCinematicBuilder
     static float[] walkTable;
     const int WalkSamples = 200;
     static Vector3 lookBoots, lookMid, lookHeadEnd, lookBody, lookDrips, reachPoint;
-    static Vector3 cabCenter, cabPivot, cabAxis, cabAim, fallAway;
+    static Vector3 cabCenter, cabPivot, cabAxis, cabAim, fallAway, cabTopFront;
     static readonly float[] StepTimes = { 3.75f, 6.95f, 7.6f, 8.25f, 8.9f, 9.5f };
 
     static Bounds RendererBounds(GameObject go)
@@ -125,6 +126,7 @@ public static class EndCinematicBuilder
         cabPivot = new Vector3(cabCenter.x + d.x * support, kb.min.y, cabCenter.z + d.z * support);
         cabAxis = Vector3.Cross(Vector3.up, d);
         cabAim = new Vector3(cabCenter.x, kb.min.y + kb.size.y * 0.5f, cabCenter.z);
+        cabTopFront = new Vector3(cabPivot.x, kb.max.y, cabPivot.z);   // oyuncuya bakan üst kenar
     }
 
     static Vector3 Catmull(Vector3[] p, float u)
@@ -148,7 +150,7 @@ public static class EndCinematicBuilder
         return Catmull(walkPath, (i - 1 + s) / WalkSamples);
     }
 
-    static Quaternion CabRot(float t) => Quaternion.AngleAxis(EndCinematicMath.CabinetFallAngle(t - T_FallStart), cabAxis);
+    static Quaternion CabRot(float t) => Quaternion.AngleAxis(EndCinematicMath.CabinetAngle(t, T_Creak, T_FallStart), cabAxis);
     static Vector3 CabPoint(float t) => cabPivot + CabRot(t) * (cabAim - cabPivot);
 
     // ------------------------------------------------------------------ kafa
@@ -224,7 +226,7 @@ public static class EndCinematicBuilder
         float pitch = aim.y + Perlin(t * 0.3f, 7.1f) * 0.6f * n + Mathf.Sin(t * Mathf.PI * 2f / 3.6f) * 0.25f * n;
         float roll = Perlin(t * 0.25f, 13.7f) * 0.5f * n;
         // Gıcırtıda irkilme: baş hafif kalkar, dönüşe kadar gergin kalır
-        pitch -= 3f * Smooth((t - (T_Creak + 0.05f)) / 0.18f) * (1f - 0.5f * Smooth((t - 15.9f) / 0.3f)) * (1f - Smooth((t - T_TurnStart) / 0.2f));
+        pitch -= 3f * Smooth((t - (T_Creak + 0.05f)) / 0.18f) * (1f - 0.5f * Smooth((t - (T_Creak + 0.4f)) / 0.3f)) * (1f - Smooth((t - T_TurnStart) / 0.2f));
         // Düşerken yana yatar, sarsılır
         float u = FallU(t);
         roll += 7f * u + Perlin(t * 9f, 3.3f) * 1.5f * u;
@@ -342,16 +344,16 @@ public static class EndCinematicBuilder
         if (t < 10.4f) return hang();
         if (t < 12.1f) return P.Lerp(hang(), over(0.12f), Smooth((t - 10.4f) / 1.7f));
         if (t < T_Reach) return P.Lerp(over(0.12f), over(StopGap), Smooth((t - 12.1f) / (T_Reach - 12.1f)));
-        if (t < 16.25f)
+        if (t < T_TurnStart + 0.05f)
         {
             // Durur; çok hafif titrer
             var p = over(StopGap);
             p.p += new Vector3(Perlin(t * 6f, 2.1f), Perlin(t * 6f, 4.4f) * 0.5f, Perlin(t * 6f, 8.8f)) * 0.0015f;
             return p;
         }
-        if (t < 16.55f) return P.Lerp(over(StopGap), hang(), Smooth((t - 16.25f) / 0.3f));
-        if (t < 16.75f) return hang();
-        return P.Lerp(hang(), defend(), Smooth((t - 16.75f) / 0.4f));
+        if (t < T_TurnStart + 0.35f) return P.Lerp(over(StopGap), hang(), Smooth((t - (T_TurnStart + 0.05f)) / 0.3f));
+        if (t < T_TurnStart + 0.55f) return hang();
+        return P.Lerp(hang(), defend(), Smooth((t - (T_TurnStart + 0.55f)) / 0.4f));
     }
 
     static P HandAt(float t, bool left) => left ? HandL(t) : HandR(t);
@@ -504,9 +506,12 @@ public static class EndCinematicBuilder
         ec.blackAt = T_Black;
         ec.endAt = T_End;
         ec.fallAt = T_FallStart;
+        ec.creakAt = T_Creak;
         ec.cabinetPivot = cabPivot;
         ec.cabinetAxis = cabAxis;
         ec.black = SetupBlack();
+        ec.backLight = SetupBackLight(root.transform);
+        ec.backLightIntensity = BackLightCd;
         camGO.AddComponent<AudioListener>().enabled = false;   // BeginMain açar
 
         // E ile etkileşim örtüde
@@ -595,7 +600,7 @@ public static class EndCinematicBuilder
         AddPoseCurves(clip, "Rig/ForeL", n, t => ForeAt(t, true));
         AddPoseCurves(clip, "Rig/UpperR", n, t => UpperAt(t, false));
         AddPoseCurves(clip, "Rig/ForeR", n, t => ForeAt(t, false));
-        HandShapeCurves(clip, "Rig/HandL", (0f, "Relax"), (11.4f, "Open"), (16.3f, "Relax"), (16.8f, "Open"));
+        HandShapeCurves(clip, "Rig/HandL", (0f, "Relax"), (11.4f, "Open"), (T_TurnStart + 0.1f, "Relax"), (T_TurnStart + 0.6f, "Open"));
         HandShapeCurves(clip, "Rig/HandR", (0f, "Hold"));
         clip.EnsureQuaternionContinuity();
         if (!AssetDatabase.IsValidFolder(CineDir)) AssetDatabase.CreateFolder("Assets", "Cinematics");
@@ -652,9 +657,14 @@ public static class EndCinematicBuilder
     // ------------------------------------------------------------------ Timeline ve ses
     // Adım sesi: Footsteps_Gravel.mp3 içindeki tek adımların başlangıçları (sn)
     static readonly float[] StepOnsets = { 3.62f, 4.17f, 5.19f, 6.92f, 8.91f };
-    // Ölçüldü (95. yüzdelik, 50 ms RMS): adımlar ~-25 dB, müzik -6, kalp -12, gıcırtı -15, çarpma -1 (en yüksek)
-    const double StepVol = 0.9, CreakVol = 0.8, FallVol = 1.0;
+    // Ölçüldü (95. yüzdelik, 50 ms RMS): adımlar ~-25 dB, müzik -6, çarpma -1 (en yüksek)
+    // Dosya yüksekliği (LUFS): müzik -14, gıcırtı -22, çınlama -28
+    const double StepVol = 0.9, CreakVol = 1.0, FallVol = 1.0, RingVol = 1.0;
     const double FallImpactIn = 0.52;   // Cabinet_Fall.mp3: ana çarpma 0.52 sn'de
+    const double RingDelay = 0.05;
+    static readonly string[] EndSfx = { "Cabinet_Creak", "Cabinet_Fall", "Ear_Ring" };
+
+    static AudioClip EndClip(string n) => Need(AssetDatabase.LoadAssetAtPath<AudioClip>(EndSfxDir + "/" + n + ".mp3"), n + ".mp3");
 
     static TimelineAsset BuildTimeline(AnimationClip clip, out AnimationTrack track, AudioClip creak, AudioClip fall, AudioClip steps)
     {
@@ -683,6 +693,10 @@ public static class EndCinematicBuilder
         double fallStart = T_Black - FallImpactIn;
         AudioClipOn(fallTrack, fall, fallStart, 0, Math.Min(fall.length, T_End - fallStart), FallVol);
 
+        var ring = EndClip("Ear_Ring");
+        var ringTrack = tl.CreateTrack<AudioTrack>(null, "Cinlama");
+        if (ring) AudioClipOn(ringTrack, ring, T_Black + RingDelay, 0, Math.Min(ring.length, T_End - T_Black - RingDelay), RingVol);
+
         EditorUtility.SetDirty(tl);
         AssetDatabase.SaveAssets();
         return tl;
@@ -703,7 +717,7 @@ public static class EndCinematicBuilder
 
     static void SetupAudioImport()
     {
-        foreach (var n in new[] { "Heartbeat_Loop", "Cabinet_Creak", "Cabinet_Fall" })
+        foreach (var n in EndSfx)
         {
             var imp = (AudioImporter)AssetImporter.GetAtPath(EndSfxDir + "/" + n + ".mp3");
             if (!imp) continue;
@@ -717,10 +731,38 @@ public static class EndCinematicBuilder
         }
     }
 
+    // ------------------------------------------------------------------ arka ışık
+    // Dolabın arkasından, tavana yakın sönük soğuk ışık. Dolap dikken gölgesi oyuncunun önünde biter;
+    // gıcırtıyla 5° eğilince gölge örtünün baş ucuna ve duvara kayar (fener öne baktığı için gölge ondan gelemez).
+    // Yoğunluk candela: 150 cd örtüde ~2.5 lux (fener ~100 lux), oda karanlık kalır ama gölge seçilir.
+    const float BackLightCd = 150f, BackLightBack = 1.45f, BackLightUp = 2.6f, BackLightReach = 2.6f;
+
+    static Light SetupBackLight(Transform root)
+    {
+        var go = new GameObject("BackLight");
+        go.transform.SetParent(root, false);
+        var pos = cabTopFront - fallAway * BackLightBack + Vector3.up * BackLightUp;
+        if (Physics.Raycast(cabTopFront + Vector3.up * 0.05f, Vector3.up, out var ceil, 10f))
+            pos.y = Mathf.Min(pos.y, ceil.point.y - 0.2f);
+        var aim = cabTopFront + fallAway * BackLightReach;
+        aim.y = floorY + 0.65f;
+        go.transform.SetPositionAndRotation(pos, Quaternion.LookRotation(aim - pos));
+        var l = go.AddComponent<Light>();
+        l.type = LightType.Spot;
+        l.spotAngle = 60f;
+        l.innerSpotAngle = 25f;
+        l.range = 16f;
+        l.intensity = BackLightCd;
+        l.color = new Color(0.62f, 0.72f, 1f);
+        l.shadows = LightShadows.Soft;
+        l.enabled = false;   // EndCinematic sinematikte açar
+        return l;
+    }
+
     // ------------------------------------------------------------------ kare kontrolü
     // Sinematik kamerayı verilen anlarda render edip Temp/ICShots/end_<t>.png olarak kaydeder; sahne değişmeden kalır.
     [MenuItem("Tools/End Cinematic/Render Check Frames")]
-    public static void RenderCheckFrames() => RenderFrames(new[] { 0.5f, 3f, 8f, 12.9f, 16.6f, 17.3f });
+    public static void RenderCheckFrames() => RenderFrames(new[] { 0.5f, 3f, 8f, 12.9f, 15.5f, T_TurnEnd, T_Black - 0.1f });
 
     public static void RenderFrames(float[] times)
     {
@@ -740,6 +782,7 @@ public static class EndCinematicBuilder
                 ec.director.time = t;
                 ec.director.Evaluate();
                 ec.ApplyCabinet(t);
+                ec.ApplyBackLight(t);
                 var req = new UniversalRenderPipeline.SingleCameraRequest { destination = rt };
                 if (RenderPipeline.SupportsRenderRequest(cam, req)) RenderPipeline.SubmitRenderRequest(cam, req);
                 else { cam.targetTexture = rt; cam.Render(); cam.targetTexture = null; }
@@ -753,6 +796,7 @@ public static class EndCinematicBuilder
         {
             RenderTexture.active = null;
             ec.ResetCabinet();
+            if (ec.backLight) ec.backLight.enabled = false;
             ec.director.time = 0;
             ec.director.Evaluate();
             ec.rig.SetActive(rigWas);

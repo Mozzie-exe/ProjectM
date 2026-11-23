@@ -4,15 +4,37 @@ using UnityEngine.UI;
 // Oyun içi arayüzleri koddan kurmak için küçük yardımcılar (PlayerInteractor ile aynı tarz).
 public static class UiFactory
 {
-    static Font font;
+    static Font font, handFont;
 
+    // Arayüzün genel yazısı: daktilo (Resources/Fonts/CourierPrime, OFL)
     public static Font DefaultFont
     {
         get
         {
+            if (font == null) font = Resources.Load<Font>("Fonts/CourierPrime/CourierPrime-Regular");
             if (font == null) font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             return font;
         }
+    }
+
+    // Karakterin kendi notları ve düşünceleri: el yazısı (Resources/Fonts/Caveat, OFL)
+    public static Font HandFont
+    {
+        get
+        {
+            if (handFont == null) handFont = Resources.Load<Font>("Fonts/Caveat/Caveat-Variable");
+            if (handFont == null) handFont = DefaultFont;
+            return handFont;
+        }
+    }
+
+    // El yazısı aynı punto değerinde daha küçük görünür
+    public const float HandScale = 1.3f;
+    public static void UseHand(Text t)
+    {
+        t.font = HandFont;
+        t.fontStyle = FontStyle.Normal;
+        t.fontSize = Mathf.RoundToInt(t.fontSize * HandScale);
     }
 
     public static Canvas CreateCanvas(string name, int sortingOrder)

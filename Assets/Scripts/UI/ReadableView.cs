@@ -44,7 +44,7 @@ public class ReadableView : MonoBehaviour
 
         v.title = UiFactory.Label("Title", v.root.transform, 34, TextAnchor.MiddleCenter, new Vector2(0.1f, 0.91f), new Vector2(0.9f, 0.98f), Vector2.zero, Vector2.zero);
         v.caption = UiFactory.Label("Caption", v.root.transform, 28, TextAnchor.UpperCenter, new Vector2(0.15f, 0.07f), new Vector2(0.85f, 0.19f), Vector2.zero, Vector2.zero);
-        v.caption.fontStyle = FontStyle.Italic;
+        UiFactory.UseHand(v.caption);
         v.hint = UiFactory.Label("Hint", v.root.transform, 22, TextAnchor.LowerCenter, new Vector2(0.1f, 0.01f), new Vector2(0.9f, 0.06f), Vector2.zero, Vector2.zero);
         v.hint.color = new Color(0.7f, 0.7f, 0.7f);
         v.root.SetActive(false);

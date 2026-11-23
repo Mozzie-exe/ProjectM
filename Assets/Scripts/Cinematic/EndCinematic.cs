@@ -30,11 +30,14 @@ public class EndCinematic : MonoBehaviour
     [Tooltip("Eller, kollar, fener ve kafa; sinematik başlayana kadar gizli")]
     public GameObject rig;
     [Tooltip("Sinematik zamanı (sn)")]
-    public float hushAt = 13f, blackAt = 17.4f, endAt = 19f, fallAt = 16.6f;
+    public float hushAt = 13f, blackAt = 19.9f, endAt = 21.5f, fallAt = 19.1f, creakAt = 18f;
     [Tooltip("Dolap bu eksen etrafında (dünya) devrilir; pivot alt kenar")]
     public Vector3 cabinetPivot, cabinetAxis = Vector3.forward;
     [Tooltip("Tam ekran siyah (Canvas altında, başta kapalı)")]
     public Image black;
+    [Tooltip("Dolabın arkasında sönük ışık; gıcırtıda dolap eğilince gölgesi örtüye kayar")]
+    public Light backLight;
+    public float backLightIntensity = 150f;
 
     public bool DoorLookDone { get; private set; }
     public bool Started { get; private set; }
@@ -59,6 +62,7 @@ public class EndCinematic : MonoBehaviour
     {
         musicSource = MakeSource(music, AudioChannel.Music);
         if (rig) rig.SetActive(false);
+        if (backLight) backLight.enabled = false;
         SaveCabinetRest();
     }
 
@@ -75,8 +79,16 @@ public class EndCinematic : MonoBehaviour
     {
         if (!cabinet) return;
         SaveCabinetRest();
-        var q = Quaternion.AngleAxis(EndCinematicMath.CabinetFallAngle(t - fallAt), cabinetAxis);
+        var q = Quaternion.AngleAxis(EndCinematicMath.CabinetAngle(t, creakAt, fallAt), cabinetAxis);
         cabinet.SetPositionAndRotation(cabinetPivot + q * (cabinetRestPos - cabinetPivot), q * cabinetRestRot);
+    }
+
+    // Arka ışık kamera geçişiyle birlikte yavaşça yanar (editörde kare kontrolü için de çağrılır)
+    public void ApplyBackLight(float t)
+    {
+        if (!backLight) return;
+        backLight.enabled = true;
+        backLight.intensity = backLightIntensity * EndCinematicMath.StartBlend(t);
     }
 
     // Editörde kare kontrolünden sonra dolabı yerine koymak için
@@ -206,6 +218,7 @@ public class EndCinematic : MonoBehaviour
         if (!Started) return;
         float t = (float)director.time;
         ApplyCabinet(t);
+        ApplyBackLight(t);
 
         var cam = cinematicCamera.transform;
         if (t < EndCinematicMath.StartBlendDuration)
@@ -222,7 +235,8 @@ public class EndCinematic : MonoBehaviour
 
         if (!hushed && t >= hushAt) Hush();
         if (!blacked && t >= blackAt) Black();
-        if (blacked && !cinematicMuted && t >= blackAt + 0.1f)
+        // Siyahtan sonra çarpma ve çınlama duyulur; Cinematic kanalı ancak sonda susar
+        if (!cinematicMuted && t >= endAt - 0.001f)
         {
             cinematicMuted = true;
             Mute(AudioChannel.Cinematic);

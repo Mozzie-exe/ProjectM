@@ -79,8 +79,9 @@ public class NotebookUI : MonoBehaviour
         fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
 
         detail = UiFactory.Label("Detail", root.transform, 26, TextAnchor.UpperLeft, new Vector2(0.35f, 0.04f), new Vector2(0.97f, 0.23f), Vector2.zero, Vector2.zero);
-        detail.fontStyle = FontStyle.Italic;
+        UiFactory.UseHand(detail);
         empty = UiFactory.Label("Empty", root.transform, 30, TextAnchor.MiddleCenter, new Vector2(0.35f, 0.3f), new Vector2(0.97f, 0.7f), Vector2.zero, Vector2.zero);
+        UiFactory.UseHand(empty);
         empty.text = "Henüz bir şey bulmadım.";
         root.SetActive(false);
     }

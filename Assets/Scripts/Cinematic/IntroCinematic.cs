@@ -40,6 +40,9 @@ public class IntroCinematic : MonoBehaviour
     public Graphic timeText;
     [Tooltip("Timeline zamanı (sn)")]
     public float titleIn = 5f, timeIn = 7.5f, textOut = 21f;
+    // Diyalog altyazıları (Timeline zamanı)
+    public Text subtitleText;
+    public SubtitleLine[] subtitles;
     public float textFadeDuration = 1.8f;
 
     [Header("Ortam sesi")]
@@ -116,6 +119,7 @@ public class IntroCinematic : MonoBehaviour
         SetAlpha(titleText, 0f);
         SetAlpha(timeText, 0f);
         SetAlpha(skipHint, 0f);
+        SetAlpha(subtitleText, 0f);
     }
 
     void Start()
@@ -164,6 +168,7 @@ public class IntroCinematic : MonoBehaviour
             SetAlpha(titleText, 0f);
             SetAlpha(timeText, 0f);
             SetAlpha(skipHint, 0f);
+            SetAlpha(subtitleText, 0f);
             if (skipClock >= skipFade)
             {
                 director.time = handoffTime;
@@ -184,6 +189,7 @@ public class IntroCinematic : MonoBehaviour
         float outA = 1f - Smooth01((t - textOut) / textFadeDuration);
         SetAlpha(titleText, Smooth01((t - titleIn) / textFadeDuration) * outA);
         SetAlpha(timeText, Smooth01((t - timeIn) / textFadeDuration) * outA);
+        ShowSubtitle(t);
         // İpucu: sonlara doğru (devirden 3 sn önce) söner; basılı tutarken belirginleşir
         float hint = Smooth01((t - hintIn) / 1.5f) * (1f - Smooth01((t - (handoffTime - 3f)) / 1.5f));
         SetAlpha(skipHint, hint * Mathf.Lerp(hintAlpha, 1f, Mathf.Clamp01(skipHeld / skipHold)));
@@ -192,9 +198,19 @@ public class IntroCinematic : MonoBehaviour
             Handoff();
     }
 
+    void ShowSubtitle(float t)
+    {
+        if (!subtitleText) return;
+        int i = Subtitles.IndexAt(subtitles, t);
+        if (i < 0) { SetAlpha(subtitleText, 0f); return; }
+        subtitleText.text = subtitles[i].text;
+        SetAlpha(subtitleText, Subtitles.Alpha(subtitles[i], t));
+    }
+
     void Handoff()
     {
         handedOff = true;
+        SetAlpha(subtitleText, 0f);
         director.Pause(); // son kare olduğu gibi kalsın (araba park hâlinde)
         SetMuffle(0f);
         SetHush(float.MaxValue);
