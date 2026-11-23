@@ -1,0 +1,3 @@
+newmtl Chicken
+Kd 1 1 1
+map_Kd T_Chicken_Base.png
