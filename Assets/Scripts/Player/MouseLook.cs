@@ -17,19 +17,15 @@ public class MouseLook : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-
-        if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked)
+        // Esc artık duraklatma menüsünü açar (PauseMenu); imleci o yönetir.
+        // Pencere odağı kaybolup imleç serbest kalırsa tıklayınca geri kilitlenir.
+        if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked && !PauseMenu.IsPaused)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
 
-        // Skip look input while the cursor is unlocked (e.g. after pressing Escape)
+        // Skip look input while the cursor is unlocked
         if (Cursor.lockState != CursorLockMode.Locked) return;
 
         // No Time.deltaTime: mouse delta is already per-frame

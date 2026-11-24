@@ -92121,6 +92121,7 @@ GameObject:
   - component: {fileID: 1001453030}
   - component: {fileID: 1001453029}
   - component: {fileID: 1001453028}
+  - component: {fileID: 1001453032}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -92142,15 +92143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   intro: {fileID: 554752988}
   backdrop: {fileID: 1001453030}
-  radio: {fileID: 1001453029}
-  font: {fileID: 12800000, guid: 671938077c33ab047a5d409e16288146, type: 3}
   gameTitle: 
   startLabel: Start
   settingsLabel: Settings
   quitLabel: Quit
-  sensitivityLabel: Sensitivity
-  soundLabel: Sound
-  backLabel: Back
   transitionTime: 1.9
   ambienceHushInMenu: 0.55
 --- !u!114 &1001453029
@@ -92211,6 +92207,27 @@ Transform:
   - {fileID: 783364710}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1001453032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001453027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c702e20c8dcc3ad4296da7eeaa20b282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RadioMenuView
+  font: {fileID: 12800000, guid: 671938077c33ab047a5d409e16288146, type: 3}
+  radio: {fileID: 1001453029}
+  sortingOrder: 200
+  leftShade: 1
+  settingsLabel: Settings
+  sensitivityLabel: Sensitivity
+  soundLabel: Sound
+  backLabel: Back
+  hint: W/S  select     Enter  confirm     Esc  back
 --- !u!1001 &1003881894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143351,6 +143368,118 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6715375062900545627, guid: 3bbe4ea184a761142ac103f6e1e6ebbd, type: 3}
+--- !u!1 &1697968789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1697968794}
+  - component: {fileID: 1697968793}
+  - component: {fileID: 1697968792}
+  - component: {fileID: 1697968791}
+  - component: {fileID: 1697968790}
+  m_Layer: 0
+  m_Name: PauseMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1697968790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697968789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65e89e7801a8b3438d39945bb378a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
+  playerCamera: {fileID: 2052175292}
+  screenFx: {fileID: 1697968791}
+  pauseKey: 27
+  pausedCaption: '- PAUSED -'
+  resumeLabel: Resume
+  settingsLabel: Settings
+  quitLabel: Quit
+--- !u!114 &1697968791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697968789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a80fb6d9792e84d8875e574fe7526c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseScreenFx
+  playerCamera: {fileID: 2052175292}
+  cameraFilter: {fileID: 939573063}
+  blackAndWhite: {fileID: 11400000, guid: 29499c27c87e4b142bc15a6675268c1d, type: 2}
+  lowRes: {x: 240, y: 135}
+  tearChance: 0.06
+  tearAmount: 0.012
+--- !u!114 &1697968792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697968789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c702e20c8dcc3ad4296da7eeaa20b282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RadioMenuView
+  font: {fileID: 12800000, guid: 671938077c33ab047a5d409e16288146, type: 3}
+  radio: {fileID: 1697968793}
+  sortingOrder: 210
+  leftShade: 1
+  settingsLabel: Settings
+  sensitivityLabel: Sensitivity
+  soundLabel: Sound
+  backLabel: Back
+  hint: W/S  select     Enter  confirm     Esc  resume
+--- !u!114 &1697968793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697968789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd3b3ee644d15e47b2de688292562d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RadioUiAudio
+  staticLoop: {fileID: 8300000, guid: 794152c2b9ba0354387a7f27af15167e, type: 3}
+  hover: {fileID: 8300000, guid: 175e0560f83df264ca59400c42f51435, type: 3}
+  click: {fileID: 8300000, guid: 79f35003b8a1d274289f3c91e1fbb26c, type: 3}
+  tick: {fileID: 8300000, guid: 94d697f66c94ce049ac681ad520ae1d3, type: 3}
+  transition: {fileID: 8300000, guid: 091c7e7334103dd4a8f237f086975869, type: 3}
+  staticVolume: 0.154
+  sfxVolume: 0.7
+--- !u!4 &1697968794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697968789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1699346712 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1156764739077411581, guid: ee10be519bd3c66408a232fa88757c8a, type: 3}
@@ -192950,3 +193079,4 @@ SceneRoots:
   - {fileID: 1074037024}
   - {fileID: 288037415}
   - {fileID: 1001453031}
+  - {fileID: 1697968794}

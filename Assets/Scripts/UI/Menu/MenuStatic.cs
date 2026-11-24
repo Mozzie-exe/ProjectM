@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RawImage))]
 public class MenuStatic : MonoBehaviour
 {
-    [Range(0f, 1f)] public float alpha = 0.045f;
+    [Range(0f, 1f)] public float alpha = 0.01f;   // UI lineer uzayda karışıyor; küçük değer bile belirgin
     public int size = 256;
 
     RawImage img;
