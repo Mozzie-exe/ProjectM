@@ -84,6 +84,11 @@ public class IntroCinematic : MonoBehaviour
     public bool autoSkipInEditor = false;
     const string SeenKey = "IntroCinematic.Seen";
 
+    [Header("Ana menü")]
+    [Tooltip("Açık: sahne açılınca sinematik beklemede kalır, ana menüdeki Başla'ya basınca (Begin) başlar.")]
+    public bool waitForMenu = true;
+    bool begun;
+
     float skipHeld, skipClock = -1f;
     bool[] wasEnabled;
     AudioListener playerListener, cinematicListener;
@@ -132,6 +137,24 @@ public class IntroCinematic : MonoBehaviour
             duckBase = new float[duckSources.Length];
             for (int i = 0; i < duckSources.Length; i++) duckBase[i] = duckSources[i] ? duckSources[i].volume : 1f;
         }
+
+        if (waitForMenu)
+        {
+            // Menü açıkken: Timeline durur, sinematik kamera kapalı, karartma yok (menü kendi kamerasını gösterir)
+            director.Stop();
+            cinematicCamera.enabled = false;
+            SetFade(0f);
+        }
+    }
+
+    // Ana menüden çağrılır: sinematik siyahtan açılarak başlar.
+    public void Begin()
+    {
+        if (begun) return;
+        begun = true;
+        cinematicCamera.enabled = true;
+        SetFade(1f);
+        StartPlayback();
     }
 
     void SetDuck(float d)
@@ -143,6 +166,16 @@ public class IntroCinematic : MonoBehaviour
     }
 
     void Start()
+    {
+        if (waitForMenu && !begun)
+        {
+            if (director.state == PlayState.Playing) director.Stop();
+            return;
+        }
+        StartPlayback();
+    }
+
+    void StartPlayback()
     {
         bool auto = autoSkipIfSeen && PlayerPrefs.GetInt(SeenKey, 0) == 1;
 #if UNITY_EDITOR
@@ -165,6 +198,7 @@ public class IntroCinematic : MonoBehaviour
 
     void Update()
     {
+        if (waitForMenu && !begun) return;
         if (handedOff)
         {
             handoffClock += Time.deltaTime;
