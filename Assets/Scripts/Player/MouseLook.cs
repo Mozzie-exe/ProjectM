@@ -9,6 +9,14 @@ public class MouseLook : MonoBehaviour
 
     float xRot = 0f;
 
+    // Dikey bakış açısı. Kamerayı dışarıdan çeviren olaylar (ahır) bittiğinde bununla senkronlanır,
+    // yoksa MouseLook açıldığında eski açıya sıçrar.
+    public float Pitch
+    {
+        get => xRot;
+        set => xRot = Mathf.Clamp(value, -90f, 90f);
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;

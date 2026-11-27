@@ -513,6 +513,7 @@ public static class EndCinematicBuilder
         ec.backLight = SetupBackLight(root.transform);
         ec.backLightIntensity = BackLightCd;
         camGO.AddComponent<AudioListener>().enabled = false;   // BeginMain açar
+        SetupCredits(ec);
 
         // E ile etkileşim örtüde
         var inspect = sheet.GetComponent<CorpseInspect>();
@@ -529,6 +530,18 @@ public static class EndCinematicBuilder
     }
 
     static void ApplyPose(Transform t, P p) { t.localPosition = p.p; t.localRotation = p.r; }
+
+    // Sinematik bitince (EndCinematic.Ended) credits başlar; metin Resources/Credits/Credits.txt
+    public static void SetupCredits(EndCinematic ec)
+    {
+        var cs = ec.GetComponent<CreditsScreen>();
+        if (!cs) cs = Undo.AddComponent<CreditsScreen>(ec.gameObject);
+        Undo.RecordObject(cs, "Setup Credits");
+        cs.ending = ec;
+        cs.music = Need(AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sfx/credits_extended.wav"), "Assets/Sfx/credits_extended.wav");
+        cs.content = Need(AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Resources/Credits/Credits.txt"), "Assets/Resources/Credits/Credits.txt");
+        EditorUtility.SetDirty(cs);
+    }
 
     // Oyunun sonundaki ani siyah: Canvas'ın en üstünde, başta kapalı
     static UnityEngine.UI.Image SetupBlack()

@@ -70,6 +70,24 @@ geçiyordu; yamaçlar yolun 7–8 m üstünde kalıyordu. Buraya bir tünel ekle
   farlarla aydınlanıyor. Tüneli kaydırırsan bu görüntü de değişir.
 - Diğer tepe (x −275…−150) için tünel yapılmadı; sinematik oradan geçmiyor.
 
+## Ağaçlar ve FPS (değişti)
+
+FPS düşüklüğünün ana sebebi terrain ağaçlarıydı: 25 425 ağaç var ve kamera her karede 500 m'ye kadar (far clip)
+~15 bin ağaç çiziyordu, karede 26 milyon üçgen. Ağaç prefab'larında LODGroup olduğu için terrain'in **Tree Distance
+ayarı bu ağaçlarda işe yaramıyor**, ağaçları sadece LODGroup'un son eşiği kesiyor; o eşik de çok düşüktü.
+
+- `Tree1/2/3.prefab` LOD eşikleri değişti, ağaçlar artık ~220 m'de kayboluyor (geceden ve sisten dolayı bu mesafe
+  ekranda seçilmiyor). Eşikler (LOD0/1/2/cull): Tree1 0.346/0.225/0.138/0.086, Tree2 0.283/0.184/0.113/0.071,
+  Tree3 0.590/0.383/0.236/0.147. Uzaklık eşiği her ağacın boyuna göre hesaplandı, Quality'deki LOD Bias 2'ye göre.
+- LOD2 ve LOD3 gölge düşürmüyor (LOD0/1 düşürüyor).
+- Sonuç (Play, editör içinde): 26.2M → 16.2M üçgen, ana thread 14.9 → 8.7 ms, GPU ~4 ms.
+- Ağaçlar daha uzakta görünsün istersen son eşiği küçült, ama her 100 m binlerce ağaç ve milyonlarca üçgen ekliyor.
+- Terrain'in Tree Distance'ı (5000) olduğu gibi bırakıldı.
+- Sokak lambası gölgelerini kapatmak ölçülebilir kazanç vermedi, dokunulmadı. Ev içindeki ağır proplar (mumluk 213k,
+  saksı bitkisi 107k, karton kutular 17k×37 üçgen...) GPU'ya ~7.5M üçgen yüklüyor ama GPU darboğaz değil; şimdilik
+  dokunulmadı.
+- **Static / occlusion culling senin işin**, bu FPS işinde hiçbir şey static yapılmadı, bake edilmedi.
+
 ## Evin ışıkları sinematiğin sonunda sönüyor
 
 `MainHouse_V2/HouseLights` (iki pencere parlaması `Glow_Cam_S_14/26`, iki iç ışık ve iki gaz lambası ışığı) sinematiğin

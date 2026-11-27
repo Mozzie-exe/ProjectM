@@ -1,0 +1,64 @@
+// Oyun sonu credits metni. Satır türleri:
+//   > satır    vaka dosyası kartı (başta daktiloyla yazılır; "> " tek başına boş satır)
+//   ## satır   büyük başlık
+//   # satır    bölüm başlığı (küçük, soluk, büyük harf)
+//   satır      isim / içerik
+//   boş satır  boşluk
+//   // satır   yorum, ekranda görünmez
+// [KÖŞELİ PARANTEZ] içindekiler doldurulacak.
+
+> VAKA DOSYASI  No. 89-114
+> Saint Pablo, Miller Çiftliği
+>
+> Dedektif Wayne
+> Durum: KAYIP
+>
+> Dosya kapatıldı.
+
+## [OYUNUN ADI]
+
+# Oyun tasarımı ve programlama
+[İSİM]
+
+# Level tasarımı
+[İSİM]
+
+# Ses efektleri
+[İSİM]
+
+# Hikâye ve senaryo
+[İSİM]
+
+# Sinematikler
+[İSİM]
+
+# Seslendirme
+Richard  [İSİM]
+Wayne  [İSİM]
+
+# Müzik
+[KAYNAK]
+
+# Kullanılan paketler
+Forest Pack
+AllSkyFree
+Shepherd Valley
+MarpaStudio
+Animals (inek, tavuk)
+
+# Sesler
+Pixabay
+ElevenLabs
+
+# Fontlar
+Courier Prime, Caveat
+SIL Open Font License
+
+# Araçlar
+Unity
+Blender
+
+# Teşekkürler
+[İSİMLER]
+
+## Oynadığın için teşekkürler.

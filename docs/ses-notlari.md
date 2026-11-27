@@ -163,7 +163,7 @@ efekt zincirini değiştirmek istersen söyle, yeniden üretiriz.
   `Field/AmbienceZone_Tarla` → `Ambience_Ravens`. Hepsi Ambience kanalında, 2D, döngü. Her objede iki AudioSource var
   (döngü noktası çapraz geçişle gizleniyor), ikisini de bırak.
 - Müzikler: `MainMenuTheme_creepy_subtle_lesshiss_long70_varied.mp3` (menü), `ceset_room_extended.wav` (bodrum),
-  `credits_extended.wav` (credits için hazır, henüz bağlı değil).
+  `credits_extended.wav` (credits; dolabın çarpmasından yaklaşık 2 sn sonra başlıyor, 2 sn'de açılıyor, sonunda 2.5 sn'de kısılıyor. Müziğin tamamı, 57.6 sn, çalıyor).
 
 ## Dosya seviyeleri
 
@@ -231,7 +231,6 @@ yeniden yazıldı). Silmek istersen önce bize haber ver.
 
 ## İleride gerekecekler
 
-- Credits ekranı ve müziği (`credits_extended.wav` hazır, ekran henüz yok).
 - Fikir aşamasında: siyah ekrandan sonra kâğıt/örtü hışırtısı, fenerin elden düşme sesi, fenerin titreme/cızırtı sesi.
   Bunlardan hangileri yapılacak henüz belli değil.
 - Ses kaynakları: şimdiye kadar Pixabay kullanıldı. Başka bir kaynak kullanırsan lisansını kontrol et.
