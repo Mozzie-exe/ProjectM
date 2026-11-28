@@ -34,6 +34,9 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         view = GetComponent<RadioMenuView>();
+        // Sinematik yeniden kurulunca (Tools > Intro Cinematic > Build) sahnedeki bağlantı kopabilir: kendin bul
+        if (!intro) intro = FindFirstObjectByType<IntroCinematic>(FindObjectsInactive.Include);
+        if (!intro) Debug.LogWarning("MainMenu: IntroCinematic bulunamadı, Başla sinematiği başlatamaz.");
         GameSettings.ApplyAll();
         view.Build("MainMenuUI", gameTitle.Length > 0 ? 225f : 250f);
         if (!string.IsNullOrEmpty(gameTitle))

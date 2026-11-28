@@ -299,7 +299,7 @@ fender = [(0.84, 1.005), (2.05, 1.005), (2.10, 0.96), (2.10, 0.66)] + \
 for s in (-1, 1):
     body.prism(quarter, *xr(s, TUB_X - 0.04, TUB_X), PAINT, axis='X')
     x0, x1 = xr(s, TUB_X - 0.04, TUB_X)
-    body.box2((x0, DOOR_REAR - 0.01, 0.56), (x1, DOOR_FRONT + 0.11, 0.625), PAINT)       # eşik
+    body.box2((x0, DOOR_REAR - 0.01, 0.56), (x1, DOOR_FRONT + 0.11, 0.65), PAINT)        # eşik (kapı altından 1.5 cm yukarı: içeriden alt yarık görünmesin)
     body.box2((x0, DOOR_FRONT + 0.005, 0.62), (x1, TUB_FRONT + 0.05, BELT), PAINT)       # torpido yanı
     r0, r1 = xr(s, TUB_X - 0.07, TUB_X + 0.005)
     body.box2((r0, TUB_REAR + 0.01, BELT - 0.03), (r1, DOOR_REAR, BELT + 0.012), PAINT)  # kasa üst rayı
@@ -385,6 +385,21 @@ for s in (-1, 1):
     body.box2((lo, TUB_REAR, ROOF - 0.12), (hi, DOOR_REAR, RZ0), TOP)
     body.box2((lo, TUB_REAR, BELT + 0.10), (hi, TUB_REAR + 0.14, ROOF - 0.12), TOP)
     body.box2((lo, DOOR_REAR - 0.12, BELT + 0.10), (hi, DOOR_REAR, ROOF - 0.12), TOP)
+# Derz kapatıcılar: kapı/cam çerçevesi ile gövde arasındaki 0.5–1.2 cm yarıklardan içeriden dışarı görünmesin.
+# Hepsi kapının iç tarafında; sürücü kapısı dışa döndüğü için açılırken çarpmaz. Yüzeyler komşularla aynı düzlemde değil.
+body.box2((-0.87, WS_TOP.y - 0.03, WS_TOP.z - 0.02), (0.87, WS_TOP.y + 0.035, RZ0 + 0.01), PAINT)  # ön cam üstü - tavan
+for s in (-1, 1):
+    v0, v1 = xr(s, TUB_X - 0.03, TUB_X + 0.003)
+    body.box2((v0, DOOR_REAR - 0.12, RZ0 - 0.05), (v1, WS_TOP.y + 0.035, RZ0 + 0.01), TOP)     # kapı üstü - tavan kenarı
+    j0, j1 = xr(s, TUB_X - 0.065, TUB_X - 0.035)
+    body.box2((j0, DOOR_REAR - 0.06, 0.60), (j1, DOOR_REAR + 0.07, RZ0 - 0.015), TOP)           # kapı arkası (B direği contası; çapraz bakışı da örter)
+    body.box2((j0, DOOR_FRONT - 0.05, 0.62), (j1, DOOR_FRONT + 0.04, BELT - 0.01), TOP)         # kapı önü - torpido yanı
+    # arka tekerlek havuzu: kemer açıklığından kabine tekerlek görünmesin (koltuk x 0.72'de biter)
+    t0, t1 = xr(s, 0.74, 0.845)
+    body.arch(REAR_AXLE, WHEEL_R, 0.48, 0.50, t0, t1, METAL)
+    body.prism(arch_cut(REAR_AXLE, WHEEL_R, 0.50, FLOOR - 0.01, True), *xr(s, 0.74, 0.76), METAL, axis='X')
+    body.seg((s * (TUB_X - 0.005), 0.625, BELT), (s * (TUB_X - 0.005), 0.505, ROOF - 0.07),
+             0.05, 0.045, TOP, up=(1, 0, 0))                                                   # ön cam direği - kapı çerçevesi
 RY0, RY1 = TUB_REAR - 0.02, TUB_REAR
 body.box2((-0.885, RY0, BELT + 0.005), (0.885, RY1, BELT + 0.10), TOP)
 body.box2((-0.885, RY0, ROOF - 0.10), (0.885, RY1, RZ0), TOP)
@@ -493,6 +508,9 @@ for s in (-1, 1):
     gx = s * (TUB_X - 0.012)
     glass.box2((gx - 0.003, TUB_REAR + 0.10, BELT + 0.08), (gx + 0.003, DOOR_REAR - 0.08, ROOF - 0.10), GLASS)
 glass.box2((-0.64, TUB_REAR - 0.013, BELT + 0.08), (0.64, TUB_REAR - 0.007, ROOF - 0.08), GLASS)
+# ön cam direğiyle kapı çerçevesi arasındaki üçgen (vantilatör camı); yoksa içeriden açık kalıyor
+for s in (-1, 1):
+    glass.prism([(0.62, BELT), (0.80, BELT), (0.497, 1.823)], *xr(s, 0.877, 0.883), GLASS, axis='X')
 door_glass(glass, 1)
 glass.build()
 

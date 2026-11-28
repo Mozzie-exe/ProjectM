@@ -76,8 +76,8 @@ FPS düşüklüğünün ana sebebi terrain ağaçlarıydı: 25 425 ağaç var ve
 ~15 bin ağaç çiziyordu, karede 26 milyon üçgen. Ağaç prefab'larında LODGroup olduğu için terrain'in **Tree Distance
 ayarı bu ağaçlarda işe yaramıyor**, ağaçları sadece LODGroup'un son eşiği kesiyor; o eşik de çok düşüktü.
 
-- `Tree1/2/3.prefab` LOD eşikleri değişti, ağaçlar artık ~220 m'de kayboluyor (geceden ve sisten dolayı bu mesafe
-  ekranda seçilmiyor). Eşikler (LOD0/1/2/cull): Tree1 0.346/0.225/0.138/0.086, Tree2 0.283/0.184/0.113/0.071,
+- `Tree1/2/3.prefab` LOD eşikleri değişti, ağaçlar artık ~135–220 m'de kayboluyor (Tree3 erken,
+  Tree1/2 ~220 m). Şu anki sis bunu örtmüyor, aşağıdaki "Uzak mesafe ve sis" başlığına bak. Eşikler (LOD0/1/2/cull): Tree1 0.346/0.225/0.138/0.086, Tree2 0.283/0.184/0.113/0.071,
   Tree3 0.590/0.383/0.236/0.147. Uzaklık eşiği her ağacın boyuna göre hesaplandı, Quality'deki LOD Bias 2'ye göre.
 - LOD2 ve LOD3 gölge düşürmüyor (LOD0/1 düşürüyor).
 - Sonuç (Play, editör içinde): 26.2M → 16.2M üçgen, ana thread 14.9 → 8.7 ms, GPU ~4 ms.
@@ -87,6 +87,55 @@ ayarı bu ağaçlarda işe yaramıyor**, ağaçları sadece LODGroup'un son eşi
   saksı bitkisi 107k, karton kutular 17k×37 üçgen...) GPU'ya ~7.5M üçgen yüklüyor ama GPU darboğaz değil; şimdilik
   dokunulmadı.
 - **Static / occlusion culling senin işin**, bu FPS işinde hiçbir şey static yapılmadı, bake edilmedi.
+
+## Uzak mesafe ve sis (senin yapman gereken, dokunulmadı)
+
+**Sorun:** ağaçlar ~135–220 m'de kayboluyor ama binalar kameranın menzili olan 500 m'ye kadar çiziliyor. Uzaktan bakınca
+ağaçsız düzlükte binalar çıplak kalıyor ve oyuncu evlerin, ahırın vs. nerede olduğunu kolayca anlıyor.
+
+**Sebep:** sis açık ama neredeyse etkisiz. Şu anki ayarlar (Lighting > Environment > Fog):
+
+| Ayar | Şu an |
+|---|---|
+| Mode | Linear |
+| Start | 70 m |
+| End | **2305 m** (200 m'deki bina neredeyse hiç sislenmiyor) |
+| Renk | (0.32, 0.32, 0.33) |
+| Oyuncu kamerası Far Clip | 500 m |
+
+**Önerilen çözüm:** sisi ağaçların kaybolduğu mesafeye çek, ağaçlar yok olmadan sisin içinde erisin, binalar da aynı
+mesafeden sonra görünmesin.
+
+- Fog Start ~25–30 m, Fog End ~170 m (ağaçların en erken kaybolduğu ~135 m'den sonra, 220 m'den önce tam kapalı olsun).
+  Linear yerine Exponential Squared da denenebilir (yakını daha temiz bırakır).
+- **Sis rengi ufuktaki gök rengiyle aynı olmalı.** URP'de skybox sislenmiyor; renk uymazsa binalar uzakta gri/açık
+  lekeler olarak yine seçilir. Gece gökyüzünün ufuk rengini al.
+- Oyuncu kamerasının Far Clip'ini 500'den ~250 m'ye indir: sisin arkası hiç çizilmez, biraz FPS de kazanılır.
+- Kontrol et: giriş sinematiğindeki araba yolu geniş çekimleri ve tünel çıkışı, sis yoğunlaşınca hâlâ iyi görünüyor mu.
+  Sinematik kameralarının da kendi Far Clip'i var (`Tools > Intro Cinematic > Build` sonrası).
+- Ayrı kalabilecek seçenekler: ağaçların son LOD'unu kesmek yerine billboard yapmak (binalarla tutarlı olur ama FPS
+  kazancının bir kısmı gider); binalara mesafeyle kaybolma eklemek önerilmez (birden yok olmaları göze batar).
+
+## Ahır gerilim sahnesi (yeni)
+
+Oyuncu ahırın sağ ön kapısını kendisi açıyor, içeri ~6 m girince kısa bir olay oluyor: yukarıdan gıcırtı, kamera kuzey
+samanlık kenarına çekiliyor, üç balya korkuluğun üstünden devrilip koridora düşüyor (biri itmiş gibi; kimse
+görünmüyor), kalp atışı; ~2.4 sn sonra kontrol geri geliyor. Bir kere oluyor. Kurulum: `Tools > Level > Build Barn Scare`
+(`Assets/Scripts/Editor/BarnScareBuilder.cs`), olay `BarnScare.cs`, kapı `SlidingDoor.cs`.
+
+- **Sağ ön kapı (`Ahir_Kapi_Sag_Aralik`) değişti:** aralığı 1.75 m'ydi, oyuncu kapıyı açmadan içinden geçebiliyordu.
+  Kapı 1.15 m kapalıya doğru kaydırıldı, aralık artık ~0.6 m (hâlâ aralık görünüyor ve rüzgârda takırdıyor ama
+  geçilmiyor). Üstüne `SlidingDoor` eklendi: E ile 1.2 sn'de 2.5 m kayıyor (aralık ~3 m oluyor), takırtı duruyor,
+  bir daha kapanmıyor.
+- **Yeni objeler `BarnScare` altında:** kuzey samanlık kenarında (x −110…−115, y 14.8) iki kat balya; alttaki 3'ü
+  (`Alt_Balya_*`) yerinde kalıyor, üstteki 3'ü (`Dusen_Balya_*`) düşüyor ve koridorun kuzey kenarında (z ≈ 512–513)
+  kalıcı olarak yatıyor. Koridorun ortası ve `Ahir_Varil`'e yol açık. Ayrıca toz efekti ve kamera hedefi
+  (`LookTarget`, ortadaki balyanın üstü).
+- Tetik: girişten ~6 m içeride, koridor boyunca 10 m genişliğinde bir şerit; kapı açılmadan çalışmıyor.
+- Malzeme: `Assets/Materials/Ahir_Toz.mat`.
+- Samanlık katını, korkuluğu ya da kapıyı değiştirirsen Build'i yeniden çalıştır; kenarı raycast ile bulup balyaları
+  yeniden yerleştiriyor. Balyalar korkuluğa takılmasın diye iki kat dizildi (korkuluk üst barı kattan ~0.9 m yukarıda).
+- Balyalar düşmeden önce de görünüyor (samanlıkta yığın olarak), sahne ilk girişte tuhaf durmuyor.
 
 ## Evin ışıkları sinematiğin sonunda sönüyor
 

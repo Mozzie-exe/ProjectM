@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 
 // Ahır gerilim olayı: sürgülü kapı açıldıktan sonra oyuncu alana girince bir kere oynar.
-// Gıcırtı → kamera samanlık kenarına çekilir → balyalar devrilip önüne düşer → samanlıkta siluet
-// çekilip kaybolur → kalp atışı → kontrol geri gelir. Zamanlar BarnScareMath'te.
+// Gıcırtı → kamera samanlık kenarına çekilir → balyalar devrilip önüne düşer → (ayak sesi)
+// → kalp atışı → kontrol geri gelir. Zamanlar BarnScareMath'te.
 // Kurulum: Tools > Level > Build Barn Scare (BarnScareBuilder).
 public class BarnScare : MonoBehaviour
 {
@@ -23,10 +23,6 @@ public class BarnScare : MonoBehaviour
     public float outwardReach = 1.2f;                    // devrilirken kenardan dışarı taşma
     public ParticleSystem dust;
 
-    [Header("Siluet")]
-    public Transform shadow;
-    public Vector3 shadowExit = new Vector3(0f, 0f, 2f); // dünya uzayında kayma
-
     [Header("Ses")]
     public AudioClip creak;
     public AudioClip baleThud;
@@ -40,7 +36,6 @@ public class BarnScare : MonoBehaviour
     Transform player;
     Vector3[] baleStart;
     Quaternion[] baleRot;
-    Vector3 shadowStart;
 
     void Awake()
     {
@@ -53,7 +48,6 @@ public class BarnScare : MonoBehaviour
             baleRot[i] = bales[i].rotation;
             SetColliders(bales[i], false);   // düşerken oyuncuyu itmesin
         }
-        if (shadow != null) shadowStart = shadow.position;
     }
 
     void Update()
@@ -84,12 +78,12 @@ public class BarnScare : MonoBehaviour
 
         int n = bales != null ? bales.Length : 0;
         var landed = new bool[n];
-        bool locked = false, released = false, shadowDone = shadow == null, heartDone = false, stepsDone = false;
+        bool locked = false, released = false, heartDone = false, stepsDone = false;
         float yaw0 = 0f, pitch0 = 0f, yawT = 0f, pitchT = 0f;
         float shake = 0f;
         float t = 0f;
 
-        while (!released || !shadowDone || !AllTrue(landed))
+        while (!released || !AllTrue(landed))
         {
             t += Time.deltaTime;
 
@@ -159,15 +153,12 @@ public class BarnScare : MonoBehaviour
                 else camT.localPosition = camBase;
             }
 
-            // Siluet
-            if (!shadowDone && t >= BarnScareMath.T_Shadow)
+            // Samanlıkta biri var: görünmez, yalnızca ayak sesi (ses atanırsa)
+            if (!stepsDone && t >= BarnScareMath.T_Steps)
             {
-                if (!stepsDone && woodSteps != null)
-                    GameAudio.PlayAt(woodSteps, shadow.position, 0.9f, AudioChannel.SFX, 40f, 3f, false);
                 stepsDone = true;
-                float s = Mathf.Clamp01((t - BarnScareMath.T_Shadow) / BarnScareMath.ShadowDuration);
-                shadow.position = shadowStart + shadowExit * (s * s * (3f - 2f * s));
-                if (s >= 1f) { shadow.gameObject.SetActive(false); shadowDone = true; }
+                if (woodSteps != null && lookTarget != null)
+                    GameAudio.PlayAt(woodSteps, lookTarget.position, 0.9f, AudioChannel.SFX, 40f, 3f, false);
             }
 
             // Kalp atışı ve nefes

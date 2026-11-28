@@ -6,7 +6,7 @@ public static class BarnScareMath
     public const float T_Creak = 0f;
     public const float T_Pull = 0.3f, PullDuration = 0.6f;     // kamera samanlığa çekilir
     public const float T_Bales = 0.8f, BaleStagger = 0.12f;    // balyalar sırayla devrilir
-    public const float T_Shadow = 1.0f, ShadowDuration = 1.0f; // siluet çekilip kaybolur
+    public const float T_Steps = 1.0f;                          // samanlıkta uzaklaşan ayak sesi (isteğe bağlı)
     public const float T_Heart = 1.6f;
     public const float T_Release = 2.4f;                       // kontrol geri gelir
     public const float TipDuration = 0.35f;

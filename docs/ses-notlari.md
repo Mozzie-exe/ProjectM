@@ -63,6 +63,23 @@ Dosyalar: `Assets/Sfx/Ending/` (adım sesi `Footsteps_Gravel` ise `Assets/Sfx/In
 | 19.9 | çarpma, siyah ekran |
 | 21.5 | sinematik bitiyor (ileride credits gelecek) |
 
+## Ahır gerilim olayı (2.4 sn, oyun içi)
+
+Oyuncu ahırın sağ ön kapısını E ile açıp ~6 m içeri girince bir kere oynuyor (`BarnScare`). Yürüme kısa süre duruyor,
+kamera samanlığa çekiliyor, balyalar düşüyor; kimse görünmüyor, "biri var" hissini
+sesler veriyor. Şimdilik **oyun sonu sinematiğinin
+seslerini ödünç kullanıyor**, gerçekleri senden:
+
+| Zaman (sn) | Ses | Şu an (geçici) | İstenen |
+|---|---|---|---|
+| kapı E | ağır ahşap kapının rayda kayması (~1.2 sn) | **yok** | paslı ray, ağır ahşap sürtünmesi; kapıda 3D |
+| 0.0 | samanlık tahtası gıcırtısı (yukarıdan) | `Cabinet_Creak` | kısa, kuru tahta gıcırtısı; biri üstte yürüyormuş gibi |
+| 1.93 / 2.05 / 2.17 | balya ×3 yere düşüyor (0.8'de devrilmeye başlıyorlar) | `Cabinet_Fall` (1.0/0.85/0.7 volume) | 4.5 m'den düşen saman balyası: boğuk ağır küt + saman hışırtısı, üç farklı varyasyon |
+| 1.0 | samanlıkta uzaklaşan hızlı ayak sesleri (balyaların oradan çalar) | **yok** | tahta zeminde 4–5 hızlı adım, uzaklaşıyor, ~1 sn; 3D. Görsel siluet kaldırıldı, bu ses artık "biri var" hissinin ana kaynağı (`BarnScare.woodSteps`) |
+| 1.6 | nefes + kalp atışı (2D) | `Breath_Gasp`, `Heartbeat_Loop` (1.5 sn tam, 3 sn'de söner) | mevcutlar uygun, istersen ayrı varyasyon |
+
+Hepsi SFX kanalında. Dosyaları verirsen `BarnScare` objesinin alanlarına bağlarım (kapı sesi `SlidingDoor.slideSound`).
+
 ## Giriş sinematiği (araba, 129.5 sn)
 
 Dosyalar: `Assets/Sfx/Intro/`. Zamanlar sinematiğin başından. "Başlangıç" dosyanın kaçıncı saniyesinden çaldığı.

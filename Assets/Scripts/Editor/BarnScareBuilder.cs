@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Ahır gerilim olayını sahneye kurar (BarnScare). Tekrar çalıştırılabilir: kendi objesini yeniden kurar.
 // - Sağ ön kapı (Ahir_Kapi_Sag_Aralik) aralığı 1.75 m'den ~0.6 m'ye daraltılır (oyuncu sığmaz) ve SlidingDoor eklenir.
-// - Kuzey samanlık kenarına 3 balya, arkalarına siluet, toz efekti; tetik girişin ~6 m içinde, koridor boyunca.
+// - Kuzey samanlık kenarına iki katlı balya yığını, toz efekti; tetik girişin ~6 m içinde, koridor boyunca.
 public static class BarnScareBuilder
 {
     const string SfxDir = "Assets/Sfx/Ending";
@@ -24,8 +24,6 @@ public static class BarnScareBuilder
     static readonly float[] BaleSpins = { 180f, 165f, 195f };  // yere yatık, biraz dağınık insinler
     const float BaleInset = 0.9f;             // balya merkezi kenardan samanlığa doğru
     const float LandOut = 2.5f;                // kenardan koridora iniş mesafesi
-    const float ShadowX = -116.9f;
-    const float ShadowInset = 0.6f;
 
     [MenuItem("Tools/Level/Build Barn Scare")]
     public static void Build()
@@ -102,17 +100,11 @@ public static class BarnScareBuilder
         scare.outward = outward;
         scare.outwardReach = BaleInset + LandOut;
 
-        // 4) Kadraj: ortadaki balyanın üstü
+        // 4) Kadraj: ortadaki düşen balya (yığın fener konisinde kalsın)
         var look = new GameObject("LookTarget").transform;
         look.SetParent(root.transform, false);
         look.position = bales[1].position + Vector3.up * 0.5f;
         scare.lookTarget = look;
-
-        // 5) Siluet: ortadaki balyanın arkasında, samanlıkta
-        // Alt balyaların arkasında kalırsa görünmez: 3. balyanın ötesinde, kenara yakın durur
-        Vector3 shadowEdge = LoftEdge(ShadowX);
-        scare.shadow = BuildShadow(root.transform, shadowEdge + WallAxis * ShadowInset);
-        scare.shadowExit = WallAxis * 2f + inward * 0.5f;
 
         // 6) Toz
         scare.dust = BuildDust(root.transform, bales[1].position);
@@ -169,33 +161,6 @@ public static class BarnScareBuilder
         var b = rs[0].bounds;
         foreach (var r in rs) b.Encapsulate(r.bounds);
         return b;
-    }
-
-    static Transform BuildShadow(Transform parent, Vector3 feet)
-    {
-        // Işıksız siyah karanlık çatının önünde kayboluyor; koyu ama fenerin aydınlattığı bir malzeme
-        var mat = LoadOrCreateMat(MatDir + "/Siluet_Koyu.mat", "Universal Render Pipeline/Lit", new Color(0.05f, 0.045f, 0.04f));
-        var root = new GameObject("Siluet").transform;
-        root.SetParent(parent, false);
-        root.position = feet;
-        var bodyGo = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        bodyGo.name = "Govde";
-        bodyGo.transform.SetParent(root, false);
-        bodyGo.transform.localScale = new Vector3(0.5f, 0.75f, 0.35f);  // 1.5 m gövde
-        bodyGo.transform.localPosition = new Vector3(0f, 0.75f, 0f);
-        var head = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        head.name = "Bas";
-        head.transform.SetParent(root, false);
-        head.transform.localScale = Vector3.one * 0.26f;
-        head.transform.localPosition = new Vector3(0f, 1.62f, 0f);
-        foreach (var g in new[] { bodyGo, head })
-        {
-            Object.DestroyImmediate(g.GetComponent<Collider>());
-            var r = g.GetComponent<MeshRenderer>();
-            r.sharedMaterial = mat;
-            r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        }
-        return root;
     }
 
     static ParticleSystem BuildDust(Transform parent, Vector3 pos)

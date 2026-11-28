@@ -88,6 +88,7 @@ public static class IntroCinematicBuilder
     {
         public float t; public bool view; public P pose;
         public bool linear;   // iki ucu da linear olan aralık yavaşlamadan geçilir (sık örneklenmiş hareket)
+        public float free;    // 1: el bir şey tutmuyor, bilek anatomik sınıra çekilebilir (ArmRig)
         public Key(float t, bool view, P pose, bool linear = false) { this.t = t; this.view = view; this.pose = pose; this.linear = linear; }
     }
 
@@ -402,6 +403,20 @@ public static class IntroCinematicBuilder
         return Resolve(keys[keys.Count - 1], t);
     }
 
+    static float SampleFree(List<Key> keys, float t)
+    {
+        if (t <= keys[0].t) return keys[0].free;
+        for (int i = 0; i < keys.Count - 1; i++)
+        {
+            if (t <= keys[i + 1].t)
+            {
+                float u = (t - keys[i].t) / Mathf.Max(keys[i + 1].t - keys[i].t, 1e-4f);
+                return Mathf.Lerp(keys[i].free, keys[i + 1].free, Smooth(u));
+            }
+        }
+        return keys[keys.Count - 1].free;
+    }
+
     // Görüşe bağlı anahtarlar o anki kafa pozuna göre çözülür, böylece eller kafayla birlikte gezer.
     static P Resolve(Key k, float t) => k.view ? HeadAt(t) * k.pose : k.pose;
 
@@ -442,12 +457,10 @@ public static class IntroCinematicBuilder
     static readonly List<Key> handL = new List<Key>(), handR = new List<Key>();
     static P docsInR, docsInL, flashInR;
 
-    // build_arms.py ile aynı ölçüler (araba yereli ≈ metre)
-    const float UpperLen = 0.34f, ForeLen = 0.31f;
-    static readonly Vector3 WristR = new Vector3(0.020f, 0f, -0.118f);
+    // Kol ölçüleri ve bilek noktası ArmRig'de (build_arms.py ile aynı)
     static readonly Vector3 PinchR = new Vector3(-0.022f, 0.042f, 0.024f);   // başparmak ile işaret parmağı arası
     static readonly string[] HandShapes = { "Grip", "Relax", "Pinch", "Open", "Hold" };
-    static Vector3 WristLocal(bool left) => left ? new Vector3(-WristR.x, WristR.y, WristR.z) : WristR;
+    static Vector3 WristLocal(bool left) => ArmRig.WristLocal(left);
 
     static float YawOf(Quaternion q) { var f = q * Vector3.forward; return Mathf.Atan2(f.x, f.z) * Mathf.Rad2Deg; }
 
@@ -471,20 +484,50 @@ public static class IntroCinematicBuilder
         return Torso(t) * Vector3.Lerp(basePole, new Vector3(0.3f, 0.3f, -1f), reach);
     }
 
-    // İki kemik IK. Bilek uzanamayacak kadar uzaktaysa omuz öne kayar (gövde öne eğilir).
-    static void SolveArm(Vector3 s, Vector3 w, Vector3 pole, out Vector3 shoulder, out Vector3 elbow)
+    // İki kemik IK (dirsek pole yönünde; anahtar üretirken kaba tahmin). Asıl kol ArmRig.Bake ile her karede çözülür.
+    static void SolveArm(Vector3 s, Vector3 w, Vector3 pole, out Vector3 shoulder, out Vector3 elbow) =>
+        elbow = ArmRig.Elbow(s, w, pole, 0f, out shoulder);
+
+    // Kavranan eşyanın ekseni etrafındaki kavrayış açısı (lo..hi derece): bileği en az büken açı.
+    // Bir kere seçilir, eşya hareket ederken eşyanın çerçevesinde aynı kalır (el kaymaz).
+    static float PickRoll(float t, bool left, Func<float, P> at, float lo, float hi)
     {
-        float reach = (UpperLen + ForeLen) * 0.995f;
-        Vector3 d = w - s;
-        if (d.magnitude > reach) s = w - d.normalized * reach;
-        d = w - s;
-        float len = Mathf.Max(d.magnitude, Mathf.Abs(UpperLen - ForeLen) + 0.01f);
-        Vector3 dir = d.normalized;
-        float cosA = Mathf.Clamp((UpperLen * UpperLen + len * len - ForeLen * ForeLen) / (2 * UpperLen * len), -1f, 1f);
-        Vector3 perp = Vector3.ProjectOnPlane(pole, dir);
-        if (perp.sqrMagnitude < 1e-6f) perp = Vector3.ProjectOnPlane(Vector3.down, dir);
-        shoulder = s;
-        elbow = s + dir * (UpperLen * cosA) + perp.normalized * (UpperLen * Mathf.Sqrt(1f - cosA * cosA));
+        Vector3 s = ShoulderAt(t, left), pole = Pole(t, left);
+        float best = 0f, bestCost = float.MaxValue;
+        for (float a = lo; a <= hi + 0.01f; a += 5f)
+        {
+            P h = at(a);
+            Vector3 w = h.p + h.r * WristLocal(left);
+            for (float sw = -60f; sw <= 60.01f; sw += 10f)
+            {
+                Vector3 e = ArmRig.Elbow(s, w, pole, sw, out var sh);
+                if (e.y > sh.y + 0.05f) continue;   // dirsek omuzdan yukarı kalkmasın
+                float cost = Vector3.Angle(w - e, h.r * Vector3.forward) + Mathf.Abs(a) * 0.02f + Mathf.Abs(sw) * 0.05f;
+                if (cost < bestCost) { bestCost = cost; best = a; }
+            }
+        }
+        return best;
+    }
+    static float gearRoll, hbRoll, handleRoll;
+
+    // Kollar: her klip karesinde omuz + el anahtarından çözülür (dirsek dönüşü bileği en az bükecek şekilde, yumuşatılmış)
+    static ArmRig.Pose[] armL, armR;
+    static ArmRig.Pose[] BakeArm(int n, bool left)
+    {
+        var keys = left ? handL : handR;
+        var inp = new ArmRig.Input[n];
+        for (int i = 0; i < n; i++)
+        {
+            float t = U(i / FPS - Lead);
+            P h = SampleKeys(keys, t);
+            inp[i] = new ArmRig.Input
+            {
+                shoulder = ShoulderAt(t, left), pole = Pole(t, left),
+                upHint = Torso(t) * new Vector3(0f, 0.5f, -1f),   // geriye eğik: kol aşağı sarkarken de kararlı
+                handPos = h.p, handRot = h.r, free = SampleFree(keys, t)
+            };
+        }
+        return ArmRig.Bake(inp, left);
     }
 
     // make(ref): ref noktasından bakan el pozu. ref önce omuz, sonra çözülen dirsek olur (birkaç tur).
@@ -498,21 +541,6 @@ public static class IntroCinematicBuilder
             h = make(elbow);
         }
         return h;
-    }
-
-    static P UpperAt(float t, bool left)
-    {
-        P h = SampleKeys(left ? handL : handR, t);
-        SolveArm(ShoulderAt(t, left), h.p + h.r * WristLocal(left), Pole(t, left), out var s, out var e);
-        // Yukarı ipucu geriye eğik: kol aşağı sarkarken de (ileri = aşağı) dönüş kararlı kalır
-        return new P(s, Quaternion.LookRotation(e - s, Torso(t) * new Vector3(0f, 0.5f, -1f)));
-    }
-    static P ForeAt(float t, bool left)
-    {
-        P h = SampleKeys(left ? handL : handR, t);
-        Vector3 w = h.p + h.r * WristLocal(left);
-        SolveArm(ShoulderAt(t, left), w, Pole(t, left), out _, out var e);
-        return new P(e, Quaternion.LookRotation(w - e, h.r * Vector3.up));
     }
 
     // Kavrama: "axis" (direksiyon jantı, fener, kapı kolu) elin Y ekseninden geçer, parmaklar ref'ten uzağa bakar.
@@ -636,7 +664,7 @@ public static class IntroCinematicBuilder
         var q = DoorRot(t).r;
         Vector3 c = Hinge + q * (DoorHandle + new Vector3(0.008f, 0f, 0f) - Hinge);
         Vector3 n = q * Vector3.left;
-        return HoldPose(c, q * Vector3.back, -(n + Vector3.up * 0.3f), true);
+        return HoldPose(c, q * Vector3.back, Quaternion.AngleAxis(handleRoll, q * Vector3.back) * -(n + Vector3.up * 0.3f), true);
     };
     // Anahtar başı dikey bir dil: başparmak solunda, işaret parmağı sağında, avuç aşağı.
     static P KeyPinch(Vector3 from)
@@ -664,12 +692,22 @@ public static class IntroCinematicBuilder
         Vector3 docsAxisV = new Vector3(1f, 0f, 0.3f), upV = new Vector3(0f, 1f, 0.2f);
 
         // Direksiyon dönünce kavrama noktası da simitle döner (araba yerelinde eksen = modelin 180° çevrilmiş normali)
-        Func<float, bool, Func<Vector3, P>> wheelAt = (t, left) => f =>
+        Func<float, bool, Vector3, P> wheelGrip = (t, left, f) =>
         {
             Quaternion q = Quaternion.AngleAxis(SteerWheelDeg(t), Quaternion.Euler(0, 180, 0) * SteerNormalModel);
             Vector3 g = left ? WheelGripL : WheelGripR, tan = left ? WheelTanL : WheelTanR;
             return GripSoft(WheelCenter + q * (g - WheelCenter), q * tan, f, 0.7f);
         };
+        // Kavrama yönü sabit bir dirsek noktasına göre (ilk karedeki dirsek): çözülen dirseğe göre alınınca
+        // ön kol simidin teğetine paralelleşip el bir adımda 90° dönüyordu. El artık yalnızca simitle döner.
+        Func<bool, Vector3> wheelRef = left =>
+        {
+            P h0 = Solve(0f, left, f => wheelGrip(0f, left, f));
+            SolveArm(ShoulderAt(0f, left), h0.p + h0.r * WristLocal(left), Pole(0f, left), out _, out var e0);
+            return e0;
+        };
+        Vector3 wheelRefL = wheelRef(true), wheelRefR = wheelRef(false);
+        Func<float, bool, Func<Vector3, P>> wheelAt = (t, left) => f => wheelGrip(t, left, left ? wheelRefL : wheelRefR);
         Action<List<Key>, bool, float> wheelKeys = (keys, left, until) =>
         {
             for (float t = 0f; t < until - 0.01f; t += 0.1f)
@@ -718,32 +756,44 @@ public static class IntroCinematicBuilder
 
         // ---- sağ el: direksiyon -> evrak -> sol ele ver -> fener -> kontak -> fener önde
         // Sağ el sürüşte vites topuzunda; durunca el frenini çeker, sonra evraka uzanır
-        Func<Vector3, P> gear = f => HoldPose(GearKnob, Vector3.up, new Vector3(-0.75f, 0f, -0.65f), false);
+        // Kavrayış açıları bileği en az bükecek şekilde bir kere seçilir (eskiden sabit avuç yönü: bilek 140°'ye kadar katlanıyordu)
+        Vector3 gearPalm = new Vector3(-0.75f, 0f, -0.65f), hbPalm = new Vector3(-0.5f, 1f, 0f);
+        gearRoll = PickRoll(T_Neutral - 0.05f, false, a => HoldPose(GearKnob, Vector3.up, Quaternion.AngleAxis(a, Vector3.up) * gearPalm, false), -180f, 175f);
+        hbRoll = PickRoll(14.8f, false, a =>
+        {
+            Quaternion q = HbRot(14.8f);
+            return HoldPose(HbPivot + q * (HbGrip - HbPivot), q * Vector3.forward, q * (Quaternion.AngleAxis(a, Vector3.forward) * hbPalm), false);
+        }, -120f, 120f);
+        handleRoll = 0f;
+        handleRoll = PickRoll(T_DoorStart, true, a => { handleRoll = a; return AtHandle(T_DoorStart)(Vector3.zero); }, -90f, 90f);
+        Func<Vector3, P> gear = f => HoldPose(GearKnob, Vector3.up, Quaternion.AngleAxis(gearRoll, Vector3.up) * gearPalm, false);
         Func<float, Func<Vector3, P>> hbAt = t => f =>
         {
             Quaternion q = HbRot(t);
-            return HoldPose(HbPivot + q * (HbGrip - HbPivot), q * Vector3.forward, q * new Vector3(-0.5f, 1f, 0f), false);
+            return HoldPose(HbPivot + q * (HbGrip - HbPivot), q * Vector3.forward, q * (Quaternion.AngleAxis(hbRoll, Vector3.forward) * hbPalm), false);
         };
         Func<float, Func<Vector3, P>> gearAt = t => f =>
         {
             Quaternion q = GearRot(t);
-            return HoldPose(GearPivot + q * (GearKnob - GearPivot), q * Vector3.up, q * new Vector3(-0.75f, 0f, -0.65f), false);
+            return HoldPose(GearPivot + q * (GearKnob - GearPivot), q * Vector3.up, q * (Quaternion.AngleAxis(gearRoll, Vector3.up) * gearPalm), false);
         };
+        // Bir şey tutmayan anahtar: bilek anatomik sınıra çekilebilir
+        Action<List<Key>> free = keys => keys[keys.Count - 1].free = 1f;
         KeyA(handR, 0f, false, gear);
         KeyA(handR, T_Neutral - 0.05f, false, gear);
         dense(handR, false, T_Neutral, T_Neutral + NeutralDur + 0.05f, gearAt);   // topuzu öne iter: boş
         KeyA(handR, 13.95f, false, gearAt(13.95f));
-        KeyA(handR, 14.3f, false, f => { var g = hbAt(14.3f)(f); return new P(g.p + new Vector3(-0.03f, 0.06f, 0f), g.r); });
+        KeyA(handR, 14.3f, false, f => { var g = hbAt(14.3f)(f); return new P(g.p + new Vector3(-0.03f, 0.06f, 0f), g.r); }); free(handR);
         dense(handR, false, 14.5f, 15.15f, hbAt);
-        KeyA(handR, 15.55f, false, f => { var g = hbAt(15.55f)(f); return new P(g.p + new Vector3(-0.04f, 0.08f, 0f), g.r); });
-        KeyA(handR, 17.6f, false, aboveDocs);
+        KeyA(handR, 15.55f, false, f => { var g = hbAt(15.55f)(f); return new P(g.p + new Vector3(-0.04f, 0.08f, 0f), g.r); }); free(handR);
+        KeyA(handR, 17.6f, false, aboveDocs); free(handR);
         KeyA(handR, 18.6f, false, grabDocs);
         KeyA(handR, T_GrabDocs, false, grabDocs);
         docsInR = Solve(T_GrabDocs, false, grabDocs).Inv() * SeatDocs;
         KeyV(handR, 20.2f, false, docsV(20.2f, new Vector3(0.10f, -0.17f, 0.50f)));
         KeyV(handR, T_DocsToLeft, false, docsV(T_DocsToLeft, new Vector3(0.02f, -0.18f, 0.45f)));
-        KeyV(handR, 21.6f, false, freeR(21.6f, new Vector3(0.17f, -0.10f, 0.42f)));   // bıraktıktan sonra yukarı-sağa çekilir
-        KeyA(handR, 22.1f, false, aboveFlash);
+        KeyV(handR, 21.6f, false, freeR(21.6f, new Vector3(0.17f, -0.10f, 0.42f))); free(handR);   // bıraktıktan sonra yukarı-sağa çekilir
+        KeyA(handR, 22.1f, false, aboveFlash); free(handR);
         KeyA(handR, T_GrabFlash, false, grabFlash);
         flashInR = Solve(T_GrabFlash, false, grabFlash).Inv() * SeatFlash;
         // Kavrar kavramaz kaldırır: fenerin altına dolanan parmaklar minderde kalmasın
@@ -770,8 +820,8 @@ public static class IntroCinematicBuilder
 
         // ---- sol el: direksiyon -> kucak -> evrakı al -> kapı kolu -> evrak önde -> kapıyı it
         wheelKeys(handL, true, 16.4f);
-        KeyA(handL, 17.4f, true, lapL);
-        KeyA(handL, 20.1f, true, lapL);
+        KeyA(handL, 17.4f, true, lapL); free(handL);
+        KeyA(handL, 20.1f, true, lapL); free(handL);
         // Evrakı alttan, avuç yukarı alır: el pozu evrakın o anki yerinden (sağ elin altında)
         // Sol avuç dosyanın yakın yarısının altında: dosya parmaklar boyunca uzanır, ön kol dosyanın altına girmez.
         // drop: dosyanın o anki yerinin ne kadar altında (yaklaşırken dosya sağ elde hâlâ hareket ediyor)
@@ -786,22 +836,28 @@ public static class IntroCinematicBuilder
         KeyV(handL, 22.0f, true, docsUpL(22.0f, new Vector3(-0.17f, -0.27f, 0.46f)));   // dirsek minderin üstünde kalsın diye yüksekte
         KeyV(handL, 25.4f, true, docsUpL(25.4f, new Vector3(-0.17f, -0.27f, 0.46f)));
         // Kapıyı açmadan önce evrakı koltuğunun altına sıkıştırır (el kadraj altındayken), sol el boşalır
-        KeyA(handL, T_DocsTuck, true, lapL);
+        // Avuç yukarıdan aşağıya yarı yolda: avuç gövdeye bakar (180°'lik dönüş tek slerp'te taraf değiştirip takla atıyordu)
+        KeyA(handL, 25.7f, true, f =>
+        {
+            P a = docsUpL(25.7f, new Vector3(-0.17f, -0.27f, 0.46f))(f);
+            return PalmFacing(Vector3.Lerp(a.p, LeftLap, 0.5f), Torso(25.7f) * new Vector3(1f, -0.3f, 0f), f, true);
+        });
+        KeyA(handL, T_DocsTuck, true, lapL); free(handL);
         // Kola kabin tarafından gelir (döşemeden geçmesin)
-        KeyA(handL, T_DoorStart - 0.35f, true, f => { var g = AtHandle(T_DoorStart)(f); return new P(g.p + new Vector3(0.07f, 0.05f, -0.03f), g.r); });
+        KeyA(handL, T_DoorStart - 0.35f, true, f => { var g = AtHandle(T_DoorStart)(f); return new P(g.p + new Vector3(0.07f, 0.05f, -0.03f), g.r); }); free(handL);
         dense(handL, true, T_DoorStart - 0.1f, 27.3f, AtHandle);
-        KeyA(handL, 28.0f, true, lapL);
-        KeyV(handL, 31.2f, true, freeL(31.2f, LeftHangView));
-        KeyV(handL, 32.2f, true, freeL(32.2f, LeftHangView));
+        KeyA(handL, 28.0f, true, lapL); free(handL);
+        KeyV(handL, 31.2f, true, freeL(31.2f, LeftHangView)); free(handL);
+        KeyV(handL, 32.2f, true, freeL(32.2f, LeftHangView)); free(handL);
         // Kapının arka kenarının dışından dolanarak gelir (kapının içinden geçmesin)
         KeyA(handL, T_DoorCloseStart - 0.3f, true, f =>
         {
             var g = PushDoor(T_DoorCloseStart - 0.3f)(f); var q = DoorRot(T_DoorCloseStart - 0.3f).r;
             return new P(g.p + q * new Vector3(-0.07f, 0f, -0.16f), g.r);
-        });
+        }); free(handL);
         dense(handL, true, T_DoorCloseStart - 0.05f, T_DoorCloseStart + 0.3f, PushDoor);
-        KeyV(handL, 33.9f, true, freeL(33.9f, LeftHangView));
-        KeyV(handL, T_Handoff, true, freeL(T_Handoff, LeftHangView));
+        KeyV(handL, 33.9f, true, freeL(33.9f, LeftHangView)); free(handL);
+        KeyV(handL, T_Handoff, true, freeL(T_Handoff, LeftHangView)); free(handL);
 
         // Evrak sağ elden sol ele geçerken yerinden zıplamasın
         P rAt = SampleKeys(handR, T_DocsToLeft), lAt = SampleKeys(handL, T_DocsToLeft);
@@ -954,12 +1010,12 @@ public static class IntroCinematicBuilder
         // Editörde ilk kareyi göster
         ApplyPose(car, CarWorld(T_Start), true);
         ApplyPose(head, HeadAt(T_Start), false);
-        ApplyPose(hL.transform, SampleKeys(handL, T_Start), false);
-        ApplyPose(hR.transform, SampleKeys(handR, T_Start), false);
-        ApplyPose(arms[0].transform, UpperAt(T_Start, true), false);
-        ApplyPose(arms[1].transform, ForeAt(T_Start, true), false);
-        ApplyPose(arms[2].transform, UpperAt(T_Start, false), false);
-        ApplyPose(arms[3].transform, ForeAt(T_Start, false), false);
+        ApplyPose(hL.transform, new P(armL[0].handPos, armL[0].hand), false);
+        ApplyPose(hR.transform, new P(armR[0].handPos, armR[0].hand), false);
+        ApplyPose(arms[0].transform, new P(armL[0].shoulder, armL[0].upper), false);
+        ApplyPose(arms[1].transform, new P(armL[0].elbow, armL[0].fore), false);
+        ApplyPose(arms[2].transform, new P(armR[0].shoulder, armR[0].upper), false);
+        ApplyPose(arms[3].transform, new P(armR[0].elbow, armR[0].fore), false);
         foreach (var h in new[] { hL, hR })
             foreach (var s in HandShapes) h.transform.Find(s).gameObject.SetActive(s == "Grip");
         docsR.SetActive(false); docsL.SetActive(false); docsTuck.SetActive(false); flashR.SetActive(false);
@@ -1038,6 +1094,13 @@ public static class IntroCinematicBuilder
         }
 
         Undo.RegisterCreatedObjectUndo(root, "Build Intro Cinematic");
+        // Eski obje silindi: ana menünün "Başla" bağlantısını yeni sinematiğe tak
+        foreach (var menu in UnityEngine.Object.FindObjectsByType<MainMenu>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            Undo.RecordObject(menu, "Relink MainMenu intro");
+            menu.intro = ic;
+            EditorUtility.SetDirty(menu);
+        }
         EditorSceneManager.MarkSceneDirty(root.scene);
         Selection.activeGameObject = root;
         Debug.Log("Intro cinematic kuruldu. Süre: " + T_End + " sn. Timeline: " + CineDir + "/IntroCinematic.playable");
@@ -1358,13 +1421,14 @@ public static class IntroCinematicBuilder
 
         AddPoseCurves(clip, "", n, CarWorld);
         AddPoseCurves(clip, "Head", n, HeadAt, real: HeadPaused);
-        AddPoseCurves(clip, "HandL", n, t => SampleKeys(handL, t));
-        AddPoseCurves(clip, "HandR", n, t => SampleKeys(handR, t));
+        armL = BakeArm(n, true); armR = BakeArm(n, false);
+        AddPoseArray(clip, "HandL", Map(armL, a => new P(a.handPos, a.hand)));
+        AddPoseArray(clip, "HandR", Map(armR, a => new P(a.handPos, a.hand)));
         AddPoseCurves(clip, "Chest", n, ChestAt);
-        AddPoseCurves(clip, "UpperL", n, t => UpperAt(t, true));
-        AddPoseCurves(clip, "ForeL", n, t => ForeAt(t, true));
-        AddPoseCurves(clip, "UpperR", n, t => UpperAt(t, false));
-        AddPoseCurves(clip, "ForeR", n, t => ForeAt(t, false));
+        AddPoseArray(clip, "UpperL", Map(armL, a => new P(a.shoulder, a.upper)));
+        AddPoseArray(clip, "ForeL", Map(armL, a => new P(a.elbow, a.fore)));
+        AddPoseArray(clip, "UpperR", Map(armR, a => new P(a.shoulder, a.upper)));
+        AddPoseArray(clip, "ForeR", Map(armR, a => new P(a.elbow, a.fore)));
         HandShapeCurves(clip, "HandR", (0f, "Hold"), (14.05f, "Open"), (14.5f, "Hold"), (15.3f, "Relax"), (18.1f, "Open"), (21.15f, "Relax"), (22.05f, "Open"), (22.6f, "Hold"), (24.05f, "Pinch"), (25.35f, "Hold"));
         HandShapeCurves(clip, "HandL", (0f, "Grip"), (16.7f, "Relax"), (20.6f, "Open"), (26.05f, "Relax"), (26.3f, "Open"), (26.6f, "Hold"), (27.45f, "Relax"), (32.5f, "Open"), (33.6f, "Relax"));
 
@@ -1442,13 +1506,21 @@ public static class IntroCinematicBuilder
     // f eski hikâye zamanını alır (U ile); real verilirse gerçek hikâye zamanıyla o çağrılır
     static void AddPoseCurves(AnimationClip clip, string path, int n, Func<float, P> f, Func<float, P> real = null)
     {
-        var pos = new Vector3[n]; var rot = new Quaternion[n];
+        var poses = new P[n];
         for (int i = 0; i < n; i++)
         {
             float r = i / FPS - Lead;
-            var p = real != null ? real(r) : f(U(r));
-            pos[i] = p.p; rot[i] = p.r;
+            poses[i] = real != null ? real(r) : f(U(r));
         }
+        AddPoseArray(clip, path, poses);
+    }
+    static P[] Map(ArmRig.Pose[] a, Func<ArmRig.Pose, P> f) { var o = new P[a.Length]; for (int i = 0; i < a.Length; i++) o[i] = f(a[i]); return o; }
+    // Kare başına hazır pozlar (i. kare = i / FPS gerçek zaman)
+    static void AddPoseArray(AnimationClip clip, string path, P[] poses)
+    {
+        int n = poses.Length;
+        var pos = new Vector3[n]; var rot = new Quaternion[n];
+        for (int i = 0; i < n; i++) { pos[i] = poses[i].p; rot[i] = poses[i].r; }
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.x", Curve(n, i => pos[i].x));
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.y", Curve(n, i => pos[i].y));
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.z", Curve(n, i => pos[i].z));

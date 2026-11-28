@@ -1,6 +1,10 @@
 # Ahır gerilim sahnesi — tasarım
 
-Tarih: 27 Kasım 2026 · Durum: onay bekliyor
+Tarih: 27 Kasım 2026 · Durum: onaylandı, uygulandı
+
+> **28 Kasım 2026 değişiklik:** Kullanıcının isteğiyle ("silüete gerek yok ya") siluet kaldırıldı. Aşağıdaki
+> siluet geçen maddeler artık geçerli değil; "biri var" hissini balyaların düşüşü ve samanlıktan gelen ayak sesi
+> (`BarnScare.woodSteps`, 1.0 sn, ses dosyası gelince) veriyor. Kamera hedefi ortadaki balya.
 
 ## Amaç ve neden
 

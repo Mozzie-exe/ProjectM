@@ -241,10 +241,8 @@ public static class EndCinematicBuilder
     }
 
     // ------------------------------------------------------------------ kollar ve eller (rig yereli, IntroCinematicBuilder ile aynı ölçüler)
-    const float UpperLen = 0.34f, ForeLen = 0.31f;
-    static readonly Vector3 WristR = new Vector3(0.020f, 0f, -0.118f);
     static readonly string[] HandShapes = { "Grip", "Relax", "Pinch", "Open", "Hold" };
-    static Vector3 WristLocal(bool left) => left ? new Vector3(-WristR.x, WristR.y, WristR.z) : WristR;
+    static Vector3 WristLocal(bool left) => ArmRig.WristLocal(left);
     static readonly P GameplayFlashInView = new P(new Vector3(0.22f, -0.30f, 0.55f) / K, Quaternion.Euler(-2, -4, 0));
     static readonly Vector3 LeftHangView = new Vector3(-0.24f, -0.62f, 0.22f);
     static readonly Vector3 UpV = new Vector3(0f, 1f, 0.2f);
@@ -257,20 +255,9 @@ public static class EndCinematicBuilder
     static Vector3 ShoulderAt(float t, bool left) => HeadRig(t).p + Torso(t) * new Vector3(left ? -0.20f : 0.20f, -0.32f, 0f);
     static Vector3 Pole(float t, bool left) => Torso(t) * new Vector3(left ? -0.5f : 0.5f, -0.7f, -0.6f);
 
-    static void SolveArm(Vector3 s, Vector3 w, Vector3 pole, out Vector3 shoulder, out Vector3 elbow)
-    {
-        float reach = (UpperLen + ForeLen) * 0.995f;
-        Vector3 d = w - s;
-        if (d.magnitude > reach) s = w - d.normalized * reach;
-        d = w - s;
-        float len = Mathf.Max(d.magnitude, Mathf.Abs(UpperLen - ForeLen) + 0.01f);
-        Vector3 dir = d.normalized;
-        float cosA = Mathf.Clamp((UpperLen * UpperLen + len * len - ForeLen * ForeLen) / (2 * UpperLen * len), -1f, 1f);
-        Vector3 perp = Vector3.ProjectOnPlane(pole, dir);
-        if (perp.sqrMagnitude < 1e-6f) perp = Vector3.ProjectOnPlane(Vector3.down, dir);
-        shoulder = s;
-        elbow = s + dir * (UpperLen * cosA) + perp.normalized * (UpperLen * Mathf.Sqrt(1f - cosA * cosA));
-    }
+    // Anahtar üretirken kaba dirsek tahmini; asıl kol ArmRig.Bake ile her karede çözülür
+    static void SolveArm(Vector3 s, Vector3 w, Vector3 pole, out Vector3 shoulder, out Vector3 elbow) =>
+        elbow = ArmRig.Elbow(s, w, pole, 0f, out shoulder);
 
     static P Solve(float t, bool left, Func<Vector3, P> make)
     {
@@ -314,20 +301,25 @@ public static class EndCinematicBuilder
         return P.Lerp(GameplayFlashInView, FlashReachView, w);
     }
 
-    static P HandR(float t)
+    static P HandR(float t) => HandR(t, float.NaN, out _);
+    // prevRoll verilirse açı ondan en fazla ±15° sapar (kareler arası el fenerin etrafında takla atmaz)
+    static P HandR(float t, float prevRoll, out float roll)
     {
         P flashRig = HeadRig(t) * FlashView(t);
         Vector3 s = ShoulderAt(t, false), pole = Pole(t, false);
         P best = default;
         float bestBend = float.MaxValue;
-        for (int roll = 0; roll < 360; roll += 10)
+        roll = 0f;
+        bool cont = !float.IsNaN(prevRoll);
+        float lo = cont ? prevRoll - 15f : 0f, hi = cont ? prevRoll + 15f : 355f;
+        for (float a = lo; a <= hi + 0.01f; a += 5f)
         {
-            P flash = flashRig * new P(Vector3.zero, Quaternion.AngleAxis(roll, Vector3.forward));
+            P flash = flashRig * new P(Vector3.zero, Quaternion.AngleAxis(a, Vector3.forward));
             P hand = flash * FlashInR.Inv();
             Vector3 w = hand.p + hand.r * WristLocal(false);
             SolveArm(s, w, pole, out _, out var e);
             float bend = Vector3.Angle(w - e, hand.r * Vector3.forward);
-            if (bend < bestBend) { bestBend = bend; best = hand; }
+            if (bend < bestBend) { bestBend = bend; best = hand; roll = a; }
         }
         return best;
     }
@@ -357,19 +349,29 @@ public static class EndCinematicBuilder
     }
 
     static P HandAt(float t, bool left) => left ? HandL(t) : HandR(t);
-    static P UpperAt(float t, bool left)
+    // Sol el sarkarken ve savunurken serbest (bilek sınıra çekilir); örtüye uzanırken avuç aşağı kalır. Sağ el feneri tutar.
+    static float FreeL(float t) =>
+        1f - Smooth((t - 10.4f) / 1.7f) * (1f - Smooth((t - (T_TurnStart + 0.05f)) / 0.3f));
+
+    static ArmRig.Pose[] armL, armR;
+    static ArmRig.Pose[] BakeArm(int n, bool left)
     {
-        P h = HandAt(t, left);
-        SolveArm(ShoulderAt(t, left), h.p + h.r * WristLocal(left), Pole(t, left), out var s, out var e);
-        return new P(s, Quaternion.LookRotation(e - s, Torso(t) * new Vector3(0f, 0.5f, -1f)));
+        var inp = new ArmRig.Input[n];
+        float roll = float.NaN;
+        for (int i = 0; i < n; i++)
+        {
+            float t = i / FPS;
+            P h = left ? HandL(t) : HandR(t, roll, out roll);
+            inp[i] = new ArmRig.Input
+            {
+                shoulder = ShoulderAt(t, left), pole = Pole(t, left),
+                upHint = Torso(t) * new Vector3(0f, 0.5f, -1f),
+                handPos = h.p, handRot = h.r, free = left ? FreeL(t) : 0f
+            };
+        }
+        return ArmRig.Bake(inp, left);
     }
-    static P ForeAt(float t, bool left)
-    {
-        P h = HandAt(t, left);
-        Vector3 w = h.p + h.r * WristLocal(left);
-        SolveArm(ShoulderAt(t, left), w, Pole(t, left), out _, out var e);
-        return new P(e, Quaternion.LookRotation(w - e, h.r * Vector3.up));
-    }
+    static P[] Map(ArmRig.Pose[] a, Func<ArmRig.Pose, P> f) { var o = new P[a.Length]; for (int i = 0; i < a.Length; i++) o[i] = f(a[i]); return o; }
 
     // ------------------------------------------------------------------ kurulum
     static string ArmsFbx => ModelDir + "/IC_Arms.fbx";
@@ -481,12 +483,12 @@ public static class EndCinematicBuilder
 
         // Editörde ilk kare
         ApplyPose(head, HeadRig(0f));
-        ApplyPose(hL.transform, HandL(0f));
-        ApplyPose(hR.transform, HandR(0f));
-        ApplyPose(armGOs[0].transform, UpperAt(0f, true));
-        ApplyPose(armGOs[1].transform, ForeAt(0f, true));
-        ApplyPose(armGOs[2].transform, UpperAt(0f, false));
-        ApplyPose(armGOs[3].transform, ForeAt(0f, false));
+        ApplyPose(hL.transform, new P(armL[0].handPos, armL[0].hand));
+        ApplyPose(hR.transform, new P(armR[0].handPos, armR[0].hand));
+        ApplyPose(armGOs[0].transform, new P(armL[0].shoulder, armL[0].upper));
+        ApplyPose(armGOs[1].transform, new P(armL[0].elbow, armL[0].fore));
+        ApplyPose(armGOs[2].transform, new P(armR[0].shoulder, armR[0].upper));
+        ApplyPose(armGOs[3].transform, new P(armR[0].elbow, armR[0].fore));
         foreach (var s in HandShapes) hL.transform.Find(s).gameObject.SetActive(s == "Relax");
         foreach (var s in HandShapes) hR.transform.Find(s).gameObject.SetActive(s == "Hold");
 
@@ -607,12 +609,13 @@ public static class EndCinematicBuilder
         var clip = new AnimationClip { frameRate = FPS };
         int n = Mathf.CeilToInt(T_End * FPS) + 1;
         AddPoseCurves(clip, "Rig/Head", n, HeadRig);
-        AddPoseCurves(clip, "Rig/HandL", n, HandL);
-        AddPoseCurves(clip, "Rig/HandR", n, HandR);
-        AddPoseCurves(clip, "Rig/UpperL", n, t => UpperAt(t, true));
-        AddPoseCurves(clip, "Rig/ForeL", n, t => ForeAt(t, true));
-        AddPoseCurves(clip, "Rig/UpperR", n, t => UpperAt(t, false));
-        AddPoseCurves(clip, "Rig/ForeR", n, t => ForeAt(t, false));
+        armL = BakeArm(n, true); armR = BakeArm(n, false);
+        AddPoseArray(clip, "Rig/HandL", Map(armL, a => new P(a.handPos, a.hand)));
+        AddPoseArray(clip, "Rig/HandR", Map(armR, a => new P(a.handPos, a.hand)));
+        AddPoseArray(clip, "Rig/UpperL", Map(armL, a => new P(a.shoulder, a.upper)));
+        AddPoseArray(clip, "Rig/ForeL", Map(armL, a => new P(a.elbow, a.fore)));
+        AddPoseArray(clip, "Rig/UpperR", Map(armR, a => new P(a.shoulder, a.upper)));
+        AddPoseArray(clip, "Rig/ForeR", Map(armR, a => new P(a.elbow, a.fore)));
         HandShapeCurves(clip, "Rig/HandL", (0f, "Relax"), (11.4f, "Open"), (T_TurnStart + 0.1f, "Relax"), (T_TurnStart + 0.6f, "Open"));
         HandShapeCurves(clip, "Rig/HandR", (0f, "Hold"));
         clip.EnsureQuaternionContinuity();
@@ -625,12 +628,15 @@ public static class EndCinematicBuilder
 
     static void AddPoseCurves(AnimationClip clip, string path, int n, Func<float, P> f)
     {
+        var poses = new P[n];
+        for (int i = 0; i < n; i++) poses[i] = f(i / FPS);
+        AddPoseArray(clip, path, poses);
+    }
+    static void AddPoseArray(AnimationClip clip, string path, P[] poses)
+    {
+        int n = poses.Length;
         var pos = new Vector3[n]; var rot = new Quaternion[n];
-        for (int i = 0; i < n; i++)
-        {
-            var p = f(i / FPS);
-            pos[i] = p.p; rot[i] = p.r;
-        }
+        for (int i = 0; i < n; i++) { pos[i] = poses[i].p; rot[i] = poses[i].r; }
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.x", Curve(n, i => pos[i].x));
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.y", Curve(n, i => pos[i].y));
         clip.SetCurve(path, typeof(Transform), "m_LocalPosition.z", Curve(n, i => pos[i].z));
